@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { ButtonToolbar, Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap';
+import { ButtonToolbar, Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 class Signup extends Component {

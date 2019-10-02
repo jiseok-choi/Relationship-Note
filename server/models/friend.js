@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => (
             allowNull: true,
         }, 
         phone_num: {
-            type: DataTypes.CHAR(11),
+            type: DataTypes.STRING(11),
             allowNull: true,
         },
         userid: {

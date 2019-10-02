@@ -12,6 +12,7 @@ require('dotenv').config(); //.env 설정
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const friendRouter = require('./routes/friend');
 // var usersRouter = require('./routes/users');
 
 const { sequelize } = require('./models');
@@ -54,6 +55,7 @@ app.use(passport.session()); //로그인시 로컬로 로그인했을때 세션�
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/friend', friendRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
