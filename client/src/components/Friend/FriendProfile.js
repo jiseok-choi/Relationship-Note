@@ -88,11 +88,11 @@ class FriendProfile extends Component {
                     <ReviseFriend friendInfo={friendInfo}/>
                 </div>
             </div>
-            <div class="btn-group" role="group">
+            {/* <div class="btn-group" role="group">
                 
                 
                 <NewFriend/>
-            </div>
+            </div> */}
             </>
         );
     }

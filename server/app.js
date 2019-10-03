@@ -13,6 +13,7 @@ require('dotenv').config(); //.env 설정
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const friendRouter = require('./routes/friend');
+const newsRouter = require('./routes/news');
 // var usersRouter = require('./routes/users');
 
 const { sequelize } = require('./models');
@@ -56,6 +57,7 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/friend', friendRouter);
+app.use('/news', newsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

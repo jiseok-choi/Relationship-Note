@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => (
             type: DataTypes.STRING, 
             allowNull: true,
         }, 
+        userid: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false,
+        },
     }, {
         timestamps: true, //생성일, 수정일 기록
         paranoid: true, //삭제일기록(복구용)
