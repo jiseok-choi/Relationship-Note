@@ -22,7 +22,7 @@ class NewsTable extends Component {
     setTable = (newsList) => {
         return newsList.map((contact, i) => {
             return(
-                <tr key={i} class="table-success" 
+                <tr key={i} className="table-success" 
                 // onClick={ () =>this.props.selectFriend(contact) }
                 >
                     <td>
@@ -50,7 +50,7 @@ class NewsTable extends Component {
     render() {
         return(
             <>
-            <table class="table table-bordered table-hover">
+            <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -76,28 +76,28 @@ class NewsTable extends Component {
 
                     
 
-            <nav class="pagination-sm">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Previous</a>
+            <nav className="pagination-sm">
+                <ul className="pagination">
+                    <li className="page-item">
+                        <a className="page-link" href="#">Previous</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
+                    <li className="page-item">
+                        <a className="page-link" href="#">1</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
+                    <li className="page-item">
+                        <a className="page-link" href="#">2</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="../main">3</a>
+                    <li className="page-item">
+                        <a className="page-link" href="../main">3</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">4</a>
+                    <li className="page-item">
+                        <a className="page-link" href="#">4</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
+                    <li className="page-item">
+                        <a className="page-link" href="#">5</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+                    <li className="page-item">
+                        <a className="page-link" href="#">Next</a>
                     </li>
                 </ul>
             </nav>

@@ -100,29 +100,29 @@ class Friend extends Component {
         return (
             <>
             
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-12">
                         <h3>
                             지인의 기록을 남겨보세요
                         </h3>
                     </div>
                 </div>
-                <div class="text-right" >
+                <div className="text-right" >
                     <NewFriend/>
                 </div>
-                <div class="row">
-                    <div class="col-md-5">
+                <div className="row">
+                    <div className="col-md-5">
                         <FriendTable friendList={this.state.friendList} selectFriend={this.selectFriend}></FriendTable>
                     </div>
-                    <div class="col-md-7">
+                    <div className="col-md-7">
                         <FriendProfile friendInfo={this.state.selectFriend}/>
                     </div>
                 </div>
-                <div class="text-right">
+                <div className="text-right">
                     <NewNews friendInfo={this.state.selectFriend} today={date}/>
                 </div>
-                <div class="row">
+                <div className="row">
                     <NewsTable newsList={this.state.newsList}/>
                 </div>
             </div>

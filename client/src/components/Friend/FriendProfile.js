@@ -46,29 +46,29 @@ class FriendProfile extends Component {
 
     info = (friendInfo) => {
         return(
-            <div class="card-body">
-                <p class="card-text">
+            <div className="card-body">
+                <p className="card-text">
                     이름 : {friendInfo.name}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     나이 : {friendInfo.age}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     성별 : {friendInfo.gender}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     생년월일 : {friendInfo.birth}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     관계 : {friendInfo.relationship}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     직업 : {friendInfo.job}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     학교 : {friendInfo.school}
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                     연락처 : {friendInfo.phone_num}
                 </p>
             </div>
@@ -79,16 +79,16 @@ class FriendProfile extends Component {
         const friendInfo  = this.props.friendInfo;
         return(
             <>
-            <div class="card">
-                <h5 class="card-header">
+            <div className="card">
+                <h5 className="card-header">
                     지인 정보
                 </h5>
                 {this.info(friendInfo)}
-                <div class="card-footer">
+                <div className="card-footer">
                     <ReviseFriend friendInfo={friendInfo}/>
                 </div>
             </div>
-            {/* <div class="btn-group" role="group">
+            {/* <div className="btn-group" role="group">
                 
                 
                 <NewFriend/>

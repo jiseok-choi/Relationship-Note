@@ -17,9 +17,14 @@ import "./assets/css/pe-icon-7-stroke.css";
 
 class Root extends Component {
 
-    state = {
-        logged : false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            logged : false,
+        }
+        this.initializeUserInfo = this.initializeUserInfo.bind(this);
     }
+    
 
     initializeUserInfo = () => {
         axios.defaults.withCredentials = true;
@@ -36,7 +41,8 @@ class Root extends Component {
             console.log('로그인했나요?'+res.data);
             this.setState({
                 logged: res.data,
-            })
+            });
+            // this.loged();
         })
         .catch(err => {
             console.error(err);
@@ -50,7 +56,7 @@ class Root extends Component {
       this.initializeUserInfo();
     }
 
-    loged(){
+    loged(data){
         this.setState({
             logged: true
             
@@ -77,6 +83,7 @@ class Root extends Component {
         return(
             <>
             {this.userinfo2()}
+            {/* {this.initializeUserInfo()} */}
             {/* <Login></Login> */}
             {/* <BrowserRouter>
                 <Route path="/" render={props => <App {...props}/> } />

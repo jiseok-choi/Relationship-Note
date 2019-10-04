@@ -2,7 +2,7 @@
 
 export { default as Home } from './Home.jsx';
 export { default as Friend } from './Friend.jsx';
-export { default as Event } from './Event.jsx';
+export { default as EventCalendar } from './EventCalendar.jsx';
 // export { default as Login } from '../join/index.js';
 // export { default as RSP } from './RSP.jsx';
 // export { default as GuGuDan } from './GuGuDan.jsx';
