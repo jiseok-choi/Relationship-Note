@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NewFriend from './NewFriend';
 import ReviseFriend from './ReviseFriend';
+import FriendSchedule from './FriendSchedule';
 import axios from 'axios';
 
 class FriendProfile extends Component {
@@ -86,6 +87,7 @@ class FriendProfile extends Component {
                 {this.info(friendInfo)}
                 <div className="card-footer">
                     <ReviseFriend friendInfo={friendInfo}/>
+                    <FriendSchedule/>
                 </div>
             </div>
             {/* <div className="btn-group" role="group">

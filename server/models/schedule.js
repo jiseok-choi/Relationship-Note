@@ -1,6 +1,10 @@
-//event 테이블 정보 담기
+//schedule 테이블 정보 담기
 module.exports = (sequelize, DataTypes) => (
-    sequelize.define('event', {
+    sequelize.define('schedule', {
+        kinds: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+        }, 
         friendid: {
             type: DataTypes.INTEGER,
             allowNull: false,

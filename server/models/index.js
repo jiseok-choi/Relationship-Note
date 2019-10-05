@@ -28,7 +28,7 @@ fs
 db.User = require('./user')(sequelize, Sequelize);
 db.Friend = require('./friend')(sequelize, Sequelize);
 db.News = require('./news')(sequelize, Sequelize);
-db.Event = require('./event')(sequelize, Sequelize);
+db.Schedule = require('./schedule')(sequelize, Sequelize);
 
 //1대다 관계 맺기
 db.User.hasMany(db.Friend);
@@ -37,8 +37,11 @@ db.Friend.belongsTo(db.User);
 db.Friend.hasMany(db.News);
 db.News.belongsTo(db.Friend);
 
-db.Friend.hasMany(db.Event);
-db.Event.belongsTo(db.Friend);
+db.User.hasMany(db.Schedule);
+db.Schedule.belongsTo(db.User);
+
+db.Friend.hasMany(db.Schedule);
+db.Schedule.belongsTo(db.Friend);
 
 
 Object.keys(db).forEach(modelName => {

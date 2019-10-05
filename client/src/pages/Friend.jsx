@@ -84,6 +84,10 @@ class Friend extends Component {
         
     }
 
+    addNews = () => {
+        this.getNews();
+    }
+
     componentDidMount(){
         this.getFriend();
     }
@@ -120,7 +124,7 @@ class Friend extends Component {
                     </div>
                 </div>
                 <div className="text-right">
-                    <NewNews friendInfo={this.state.selectFriend} today={date}/>
+                    <NewNews friendInfo={this.state.selectFriend} addNews={this.addNews} today={date}/>
                 </div>
                 <div className="row">
                     <NewsTable newsList={this.state.newsList}/>

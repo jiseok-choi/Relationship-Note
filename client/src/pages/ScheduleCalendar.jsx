@@ -22,7 +22,7 @@ const localizer = momentLocalizer(moment);
 
 // const localizer = BigCalendar.momentLocalizer(moment)
 
-class EventCalendar extends Component {
+class ScheduleCalendar extends Component {
 
     constructor(props) {
         super(props);
@@ -95,6 +95,7 @@ class EventCalendar extends Component {
 
     
     eventStyleGetter = (event, start, end, isSelected) => {
+        return;
         console.log(event);
         const backgroundColor = '#' + event.hexColor;
         const style = {
@@ -106,7 +107,6 @@ class EventCalendar extends Component {
             display: 'block'
         }
         
-
         return {
             style: style
         }
@@ -121,7 +121,7 @@ class EventCalendar extends Component {
                 localizer={localizer}
                 events={this.state.events}
                 step={60}
-                views={['month']}
+                views={['month','week']}
                 date={new Date(this.state.year, this.state.month, this.state.day)}
                 onSelectEvent={this.clickevent}
                 onNavigate={this.onNavigate}
@@ -136,4 +136,4 @@ class EventCalendar extends Component {
     }
 }
 
-export default EventCalendar;
+export default ScheduleCalendar;

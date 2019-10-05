@@ -46,6 +46,7 @@ class NewNews extends Component {
             if(newFriend){
                 this.setState({lgShow: false});
                 console.log(res.data);
+                this.props.addNews();
                 // window.location.reload(); //새로고침
             } else {
                 alert(res.data);
@@ -65,7 +66,7 @@ class NewNews extends Component {
         }))
     }
 
-    
+
 
 
     render() {
