@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Calendar from 'react-calendar';
 import { Modal, ButtonToolbar, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
- 
+import moment from 'moment';
+
+
+moment.locale("ko");
+
 class FriendSchedule extends Component {
 
     constructor(props) {
@@ -11,7 +15,7 @@ class FriendSchedule extends Component {
             //컴포넌트 자체 값
             date: new Date(),
             value: '',
-            lgshow: false,
+            lgShow: false,
             //컴포넌트 기입 값
             start: '',
             end: '',
@@ -23,6 +27,7 @@ class FriendSchedule extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendNewSchedule = this.sendNewSchedule.bind(this);
+        this.selectRange = this.selectRange.bind(this);
     }
 
     handleChange(event) {
@@ -35,17 +40,14 @@ class FriendSchedule extends Component {
         event.preventDefault();
 
         axios
-        .put(`http://localhost:8000/friend/sendNewSchedule`, {
+        .post(`http://localhost:8000/schedule/sendNewSchedule`, {
             data: {
-                name: this.state.name,
-                relationship: this.state.relationship,
-                age: this.state.age,
-                gender: this.state.gender,
-                birth: this.state.birth,
-                job: this.state.job,
-                school: this.state.school,
-                phone_Num: this.state.phoneNum,
-                id : this.state.id,
+                kinds: '친구일정',
+                friendid : this.state.friendid,
+                startdate: this.state.start,
+                enddate: this.state.end,
+                title: this.state.title,
+                contents: this.state.contents,
             }
         })
         .then(res => {
@@ -53,7 +55,7 @@ class FriendSchedule extends Component {
             if(newFriend){
                 this.setState({lgShow: false});
                 console.log(res.data);
-                window.location.reload(); //새로고침
+                // window.location.reload(); //새로고침
             } else {
                 alert(res.data);
                 console.error(res.data);
@@ -64,7 +66,17 @@ class FriendSchedule extends Component {
         })
     }
     
-    onChange = date => this.setState({ date })
+    onChange = (date) => {
+        console.log( date, moment(date[0]).format("YYYY-MM-DD"),moment(date[1]).format("YYYY-MM-DD") );
+        this.setState({ 
+            start: moment(date[0]).format("YYYY-MM-DD"),
+            end: moment(date[1]).format("YYYY-MM-DD"),
+         })
+    }
+
+    selectRange = (date) => {
+        console.log(date+'selectRange 실행됨');
+    }
     
     render() {
         return (
@@ -73,8 +85,8 @@ class FriendSchedule extends Component {
                 <Button onClick={() => this.setState({
                     date: new Date(),
                     lgShow: true,
-                    // name: this.props.friendInfo.name,
-                    // friendid: this.props.friendInfo.id,
+                    name: this.props.friendInfo.name,
+                    friendid: this.props.friendInfo.id,
                     })}>친구일정
                 </Button>
         
@@ -107,6 +119,7 @@ class FriendSchedule extends Component {
                             <Calendar
                                 onChange={this.onChange}
                                 value={this.state.date}
+                                selectRange={this.selectRange}
                             />
                             
                             <Form.Group as={Row} controlId="formStart">
@@ -114,7 +127,7 @@ class FriendSchedule extends Component {
                                 시작 날짜
                                 </Form.Label>
                                 <Col sm="10">
-                                <Form.Control type="text" name="start" onChange={this.handleChange} />
+                                <Form.Control type="text" name="start" defaultValue={this.state.start} onChange={this.onChange} />
                                 </Col>
                             </Form.Group>
 
@@ -123,7 +136,7 @@ class FriendSchedule extends Component {
                                 끝 날짜
                                 </Form.Label>
                                 <Col sm="10">
-                                <Form.Control type="number" name="end" onChange={this.handleChange} />
+                                <Form.Control type="text" name="end" defaultValue={this.state.end} onChange={this.handleChange} />
                                 </Col>
                             </Form.Group>
 
@@ -132,7 +145,7 @@ class FriendSchedule extends Component {
                                 내용
                                 </Form.Label>
                                 <Col sm="10">
-                                <Form.Control type="text" name="contents" onChange={this.handleChange} />
+                                <Form.Control as="textarea" type="text" name="contents" onChange={this.handleChange} />
                                 </Col>
                             </Form.Group>
 

@@ -3,6 +3,7 @@ import NewFriend from './NewFriend';
 import ReviseFriend from './ReviseFriend';
 import FriendSchedule from './FriendSchedule';
 import axios from 'axios';
+import { Col, Row } from 'react-bootstrap';
 
 class FriendProfile extends Component {
 
@@ -86,8 +87,10 @@ class FriendProfile extends Component {
                 </h5>
                 {this.info(friendInfo)}
                 <div className="card-footer">
+                    <Col><Row>
                     <ReviseFriend friendInfo={friendInfo}/>
-                    <FriendSchedule/>
+                    <FriendSchedule friendInfo={friendInfo}/>
+                    </Row></Col>
                 </div>
             </div>
             {/* <div className="btn-group" role="group">

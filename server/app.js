@@ -14,6 +14,7 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const friendRouter = require('./routes/friend');
 const newsRouter = require('./routes/news');
+const scheduleRouter = require('./routes/schedule');
 // var usersRouter = require('./routes/users');
 
 const { sequelize } = require('./models');
@@ -58,6 +59,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/friend', friendRouter);
 app.use('/news', newsRouter);
+app.use('/schedule', scheduleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
