@@ -13,6 +13,7 @@ import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
+require('dotenv').config(); //.env 설정
 
 
 class Root extends Component {
@@ -29,7 +30,8 @@ class Root extends Component {
     initializeUserInfo = () => {
         axios.defaults.withCredentials = true;
         axios
-        .post(`http://localhost:8000/main`, {
+        // .post(`http://localhost:8000/main`, {
+        .post(process.env.HTTP || `http://localhost:8000/main`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

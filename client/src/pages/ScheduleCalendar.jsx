@@ -14,7 +14,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 //   } from 'react-big-calendar'
 import moment from 'moment';
 import axios from 'axios';
-import LookEvent from '../components/Events/LookEvent';
 import { Modal, Button } from 'react-bootstrap';
 
 
@@ -51,8 +50,10 @@ class ScheduleCalendar extends Component {
             ],
             scheduleList: [],
             birthList: [],
-            propsShow: false,
-            LookEventProp: '',
+            modalShow: false,
+            eventTitle: '',
+            eventContents: '',
+            eventDate: '',
         }
         this.clickevent = this.clickevent.bind(this);
         this.onNavigate = this.onNavigate.bind(this);
@@ -60,23 +61,35 @@ class ScheduleCalendar extends Component {
         // this.changeSchedule = this.changeSchedule.bind(this);
     }
     
-    lookevent = (event) => {
-        
-    }
     
-    clickevent = (event,target) => { //이벤트 클릭했을때
+    clickevent = (event, target) => { //이벤트 클릭했을때
         // event.preventDefault();
 
         let obj = target.currentTarget;
         const day = (new Date(2019, 1,1,8,0)).toString();
         // alert(event.title+ event.contents+day);
         // console.log(event);
+        let EventDate;
+        if(moment(event.start).format("YYYY-MM-DD") === moment(event.end).format("YYYY-MM-DD")){
+            EventDate = moment(event.start).format("YYYY-MM-DD");
+        } else{
+            EventDate = moment(event.start).format("YYYY-MM-DD")+' ~ '+moment(event.end).format("YYYY-MM-DD");
+        }
+        if(event.birth !== undefined){
+            this.setState({
+                eventContents: event.contents+' 출생',
+            })
+        } else{
+            this.setState({
+                eventContents: event.contents,
+            })
+        }
 
         this.setState({
-            LookEventProp: event,
-            propsShow: true,
+            eventTitle: event.title,
+            eventDate: EventDate,
+            modalShow: !this.state.modalShow,
         })
-        // return this.lookevent(event);
     }
 
     onNavigate = (date, view, action) => {
@@ -180,11 +193,15 @@ class ScheduleCalendar extends Component {
         this.getSchedule();
     }
       
+    close = () => {
+        this.setState({
+            modalShow: false
+        })
+    }
     
     render() {
         return(
             <>
-            <LookEvent propsShow={this.state.propsShow} events={this.LookEventProp}/>
             <div style={{ height: window.innerHeight-50 }}>
             <Calendar
                 localizer={localizer}
@@ -196,10 +213,35 @@ class ScheduleCalendar extends Component {
                 onNavigate={this.onNavigate}
                 eventPropGetter={this.eventStyleGetter}
             ></Calendar>
-            {/* <DateLocalizer></DateLocalizer>,
-            <Views></Views>,
-            <Navigate></Navigate>, */}
             </div>
+
+            <Modal
+                // {...props}
+                size="lg"
+                show={this.state.modalShow}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                // onClick={this.close}
+                toggle={this.clickevent}
+                >
+                    {/* closeButton */}
+                <Modal.Header >
+                    <Modal.Title id="contained-modal-title-vcenter">
+                    {this.state.eventTitle}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h5>날짜 : {this.state.eventDate}</h5>
+                    <p>
+                    {this.state.eventContents}
+                    </p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={this.close}>Close</Button>
+                </Modal.Footer>
+
+                </Modal>
             </>
         );
     }
