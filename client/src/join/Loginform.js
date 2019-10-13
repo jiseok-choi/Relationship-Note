@@ -26,8 +26,9 @@ class Loginform extends Component {
         axios.defaults.withCredentials = true;
 
         axios
-            // .post(`http://localhost:8000/auth/login`, {
-            .post(`http://172.30.1.9:8000/auth/login`, {
+            // .post(`process.env.HTTP` || `http://localhost:8000/auth/login`, {
+            .post(`http://localhost:8000/auth/login`, {
+            // .post(`http://172.30.1.9:8000/auth/login`, {
                 
                 userid: this.state.userid,
                 password: this.state.password,

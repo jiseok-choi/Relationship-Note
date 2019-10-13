@@ -15,11 +15,16 @@ import * as moment from 'moment';
 
 class Friend extends Component {
 
-    state = {
-        friendList : [],
-        newsList : [],
-        selectFriend : '',
-        today: moment(new Date()).format('YYYY-MM-DD'),
+    constructor(props){
+        super(props);
+        this.state = {
+            friendList : [],
+            newsList : [],
+            selectFriend : '',
+            today: moment(new Date()).format('YYYY-MM-DD'),
+        }
+        
+        this.getFriend = this.getFriend.bind(this);
     }
     
     shouldComponentUpdate(nextProps, nextState){
@@ -113,7 +118,7 @@ class Friend extends Component {
                     </div>
                 </div>
                 <div className="text-right" >
-                    <NewFriend/>
+                    <NewFriend getFriend={this.getFriend}/>
                 </div>
                 <div className="row">
                     <div className="col-md-5">

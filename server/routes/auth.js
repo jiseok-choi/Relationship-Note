@@ -67,7 +67,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => { //router(미�
   router.get('/logout', isLoggedIn, (req, res) => { //로그인 한사람들만
     req.logout();
     req.session.destroy(); //세션을 지우면서 다른 세션도 같이 지워져서 logout 시 안해도 된다.
-    // res.redirect('/');
+    return res.status(200).json('logout');
+          // res.redirect('/');
   });
 
 

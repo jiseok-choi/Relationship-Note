@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => (
         job: {
             type: DataTypes.STRING(100), 
             allowNull: true,
-            unique: true,
         }, 
         school: {
             type: DataTypes.STRING(50),

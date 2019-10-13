@@ -50,7 +50,8 @@ class NewFriend extends Component {
             if(newFriend){
                 this.setState({lgShow: false});
                 console.log(res.data);
-                window.location.reload(); //새로고침
+                this.props.getFriend();
+                // window.location.reload(); //새로고침
             } else {
                 alert(res.data);
                 console.error(res.data);
