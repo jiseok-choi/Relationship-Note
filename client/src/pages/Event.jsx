@@ -26,7 +26,7 @@ class Event extends Component {
                 <div class="row">
                     <div class="col-md-6" align="center">
                         {/* {행사생성 버튼 들어갈 자리} */}
-                        <Card style={{ width: '20rem' }}>
+                        <Card style={{ width: '30rem' }}>
                             <Card.Img variant="top"  src={birth} />
                             <Card.Body>
                                 <Card.Title><h3>행사를 생성해 보세요</h3></Card.Title>
@@ -45,7 +45,7 @@ class Event extends Component {
                     </div>
                     <div class="col-md-6" align="center">
                         {/* {일정생성 버튼 들어갈 자리} */}
-                        <Card style={{ width: '20rem' }}>
+                        <Card style={{ width: '30rem' }}>
                             <Card.Img variant="top"  src={meeting} />
                             <Card.Body>
                                 <Card.Title><h3>일정을 생성해 보세요</h3></Card.Title>

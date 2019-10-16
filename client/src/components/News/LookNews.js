@@ -11,6 +11,7 @@ class LookNews extends Component {
             modalShow: false,
         }
         this.close = this.close.bind(this);
+        this.changeText = this.changeText.bind(this);
     }
     
 
@@ -29,6 +30,15 @@ class LookNews extends Component {
             title: this.props.newsInfo.title,
             contents: this.props.newsInfo.contents,
         })
+    }
+
+    changeText = (data) => {
+        return(
+            data.split('\n').map(line => {
+                return( <span>{line}<br/></span>)
+            })
+        )
+        
     }
 
     render(){
@@ -55,7 +65,8 @@ class LookNews extends Component {
                 <Modal.Body>
                     <h5>날짜 : {this.state.date}</h5>
                     <p>
-                    {this.state.contents}
+                        
+                    {this.changeText(this.state.contents)}
                     </p>
                 </Modal.Body>
 
