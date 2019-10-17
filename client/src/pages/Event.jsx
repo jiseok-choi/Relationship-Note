@@ -1,20 +1,42 @@
 // 첫 라우트 Home
 // 이 라우터는 주소에 아무 path 도 주어지지 않았을 때 기본적으로 보여주는 라우트
 import React, { Component } from 'react';
-import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Card, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { money, visit, meeting, birth, friend } from '../images';
-
+import CreateWedding from '../components/Events/CreateWedding';
 
 class Event extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-
+            show: false
         }
+        this.createWedding = this.createWedding.bind(this);
+        this.close = this.close.bind(this);
     }
     
 
+    createWedding = (e) => {
+        e.preventDefault();
+        this.setState({
+            show: true,
+        })
+        return(
+            // <CreateWedding open={true}/>
+            
+<></>
+
+
+        )
+    }
+
+    close = (e) => {
+        e.preventDefault();
+        this.setState({
+            show: false
+        })
+    }
 
 
     render() {
@@ -35,7 +57,7 @@ class Event extends Component {
                                 </Card.Text>
 
                                 <DropdownButton id="dropdown-basic-button" title="행사 만들기">
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                    <Dropdown.Item onClick={this.createWedding}>결혼식</Dropdown.Item>
                                     <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                 </DropdownButton>
@@ -70,6 +92,9 @@ class Event extends Component {
                     </div>
                 </div>
             </div>
+
+            <CreateWedding show={this.state.show} close={this.close}/>
+
             </>
         );
     }
