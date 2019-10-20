@@ -15,6 +15,7 @@ const authRouter = require('./routes/auth');
 const friendRouter = require('./routes/friend');
 const newsRouter = require('./routes/news');
 const scheduleRouter = require('./routes/schedule');
+const eventRouter = require('./routes/event');
 // var usersRouter = require('./routes/users');
 
 const { sequelize } = require('./models');
@@ -26,8 +27,8 @@ passportConfig(passport);
 
 
 
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+// app.set('client', path.join(__dirname, '../client'));
+// app.set('view engine', 'jsx');
 app.set('port', process.env.PORT || 8000); //포트 설정
 
 app.use(morgan('dev'));
@@ -36,9 +37,11 @@ app.use(cors({
   origin: true,
   credentials: true,
 }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static('uploads'));
+// app.use('/mainPicture', express.static(path.join(__dirname, 'uploads'))); // /img/abc.png
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   resave: false,
@@ -60,6 +63,9 @@ app.use('/auth', authRouter);
 app.use('/friend', friendRouter);
 app.use('/news', newsRouter);
 app.use('/schedule', scheduleRouter);
+app.use('/event',  eventRouter ); // express.static(path.join(__dirname, 'uploads')),
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, ButtonToolbar, Modal, Form, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 class CreateWedding extends Component {
     constructor(props){
@@ -7,9 +8,12 @@ class CreateWedding extends Component {
         this.state = {
             value: '',
             lgShow: false,
-            selectedFile: null,
+            mainPicture: null,
+            subPicture: [],
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleFileInput = this.handleFileInput.bind(this);
+        this.handleFileInputs = this.handleFileInputs.bind(this);
 
     }
 
@@ -29,9 +33,55 @@ class CreateWedding extends Component {
 
     handleFileInput(e){
         this.setState({
-          selectedFile : e.target.files[0],
+            mainPicture : e.target.files[0],
         })
-      }
+        console.log(this.state.mainPicture)
+    }
+
+    handleFileInputs(e){
+        this.setState({
+        //   selectedFiles : [...this.state.selectedFiles, ...e.target.selectedFiles],
+            subPicture : e.target.files,
+        })
+    }
+
+    sendCreateWedding = (e) => {
+        e.preventDefault();
+
+        let form = new FormData();
+        // let mainPicture = document.getElementById("mainPicture");
+        // let subPicture = document.getElementById("subPicture");
+        form.append('Picture', this.state.mainPicture);
+        // form.append('Picture', this.state.subPicture);
+
+        const subPicture = Array.from(this.state.subPicture);
+        if(subPicture.length > 0){
+            subPicture.map((contact, i) => {
+                form.append('Picture', contact);
+            })
+        }
+        
+        // form.append('subPicture', subPicture[0]);
+        const config = {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        }
+
+        axios
+        .post(`http://localhost:8000/event/sendCreateWedding`, form, config, {
+            
+            // picture: form,
+            data: {
+                 
+            }
+        })
+        .then(res => {
+            alert('성공적으로 업로드 했습니다.');
+            return this.props.close;
+        })
+        .catch(err => {
+            console.error(err);
+        })
+    }
 
     render() {
 
@@ -124,11 +174,13 @@ class CreateWedding extends Component {
 
                 메인사진 선택
                 <div>
-                    <input type='file' name='file' onChange={e => this.handleFileInput(e)}/>
+                    <input type='file' name='mainPicture' id='mainPicture' onChange={e => this.handleFileInput(e)}/>
                 </div>
-                
-
-
+                <br/>
+                사진첩 사진 선택(최대 6개 까지)
+                <div>
+                    <input type='file' name='subPicture' id='subPicture' multiple onChange={this.handleFileInputs}/>
+                </div>
 
 
                 <Modal.Footer>
