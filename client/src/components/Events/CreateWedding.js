@@ -1,8 +1,29 @@
 import React, { Component } from 'react';
 import { Button, ButtonToolbar, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import Geosuggest, { Suggest } from "react-geosuggest";
+import {
+    withGoogleMap,
+    GoogleMap,
+    Marker,
+} from "react-google-maps";
+
+
+const MapWithAMarker = withGoogleMap(props => 
+    <GoogleMap
+        defaultZoom={8}
+        defaultCenter={{ lat: -34.397, lng: 150.644 }}
+        >
+            <Marker
+                position = {{ lat: -34.397, lng: 150.644 }} 
+            />
+        </GoogleMap>
+);
+
 
 class CreateWedding extends Component {
+    
+
     constructor(props){
         super(props)
         this.state = {
@@ -10,12 +31,19 @@ class CreateWedding extends Component {
             lgShow: false,
             mainPicture: null,
             subPicture: [],
+            center: {
+                lat: 59.95,
+                lng: 30.33
+            },
+            zoom: 11,
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleFileInput = this.handleFileInput.bind(this);
         this.handleFileInputs = this.handleFileInputs.bind(this);
 
     }
+
+    
 
     handleChange(event) {
         this.setState({
@@ -83,7 +111,10 @@ class CreateWedding extends Component {
         })
     }
 
+
     render() {
+
+        
 
         return(
             <>
@@ -181,7 +212,10 @@ class CreateWedding extends Component {
                 <div>
                     <input type='file' name='subPicture' id='subPicture' multiple onChange={this.handleFileInputs}/>
                 </div>
-
+                <br/>
+                {/* 지도 띄우기 */}
+                장소 선택하기
+                
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.close}>
