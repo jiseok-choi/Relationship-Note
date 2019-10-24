@@ -37,7 +37,7 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
         const formdata = req.body;
         
         console.log(req.files);
-
+        console.log(req.body.data);
 
 
     } catch(e) {

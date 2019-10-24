@@ -1,24 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonToolbar, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
-import Geosuggest, { Suggest } from "react-geosuggest";
-import {
-    withGoogleMap,
-    GoogleMap,
-    Marker,
-} from "react-google-maps";
-
-
-const MapWithAMarker = withGoogleMap(props => 
-    <GoogleMap
-        defaultZoom={8}
-        defaultCenter={{ lat: -34.397, lng: 150.644 }}
-        >
-            <Marker
-                position = {{ lat: -34.397, lng: 150.644 }} 
-            />
-        </GoogleMap>
-);
+import MapWithASearchBox from './MapWithASearchBox';
 
 
 class CreateWedding extends Component {
@@ -29,20 +12,37 @@ class CreateWedding extends Component {
         this.state = {
             value: '',
             lgShow: false,
+            date: '',
+            time: '',
+            groom: '',
+            birde: '',
+            invite: '',
+            groomFather: '',
+            groomMother: '',
+            birdeFather: '',
+            birdeMother: '',
             mainPicture: null,
             subPicture: [],
             center: {
-                lat: 59.95,
-                lng: 30.33
+                lat: 37.50735340000001, lng: 127.05585159999998
             },
-            zoom: 11,
+            post: '',
+            weddingHall: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleFileInput = this.handleFileInput.bind(this);
         this.handleFileInputs = this.handleFileInputs.bind(this);
-
+        this.changeCenter = this.changeCenter.bind(this);
     }
 
+    changeCenter = (center) => {
+      this.setState({
+        center: {
+          lat: center.lat(),
+          lug: center.lng(),
+        } 
+      })
+    }
     
 
     handleChange(event) {
@@ -74,47 +74,57 @@ class CreateWedding extends Component {
     }
 
     sendCreateWedding = (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        let form = new FormData();
-        // let mainPicture = document.getElementById("mainPicture");
-        // let subPicture = document.getElementById("subPicture");
-        form.append('Picture', this.state.mainPicture);
-        // form.append('Picture', this.state.subPicture);
+      let form = new FormData();
+      // let mainPicture = document.getElementById("mainPicture");
+      // let subPicture = document.getElementById("subPicture");
+      form.append('Picture', this.state.mainPicture);
+      // form.append('Picture', this.state.subPicture);
 
-        const subPicture = Array.from(this.state.subPicture);
-        if(subPicture.length > 0){
-            subPicture.map((contact, i) => {
-                form.append('Picture', contact);
-            })
-        }
-        
-        // form.append('subPicture', subPicture[0]);
-        const config = {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        }
+      const subPicture = Array.from(this.state.subPicture);
+      if(subPicture.length > 0){
+          subPicture.map((contact, i) => {
+              form.append('Picture', contact);
+          })
+      }
+      
+      // form.append('subPicture', subPicture[0]);
+      const config = {
+          headers: { 'Content-Type': 'multipart/form-data' },
+      }
 
-        axios
-        .post(`http://localhost:8000/event/sendCreateWedding`, form, config, {
-            
-            // picture: form,
-            data: {
-                 
-            }
-        })
-        .then(res => {
-            alert('성공적으로 업로드 했습니다.');
-            return this.props.close;
-        })
-        .catch(err => {
-            console.error(err);
-        })
+      axios
+      .post(`http://localhost:8000/event/sendCreateWedding`, form, config, {
+          
+          // picture: form,
+          data: {
+              date: this.state.date,
+              time: this.state.time,
+              groom: this.state.groom,
+              birde: this.state.birde,
+              invite: this.state.invite,
+              groomFather: this.state.groomFather,
+              groomMother: this.state.groomMother,
+              birdeFather: this.state.birdeFather,
+              birdeMother: this.state.birdeMother,
+              lat: this.state.center.lat,
+              lng: this.state.center.lng,
+              post: this.state.post,
+              weddingHall: this.state.weddingHall,
+          }
+      })
+      .then(res => {
+          alert('성공적으로 업로드 했습니다.');
+          return this.props.close;
+      })
+      .catch(err => {
+          console.error(err);
+      })
     }
 
 
     render() {
-
-        
 
         return(
             <>
@@ -133,7 +143,25 @@ class CreateWedding extends Component {
             </Modal.Header>
 
             <Modal.Body>
-                <Form>
+                <Form >
+
+                <Form.Group as={Row} controlId="formDate">
+                  <Form.Label column sm="2">
+                  날짜
+                  </Form.Label>
+                  <Col sm="8">
+                  <Form.Control type="text" name="date" onChange={this.handleChange}/>
+                  </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} controlId="formTime">
+                  <Form.Label column sm="2">
+                  시간
+                  </Form.Label>
+                  <Col sm="8">
+                  <Form.Control type="text" name="time" onChange={this.handleChange} placeholder="12:00"/>
+                  </Col>
+                </Form.Group>
 
                 <Form.Row>
                     <Form.Group as={Row} controlId="formGroom">
@@ -146,10 +174,10 @@ class CreateWedding extends Component {
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formBirde">
-                        <Form.Label column sm="4">
+                        <Form.Label column sm="5">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신부 이름
                         </Form.Label>
-                        <Col sm="8">
+                        <Col sm="7">
                         <Form.Control type="text" name="birde" onChange={this.handleChange}/>
                         </Col>
                     </Form.Group>
@@ -215,13 +243,31 @@ class CreateWedding extends Component {
                 <br/>
                 {/* 지도 띄우기 */}
                 장소 선택하기
-                
+                <MapWithASearchBox center={this.state.center} changeCenter={this.changeCenter} />
+                <br/>
+                <Form.Group as={Row} controlId="formPost">
+                  <Form.Label column sm="4">
+                  상세주소명
+                  </Form.Label>
+                  <Col sm="8">
+                  <Form.Control type="text" name="post" onChange={this.handleChange} />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} controlId="formWeddingHall">
+                  <Form.Label column sm="4">
+                  예식장명
+                  </Form.Label>
+                  <Col sm="8">
+                  <Form.Control type="text" name="weddingHall" onChange={this.handleChange} />
+                  </Col>
+                </Form.Group>
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.close}>
                         Close
                     </Button>
-                    <Button onClick={this.sendCreateWedding} variant="primary" type="submit">
+                    <Button onClick={this.sendCreateWedding} variant="primary" >
                         확인
                     </Button>
                 </Modal.Footer>
