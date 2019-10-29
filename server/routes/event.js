@@ -3,6 +3,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { Event, Wedding } = require('../models');
 
 const router = express.Router();
 
@@ -33,12 +34,32 @@ const upload = multer({ //멀터를 사용하면 upload 객체를 받을 수 있
 router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async (req, res, next) => {
     try{
         console.log('결혼행사 생성');
+        console.log(req.body.data.center);
+        const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
+        const Picture = req.files;
+        const userid = req.user.id;
+        const MainPicture = await Picture.pop().filename;
+        let SubPicture = '';
         
-        const formdata = req.body;
+        await Picture.forEach((element) => {
+            SubPicture = SubPicture + ';' + element.filename;
+        });
+        const newEvent = await Event.create({
+            kinds : 'wedding',
+            title : `${groom}과 ${birde} 결혼식}`,
+            date: date,
+            userid: userid,
+        })
         
-        console.log(req.files);
-        console.log(req.body.data);
 
+        const newWedding = await Wedding.create({
+            date, time, groom, birde, invite, 
+            groomFather, groomMother, birdeFather, birdeMother, 
+            mainPicture:MainPicture, subPicture: SubPicture,
+            lat, lng, 
+            post, weddingHall, userid, 
+            fk_eventId: newEvent.id
+        })
 
     } catch(e) {
         console.error(e);

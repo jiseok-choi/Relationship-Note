@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, ButtonToolbar, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import MapWithASearchBox from './MapWithASearchBox';
+import * as moment from 'moment';
 
 
 class CreateWedding extends Component {
@@ -12,7 +13,7 @@ class CreateWedding extends Component {
         this.state = {
             value: '',
             lgShow: false,
-            date: '',
+            date: moment(new Date()).format('YYYY-MM-DD'),
             time: '',
             groom: '',
             birde: '',
@@ -24,7 +25,7 @@ class CreateWedding extends Component {
             mainPicture: null,
             subPicture: [],
             center: {
-                lat: 37.50735340000001, lng: 127.05585159999998
+                lat: 37.50735340000001, lug: 127.05585159999998
             },
             post: '',
             weddingHall: '',
@@ -39,7 +40,7 @@ class CreateWedding extends Component {
       this.setState({
         center: {
           lat: center.lat(),
-          lug: center.lng(),
+          lug: center.lug(),
         } 
       })
     }
@@ -95,23 +96,23 @@ class CreateWedding extends Component {
       }
 
       axios
-      .post(`http://localhost:8000/event/sendCreateWedding`, form, config, {
-          
+      .post(`http://localhost:8000/event/sendCreateWedding`,{
+        form, config,
           // picture: form,
-          data: {
-              date: this.state.date,
-              time: this.state.time,
-              groom: this.state.groom,
-              birde: this.state.birde,
-              invite: this.state.invite,
-              groomFather: this.state.groomFather,
-              groomMother: this.state.groomMother,
-              birdeFather: this.state.birdeFather,
-              birdeMother: this.state.birdeMother,
-              lat: this.state.center.lat,
-              lng: this.state.center.lng,
-              post: this.state.post,
-              weddingHall: this.state.weddingHall,
+        data: {
+            date: this.state.date,
+            time: this.state.time,
+            groom: this.state.groom,
+            birde: this.state.birde,
+            invite: this.state.invite,
+            groomFather: this.state.groomFather,
+            groomMother: this.state.groomMother,
+            birdeFather: this.state.birdeFather,
+            birdeMother: this.state.birdeMother,
+            lat: this.state.center.lat,
+            lug: this.state.center.lug,
+            post: this.state.post,
+            weddingHall: this.state.weddingHall,
           }
       })
       .then(res => {
@@ -150,7 +151,7 @@ class CreateWedding extends Component {
                   날짜
                   </Form.Label>
                   <Col sm="8">
-                  <Form.Control type="text" name="date" onChange={this.handleChange}/>
+                  <Form.Control type="text" name="date" onChange={this.handleChange} defaultValue={this.state.date}/>
                   </Col>
                 </Form.Group>
 

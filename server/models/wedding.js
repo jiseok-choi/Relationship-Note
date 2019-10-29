@@ -2,21 +2,65 @@
 module.exports = (sequelize, DataTypes) => (
     sequelize.define('wedding', {
         date: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DATE,
             allowNull: false,
         }, 
         time: {
-            type: DataTypes.DATE, 
+            type: DataTypes.STRING,
             allowNull: false,
         }, 
         groom: {
-            type: DataTypes.STRING(50), 
+            type: DataTypes.STRING, 
             allowNull: false,
         }, 
-        contents: {
+        birde: {
             type: DataTypes.STRING, 
             allowNull: true,
         }, 
+        invite: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        groomFather: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        groomMother: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        birdeFather: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        birdeMother: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mainPicture: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        subPicture: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        lat: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+        },
+        lng: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+        },
+        post: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        weddingHall: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         userid: {
             type: DataTypes.INTEGER(11),
             allowNull: false,
