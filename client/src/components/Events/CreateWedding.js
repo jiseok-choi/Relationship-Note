@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Button, ButtonToolbar, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import MapWithASearchBox from './MapWithASearchBox';
 import * as moment from 'moment';
 
 
 class CreateWedding extends Component {
-    
 
     constructor(props){
         super(props)
@@ -25,7 +24,7 @@ class CreateWedding extends Component {
             mainPicture: null,
             subPicture: [],
             center: {
-                lat: 37.50735340000001, lug: 127.05585159999998
+                lat: 37.50735340000001, lng: 127.05585159999998
             },
             post: '',
             weddingHall: '',
@@ -34,17 +33,19 @@ class CreateWedding extends Component {
         this.handleFileInput = this.handleFileInput.bind(this);
         this.handleFileInputs = this.handleFileInputs.bind(this);
         this.changeCenter = this.changeCenter.bind(this);
+        this.sendCreateWedding = this.sendCreateWedding.bind(this);
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
     }
 
     changeCenter = (center) => {
       this.setState({
         center: {
           lat: center.lat(),
-          lug: center.lug(),
+          lng: center.lng(),
         } 
       })
     }
-    
 
     handleChange(event) {
         this.setState({
@@ -57,6 +58,14 @@ class CreateWedding extends Component {
         this.setState(prev=>({
             ...prev,
             lgShow: true,
+        }))
+    }
+
+    close = (e) => {
+        e.preventDefault();
+        this.setState(prev=>({
+            ...prev,
+            lgShow: false,
         }))
     }
 
@@ -89,6 +98,21 @@ class CreateWedding extends Component {
               form.append('Picture', contact);
           })
       }
+
+      const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, center, post, weddingHall } = this.state;
+      form.set('date', date);
+      form.set('time', time);
+      form.set('groom', groom);
+      form.set('birde', birde);
+      form.set('invite', invite);
+      form.set('groomFather', groomFather);
+      form.set('groomMother', groomMother);
+      form.set('birdeFather', birdeFather);
+      form.set('birdeMother', birdeMother);
+      form.set('lat', center.lat);
+      form.set('lng', center.lng);
+      form.set('post', post);
+      form.set('weddingHall', weddingHall);
       
       // form.append('subPicture', subPicture[0]);
       const config = {
@@ -96,28 +120,13 @@ class CreateWedding extends Component {
       }
 
       axios
-      .post(`http://localhost:8000/event/sendCreateWedding`,{
-        form, config,
-          // picture: form,
-        data: {
-            date: this.state.date,
-            time: this.state.time,
-            groom: this.state.groom,
-            birde: this.state.birde,
-            invite: this.state.invite,
-            groomFather: this.state.groomFather,
-            groomMother: this.state.groomMother,
-            birdeFather: this.state.birdeFather,
-            birdeMother: this.state.birdeMother,
-            lat: this.state.center.lat,
-            lug: this.state.center.lug,
-            post: this.state.post,
-            weddingHall: this.state.weddingHall,
-          }
-      })
+      .post(`http://localhost:8000/event/sendCreateWedding`, form, config)
       .then(res => {
-          alert('성공적으로 업로드 했습니다.');
-          return this.props.close;
+          alert('url로 청접장을 보내보세요');
+        //   return this.props.close
+        this.setState({
+            lgShow: false
+        })
       })
       .catch(err => {
           console.error(err);
@@ -129,10 +138,12 @@ class CreateWedding extends Component {
 
         return(
             <>
+            <Button onClick={this.open}>결혼식</Button>
+
             <Modal
             size="lg"
-            show={this.props.show}
-            onHide={() => this.props.close
+            show={this.state.lgShow}
+            onHide={() => this.close
             }
             aria-labelledby="example-modal-sizes-title-lg"
             >
@@ -265,7 +276,7 @@ class CreateWedding extends Component {
                 </Form.Group>
 
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.close}>
+                    <Button variant="secondary" onClick={this.close}>
                         Close
                     </Button>
                     <Button onClick={this.sendCreateWedding} variant="primary" >
@@ -276,7 +287,8 @@ class CreateWedding extends Component {
                 </Form>
             </Modal.Body>
 
-            </Modal></>
+            </Modal>
+            </>
         );
     }
 }

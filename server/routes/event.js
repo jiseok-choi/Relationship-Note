@@ -28,14 +28,17 @@ const upload = multer({ //멀터를 사용하면 upload 객체를 받을 수 있
     limits: { fileSize: 50 * 1024 * 1024 }, //파일 사이즈 (5mb)
 });
 
-// const upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
-
 // router.post('/sendCreateWedding', isLoggedIn, upload.single([{ name: 'mainPicture' }, { name: 'subPicture' }]), async (req, res, next) => {
 router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async (req, res, next) => {
     try{
         console.log('결혼행사 생성');
-        console.log(req.body.data.center);
-        const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
+        // const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
+        // let form = new FormData();
+        // for(var key in req.body.data) {
+        //     console.log('key: ' + key + 'value: '+req.body.data[key])
+        // }
+        const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body;
+
         const Picture = req.files;
         const userid = req.user.id;
         const MainPicture = await Picture.pop().filename;
@@ -44,13 +47,13 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
         await Picture.forEach((element) => {
             SubPicture = SubPicture + ';' + element.filename;
         });
+
         const newEvent = await Event.create({
             kinds : 'wedding',
-            title : `${groom}과 ${birde} 결혼식}`,
+            title : `${groom} 님과 ${birde} 님의 결혼식`,
             date: date,
             userid: userid,
-        })
-        
+        });
 
         const newWedding = await Wedding.create({
             date, time, groom, birde, invite, 
@@ -59,7 +62,9 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
             lat, lng, 
             post, weddingHall, userid, 
             fk_eventId: newEvent.id
-        })
+        });
+
+        return res.status(201).json(true);
 
     } catch(e) {
         console.error(e);
@@ -67,6 +72,20 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
     }
 });
 
+
+router.post('/getEvents', isLoggedIn, async (req,res,next) => {
+    try{
+        const eventList = await Event.findAll({ 
+            where: {userid: req.user.id},
+            order: [['date', 'DESC']]
+        });
+        console.log(eventList);
+        return res.status(201).json(eventList);
+    }catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
 
 
 

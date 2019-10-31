@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, ButtonToolbar, Button } from 'react-bootstrap';
+import axios from 'axios';
 
-class LookNews extends Component {
+class LookEvent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,8 +13,6 @@ class LookNews extends Component {
         }
         this.close = this.close.bind(this);
     }
-    
-
 
     close = () => {
         this.setState({
@@ -25,29 +24,28 @@ class LookNews extends Component {
         e.preventDefault();
         this.setState({
             modalShow: true,
-            date: this.props.newsInfo.date,
-            title: this.props.newsInfo.title,
-            contents: this.props.newsInfo.contents,
+            // date: this.props.newsInfo.date,
+            // title: this.props.newsInfo.title,
+            // contents: this.props.newsInfo.contents,
         })
     }
 
     render(){
 
         return(
-                // <Button variant="primary" onClick={this.open}>
-                //     보기
-                // </Button>
+            <ButtonToolbar>
+                <Button variant="primary" onClick={this.open}>
+                    보기
+                </Button>
 
                 <Modal
-                // {...props}
-                size="lg"
-                show={this.props.propsShow}
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                onClick={this.close}
+                size='xl'
+                show={this.state.modalShow}
+                dialogClassName="modal-95w"
+                aria-labelledby="example-custom-modal-styling-title"
                 >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Header>
+                    <Modal.Title id="example-custom-modal-styling-title">
                     {this.state.title}
                     </Modal.Title>
                 </Modal.Header>
@@ -63,8 +61,9 @@ class LookNews extends Component {
                 </Modal.Footer>
 
                 </Modal>
+            </ButtonToolbar>
         );
     }
 }
 
-export default LookNews;
+export default LookEvent;

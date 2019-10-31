@@ -29,7 +29,7 @@ router.post('/',isLoggedIn, (req, res, next) => {
 router.post('/main',isLoggedIn, (req, res, next) => {
   console.log('메인렌더링');
   // res.send('메인페이지 호출 성공')
-  console.log(req.user);
+  // console.log(req.user);
   // console.log(req.user);
   return res.status(201).json(true);
 

@@ -4,41 +4,45 @@ import React, { Component } from 'react';
 import { Card, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { money, visit, meeting, birth, friend } from '../images';
 import CreateWedding from '../components/Events/CreateWedding';
+import EventTable from '../components/Events/EventTable';
+import axios from 'axios';
+
 
 class Event extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            show: false
+            eventList : [],
         }
-        this.createWedding = this.createWedding.bind(this);
-        this.close = this.close.bind(this);
+        this.getEvents = this.getEvents.bind(this);
+    }
+
+    getEvents = () => {
+        axios.defaults.withCredentials = true;
+        axios
+        .post(`http://localhost:8000/event/getEvents`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: "same-origin"
+        })
+        .then(res => {
+            console.log(res.data);
+            this.setState({
+                eventList: res.data,
+            })
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }
+
+    componentDidMount(){
+        this.getEvents();
     }
     
-
-    createWedding = (e) => {
-        e.preventDefault();
-        this.setState({
-            show: true,
-        })
-        return(
-            // <CreateWedding open={true}/>
-            
-<></>
-
-
-        )
-    }
-
-    close = (e) => {
-        e.preventDefault();
-        this.setState({
-            show: false
-        })
-    }
-
-
     render() {
         
         return (
@@ -56,11 +60,14 @@ class Event extends Component {
                                 결혼식, 잔치, 생일파티 등 행사를 만들어 보세요
                                 </Card.Text>
 
-                                <DropdownButton id="dropdown-basic-button" title="행사 만들기">
-                                    <Dropdown.Item onClick={this.createWedding}>결혼식</Dropdown.Item>
+                                {/* <DropdownButton id="dropdown-basic-button" title="행사 만들기">
+                                    <Dropdown.Item onClick={this.createWedding}><CreateWedding show={this.state.show} close={this.close}/>결혼식</Dropdown.Item>
                                     <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                </DropdownButton>
+                                </DropdownButton> */}
+
+                            <CreateWedding/>
+
 
                             </Card.Body>
                         </Card>
@@ -88,12 +95,11 @@ class Event extends Component {
                 <div class="row">
                     <div class="col-md-12" align="center">
                         {/* {행사테이블 들어갈 자리} */}
-                        
+                        < EventTable eventList={this.state.eventList} />
                     </div>
                 </div>
             </div>
 
-            <CreateWedding show={this.state.show} close={this.close}/>
 
             </>
         );
