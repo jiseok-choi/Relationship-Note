@@ -21,7 +21,7 @@ class Event extends Component {
     getEvents = () => {
         axios.defaults.withCredentials = true;
         axios
-        .post(`http://localhost:8000/event/getEvents`, {
+        .get(`http://localhost:8000/event/getEvents`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ class Event extends Component {
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                 </DropdownButton> */}
 
-                            <CreateWedding/>
+                            <CreateWedding getEvents={this.getEvents}/>
 
 
                             </Card.Body>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Loginform from './Loginform';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { money, visit, meeting, birth, friend } from '../images';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 
 class joinindex extends Component {
@@ -10,6 +11,14 @@ class joinindex extends Component {
         return(
             <>
                 <Loginform/>
+
+                {/* <h2>Post List</h2> 
+                        <ul>
+                            <li><Link to={`${this.props.match.url}/1`}>Post #1</Link></li>
+                            <li><Link to={`${this.props.match.url}/2`}>Post #2</Link></li>
+                            <li><Link to={`${this.props.match.url}/3`}>Post #3</Link></li>
+                            <li><Link to={`${this.props.match.url}/4`}>Post #4</Link></li>
+                        </ul> */}
                 <Container>
                     <Row>
                         <Col>

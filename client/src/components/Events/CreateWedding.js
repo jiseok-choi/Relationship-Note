@@ -126,7 +126,8 @@ class CreateWedding extends Component {
         //   return this.props.close
         this.setState({
             lgShow: false
-        })
+        });
+        this.props.getEvents();
       })
       .catch(err => {
           console.error(err);

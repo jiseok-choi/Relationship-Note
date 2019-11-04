@@ -31,6 +31,7 @@ db.News = require('./news')(sequelize, Sequelize);
 db.Schedule = require('./schedule')(sequelize, Sequelize);
 db.Event = require('./event')(sequelize, Sequelize);
 db.Wedding = require('./wedding')(sequelize, Sequelize);
+db.Visit = require('./visit')(sequelize, Sequelize);
 
 //1대다 관계 맺기
 db.User.hasMany(db.Friend);
@@ -49,6 +50,12 @@ db.Event.hasOne(db.Wedding, {
   foreignKey: 'fk_eventId',
   onDelete: 'cascade'
 });
+
+db.Event.hasMany(db.Visit, {
+  foreignKey: 'fk_eventId',
+  onDelete: 'cascade'
+});
+db.Visit.belongsTo(db.Event);
 // db.Wedding.belongsTo(db.Event);
 
 Object.keys(db).forEach(modelName => {

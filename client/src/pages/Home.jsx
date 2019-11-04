@@ -46,7 +46,7 @@ class Home extends Component {
                 <h2>
                 <h1>Home 화면</h1>
                 <Button onClick={this.sendLogout}>로그아웃</Button>
-                <p>Home 화면 입니다</p>
+                <p>{this.props.match.url}</p>
                 <p>Home 화면 입니다</p>
                 <p>Home 화면 입니다</p>
                 <p>Home 화면 입니다</p>

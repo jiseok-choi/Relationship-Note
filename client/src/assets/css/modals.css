@@ -20,7 +20,9 @@
 
 .modal-95w{
     width:95%;
+    height: 95%;
     max-width: none! important; 
+    max-height: none! important; 
 }
 
 .modal-100w{

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import ReviseNews from './ReviseNews';
 import LookEvent from './LookEvent';
 import {Col, Row} from 'react-bootstrap';
+import Visit from './Visit';
 
 class EventTable extends Component {
 
@@ -29,6 +30,7 @@ class EventTable extends Component {
                         <Row>
                             <LookEvent newsInfo={contact}/> 
                             {/* <ReviseNews newsInfo={contact}/> */}
+                            <Visit/>
                         </Row>
                         </Col>
                     </td>

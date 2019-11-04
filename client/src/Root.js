@@ -2,9 +2,10 @@
 // 나중에 리덕스를 적용 하게 될 때, 여기서 Provider 를 통하여 프로젝트에 리덕스를 연결시켜줍니다.
 
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './shared/App';
 import Login from './join/index';
+import visitPage from './pages/VisitPage';
 import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -23,6 +24,7 @@ class Root extends Component {
         super(props);
         this.state = {
             logged : false,
+            testvalue : this.props.visitPage,
         }
         this.initializeUserInfo = this.initializeUserInfo.bind(this);
     }
@@ -68,7 +70,8 @@ class Root extends Component {
     }
   
     userinfo2() {
-        if(this.state.logged){ //로그인 했다면
+        const isLogged = this.state.logged;
+        if(true === isLogged){ //로그인 했다면
             return(
                 <BrowserRouter>
                     <Switch>
@@ -76,8 +79,23 @@ class Root extends Component {
                     </Switch>
                 </BrowserRouter>
                 )
-        } else {
-            return <Login loged={this.loged.bind(this)}/>
+        } else if (false === this.state.logged) {
+            // alert(window.location.href);
+            // alert(this.state.testvalue);
+            // return <Login loged={this.loged.bind(this)}/>;
+            return(
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/" component={Login}/>
+                        <Route exact path="/main" component={Login}/>
+                        <Route exact path="/visitpage/:id" component={visitPage}/>
+
+                    </Switch>
+                </BrowserRouter>
+
+                
+            )
+            
         }
     }
     

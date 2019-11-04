@@ -73,14 +73,14 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
 });
 
 
-router.post('/getEvents', isLoggedIn, async (req,res,next) => {
+router.get('/getEvents', isLoggedIn, async (req,res,next) => {
     try{
         const eventList = await Event.findAll({ 
             where: {userid: req.user.id},
             order: [['date', 'DESC']]
         });
         console.log(eventList);
-        return res.status(201).json(eventList);
+        return res.status(200).json(eventList);
     }catch(e) {
         console.error(e);
         return next(e);
