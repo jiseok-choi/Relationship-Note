@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { Button, Form, Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
 import ImageLoader from 'react-image-file';
+// import testImage from '../../../server/uploads/visit_img1572859573171.jpg';
+// import testImage1 from '../../../server/uploads/visit_img1572859573171.jpg';
 
 const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} />
 
@@ -25,34 +27,8 @@ class VisitPage extends Component {
         this.getVisit = this.getVisit.bind(this);
         this.newVisit = this.newVisit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.arrayBufferToBase64 = this.arrayBufferToBase64.bind(this);
+        // this.arrayBufferToBase64 = this.arrayBufferToBase64.bind(this);
     }
-
-    arrayBufferToBase64 = (buffer) => {
-        var binary = '';
-        var bytes = [].slice.call(new Uint8Array(buffer));
-        bytes.forEach((b) => binary += String.fromCharCode(b));
-        console.log(binary);
-        // return window.btoa(binary);
-        return binary;
-    };
-
-    fileChangedHandler = eventa => {
-        this.setState({
-          selectedFile: eventa
-        })
-     
-        let reader = new FileReader();
-         
-        reader.onloadend = () => {
-          this.setState({
-            imagePreviewUrl: reader.result
-          });
-        }
-     
-        reader.readAsDataURL(eventa)
-     
-      }
 
     getVisit = () => {
 
@@ -87,12 +63,6 @@ class VisitPage extends Component {
             .then(res => {
                 console.log(res.config.data);
 
-                // if(res.data === 'logout'){
-
-                // } else {
-                //     alert(res.data);
-                //     console.error(res.data); 
-                // }
             })
             .catch(err => {
                 console.error(err);
@@ -109,23 +79,27 @@ class VisitPage extends Component {
         this.getVisit();
     }
 
-    
+
 
     render() {
+        
         return (
             <div>
                 {/* {alert(this.props.match.url)} */}
                 {/* {console.log(this.props.match.params)} */}
                 <h1 align='center'>방명록을 작성해주세요</h1>
-                <Container>
-                {/* <Card align='center' style={{ width: '30rem' }}>
-                <Card.Img variant="top"  src={this.state.picture} />
-                </Card> */}
+                <Container align='center'>
+
+                    <Card align='center' style={{ width: '30rem' }}>
+                        <Card.Img variant="top"  src={'http://localhost:8000/visit_img1572859573171.jpg'} />
+                    </Card>
                 {/* <ImageLoader file={this.state.picture} alt='some text'/> */}
+                {/* <ImageLoader file={'http://localhost:8000/visit_img1572859573171.jpg'} alt='some text'/> */}
                 {/* <Example data={this.arrayBufferToBase64(this.state.picture)}/> */}
                 {/* {this.state.picture} */}
-                <img src={this.state.picture}/>
-                <Form align='center'>
+                {/* <img src={this.state.picture}/> */}
+                {/* <img src={'http://localhost:8000/visit_img1572859573171.jpg'}/> */}
+                <Form>
 
                     <Form.Group as={Row} controlId="formHorizontalName">
                         <Form.Label column sm={3}>

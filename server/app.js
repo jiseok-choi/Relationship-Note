@@ -38,10 +38,10 @@ app.use(cors({
   origin: true,
   credentials: true,
 }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'uploads')));
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/', express.static('uploads'));
-app.use('/visit/getVisit', express.static('uploads'));
+// app.use('/visit/getVisit', express.static('uploads'));
 // app.use('/mainPicture', express.static(path.join(__dirname, 'uploads'))); // /img/abc.png
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -66,8 +66,8 @@ app.use('/auth', authRouter);
 app.use('/friend', friendRouter);
 app.use('/news', newsRouter);
 app.use('/schedule', scheduleRouter);
-app.use('/event',  eventRouter ); // express.static(path.join(__dirname, 'uploads')),
-app.use('/visit',  visitRouter ); // express.static(path.join(__dirname, 'uploads')),
+app.use('/event',  eventRouter );
+app.use('/visit',  visitRouter );
 
 
 

@@ -1,6 +1,7 @@
 var express = require('express');
 const path = require('path');
 const router = express.Router();
+const fs = require('fs');
 const { Friend, Event, Wedding } = require('../models');
 
 
@@ -13,6 +14,8 @@ router.post('/newVisit', async (req, res, next) => {
         return next(e);
     }
 });
+
+router.use('uploads', express.static(path.join(__dirname, '../uploads')));
 
 router.get('/getVisit', async (req, res, next) => {
     try{
@@ -31,7 +34,13 @@ router.get('/getVisit', async (req, res, next) => {
         // const temp = res.sendFile(FindEvent.mainPicture, {root: path.join(__dirname, '../uploads')});
         // Picture = <img src={path.join(__dirname, '../uploads',FindEvent.mainPicture)}/>
         // Picture = 
-        return res.status(200).send(path.join(__dirname, '../uploads',FindEvent.mainPicture));
+        console.log(path.join(__dirname, '../uploads',FindEvent.mainPicture));
+        const patha = path.join(__dirname, '../uploads',FindEvent.mainPicture);
+        await fs.readFile(patha, 'utf8', function (err, data) {
+            return res.status(200).send(data);
+        })
+        // return res.status(200).send(patha);
+        
         // console.log('temp ',path.join(__dirname, '../uploads',FindEvent.mainPicture))
         // return temp;
             // return res.status(201).json(friend);

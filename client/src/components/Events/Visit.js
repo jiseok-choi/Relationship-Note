@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ButtonToolbar, Button, Card } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
+import publicIp from 'public-ip';
 import axios from 'axios';
 
 class Visit extends Component {
@@ -30,6 +31,13 @@ class Visit extends Component {
             // title: this.props.newsInfo.title,
             // contents: this.props.newsInfo.contents,
         })
+        {(async () => {
+            alert(await publicIp.v4());
+            //=> '46.5.21.123'
+        
+            console.log(await publicIp.v6());
+            //=> 'fe80::200:f8ff:fe21:67cf'
+        })()}
     }
 
     render(){
@@ -61,7 +69,8 @@ class Visit extends Component {
                             />
 
                             <h2>
-                                QR코드로 방명록을 작성해주세요
+                                
+                                {/* QR코드로 방명록을 작성해주세요 */}
                             </h2>
                         </div>
                         <div className="col-md-7">
