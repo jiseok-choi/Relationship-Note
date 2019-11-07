@@ -28,9 +28,10 @@ class EventTable extends Component {
                     <td>
                         <Col>
                         <Row>
-                            <LookEvent newsInfo={contact}/> 
-                            {/* <ReviseNews newsInfo={contact}/> */}
-                            <Visit/>
+                            {/* 이벤트보기 */}
+                            <LookEvent eventInfo={contact}/> 
+                            {/* 방명록 */}
+                            <Visit eventInfo={contact}/>
                         </Row>
                         </Col>
                     </td>

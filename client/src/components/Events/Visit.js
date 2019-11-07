@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, ButtonToolbar, Button, Card } from 'react-bootstrap';
+import { Modal, ButtonToolbar, Button, Card, CardColumns } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
-import publicIp from 'public-ip';
 import axios from 'axios';
+import dotenv from 'dotenv';
+const env = dotenv.config();
 
 class Visit extends Component {
     constructor(props) {
@@ -12,15 +13,30 @@ class Visit extends Component {
             title: '',
             contents: '',
             modalShow: false,
+            visitList: [],
+            cardver: ['primary', 'success', 'danger', 'warning', 'info'],
         }
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.getVisitList = this.getVisitList.bind(this);
     }
 
-    close = () => {
-        this.setState({
-            modalShow: false
-        })
+    getVisitList = () => {
+        axios
+            .post(`http://172.30.1.37:8000/visit/getVisitList`, {
+                data: {
+                    id: this.props.eventInfo.id,
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    visitList: res.data,
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     open = (e) => {
@@ -30,14 +46,38 @@ class Visit extends Component {
             // date: this.props.newsInfo.date,
             // title: this.props.newsInfo.title,
             // contents: this.props.newsInfo.contents,
+        });
+        this._interval = setInterval(this.getVisitList, 3000);
+    }
+
+    close = () => {
+        this.setState({
+            modalShow: false
         })
-        {(async () => {
-            alert(await publicIp.v4());
-            //=> '46.5.21.123'
+        if(this._interval){
+            clearInterval(this._interval);
+        }
         
-            console.log(await publicIp.v6());
-            //=> 'fe80::200:f8ff:fe21:67cf'
-        })()}
+    }
+
+    componentDidMount() {
+    }
+
+    showVisits = (visitList) => {
+
+        return visitList.map((contact, i) => {
+            return(
+                <Card className='text-center' key={i} border={this.state.cardver[i%10]} style={{ width: '100%' }}>
+                    <Card.Body>
+                    <Card.Title>{contact.name}</Card.Title>
+                    <Card.Text>
+                        {contact.contents}
+                    </Card.Text>
+                    </Card.Body>
+                </Card>
+            )
+        })
+        
     }
 
     render(){
@@ -64,67 +104,20 @@ class Visit extends Component {
                         <div className="col-md-5" align='center'>
                             {/* 큐알코드자리 */}
                             <QRCode 
-                            value="https://naver.com"
+                            // value={`https://${process.env.IP}/visitPage/6`}
+                            value={`http://172.30.1.37:3000/visitPage/${this.props.eventInfo.id}`}
                             size={256}
                             />
 
                             <h2>
-                                
-                                {/* QR코드로 방명록을 작성해주세요 */}
+                                QR코드로 방명록을 작성해주세요
                             </h2>
                         </div>
                         <div className="col-md-7">
                             {/* 방명록자리 */}
-                            <Card border="primary" style={{ width: '100%' }}>
-                                <Card.Body>
-                                <Card.Title>Primary Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.
-                                </Card.Text>
-                                </Card.Body>
-                            </Card>
-
-                            <Card border="success" style={{ width: '100%' }}>
-                                <Card.Body>
-                                <Card.Title>Success Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.
-                                </Card.Text>
-                                </Card.Body>
-                            </Card>
-
-                            <Card border="danger" style={{ width: '100%' }}>
-                                <Card.Body>
-                                <Card.Title>Danger Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.
-                                </Card.Text>
-                                </Card.Body>
-                            </Card>
-
-                            <Card border="warning" style={{ width: '100%' }}>
-                                <Card.Body>
-                                <Card.Title>Warning Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.
-                                </Card.Text>
-                                </Card.Body>
-                            </Card>
-
-                            <Card border="info" style={{ width: '100%' }}>
-                                <Card.Body>
-                                <Card.Title>Info Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.
-                                </Card.Text>
-                                </Card.Body>
-                            </Card>
-
+                            <CardColumns>
+                            {this.showVisits(this.state.visitList)}
+                            </CardColumns>
                         </div>
                     </div>
                 </div>

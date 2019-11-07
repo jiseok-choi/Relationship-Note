@@ -2,18 +2,8 @@ var express = require('express');
 const path = require('path');
 const router = express.Router();
 const fs = require('fs');
-const { Friend, Event, Wedding } = require('../models');
+const { Friend, Event, Wedding, Visit } = require('../models');
 
-
-router.post('/newVisit', async (req, res, next) => {
-    try{
-        const friendList = await Friend.findAll({ where: {userid: req.user.id}})
-        return res.status(201).json(friendList);
-    } catch(e) {
-        console.error(e);
-        return next(e);
-    }
-});
 
 router.use('uploads', express.static(path.join(__dirname, '../uploads')));
 
@@ -34,12 +24,8 @@ router.get('/getVisit', async (req, res, next) => {
         // const temp = res.sendFile(FindEvent.mainPicture, {root: path.join(__dirname, '../uploads')});
         // Picture = <img src={path.join(__dirname, '../uploads',FindEvent.mainPicture)}/>
         // Picture = 
-        console.log(path.join(__dirname, '../uploads',FindEvent.mainPicture));
-        const patha = path.join(__dirname, '../uploads',FindEvent.mainPicture);
-        await fs.readFile(patha, 'utf8', function (err, data) {
-            return res.status(200).send(data);
-        })
-        // return res.status(200).send(patha);
+        
+        return res.status(200).json(FindEvent.mainPicture);
         
         // console.log('temp ',path.join(__dirname, '../uploads',FindEvent.mainPicture))
         // return temp;
@@ -52,18 +38,17 @@ router.get('/getVisit', async (req, res, next) => {
     }
 });
 
-router.get('/getVisit2', async (req, res, next) => {
+
+router.post('/getVisitList', async (req, res, next) => {
     try{
-        const { name, relationship, age, gender, birth, job, school, phone_Num, id } = req.body.data;
-        if(name !== 'notChange' || name !== undefined){
-            await Friend.update({ 
-                name: name, relationship: relationship, age: age, gender: gender, birth: birth, job: job,
-                school: school, phone_num: phone_Num
-            }, 
-            {where: { userid: req.user.id, id: id }})
-            const friend = await Friend.findOne({ where: {userid: req.user.id, id: id}})
-            return res.status(201).json(friend);
-        }
+        console.log('방명록 목록 getVisitList')
+        const { id } = req.body.data;
+
+        const visitList = await Visit.findAll({ 
+            where: { fk_eventId: id },
+            order: [['id', 'DESC']]
+        });
+        return res.status(201).json(visitList);
         
     } catch(e) {
         console.error(e);
@@ -71,25 +56,19 @@ router.get('/getVisit2', async (req, res, next) => {
     }
 });
 
-router.post('/newfriend', async (req, res, next) => {
+
+router.post('/newVisit', async (req, res, next) => {
     try{
-        console.log('새친구 등록 '+req.user.id);
-        const userid = req.user.id;
-        const { name, relationship, age, gender, birth, job, school, phone_Num } = req.body.data; 
+        console.log('방명록작성 newVisit')
+        const { name, contents, celebration, password, id } = req.body.data;
 
-
-        const newFriend = await Friend.create({
+        const newVisit = await Visit.create({
             name,
-            relationship,
-            age, 
-            gender, 
-            birth, 
-            job, 
-            school, 
-            phone_num : phone_Num,
-            userid,
-        })
-        // const friendList = await Friend.findOne({ where: {userid: req.user.id}})
+            contents,
+            celebration,
+            password,
+            fk_eventId: id
+        });
 
         return res.status(201).json(true);
     } catch(e) {

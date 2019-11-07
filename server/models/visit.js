@@ -1,13 +1,13 @@
 //visit 테이블 정보 담기
 module.exports = (sequelize, DataTypes) => (
     sequelize.define('visit', {
-        datetime: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        }, 
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+        }, 
+        contents: {
+            type: DataTypes.STRING, 
+            allowNull: true,
         }, 
         celebration: {
             type: DataTypes.INTEGER, 
