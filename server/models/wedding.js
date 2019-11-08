@@ -46,11 +46,11 @@ module.exports = (sequelize, DataTypes) => (
             allowNull: true,
         },
         lat: {
-            type: DataTypes.DECIMAL(14,14),
+            type: DataTypes.DECIMAL(12,6),
             allowNull: false,
         },
         lng: {
-            type: DataTypes.DECIMAL(14,14),
+            type: DataTypes.DECIMAL(12,6),
             allowNull: false,
         },
         post: {

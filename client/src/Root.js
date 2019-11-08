@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './shared/App';
 import Login from './join/index';
-import visitPage from './pages/VisitPage';
+import visitPage from './pages/guest/VisitPage';
+import WeddingInvitation from './pages/guest/WeddingInvitation';
 import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -89,6 +90,7 @@ class Root extends Component {
                         <Route exact path="/" component={Login}/>
                         <Route exact path="/main" component={Login}/>
                         <Route exact path="/visitpage/:id" component={visitPage}/>
+                        <Route exact path="/weddinginvitation/:id" component={WeddingInvitation}/>
 
                     </Switch>
                 </BrowserRouter>

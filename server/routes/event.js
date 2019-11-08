@@ -25,7 +25,7 @@ const upload = multer({ //멀터를 사용하면 upload 객체를 받을 수 있
             cb(null, basename + new Date().valueOf() + ext); //basename 은 확장자 이외 이름
         },
     }),
-    limits: { fileSize: 50 * 1024 * 1024 }, //파일 사이즈 (5mb)
+    limits: { fileSize: 5000 * 1024 * 1024 }, //파일 사이즈 (500mb)
 });
 
 // router.post('/sendCreateWedding', isLoggedIn, upload.single([{ name: 'mainPicture' }, { name: 'subPicture' }]), async (req, res, next) => {
@@ -87,6 +87,18 @@ router.get('/getEvents', isLoggedIn, async (req,res,next) => {
     }
 });
 
+
+router.post('/getInvitation/wedding', async (req,res,next) => {
+    try{
+        const wedding = await Wedding.findOne({ 
+            where: {fk_eventId: req.body.data.id}
+        });
+        return res.status(200).json(wedding);
+    }catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
 
 
 module.exports = router;
