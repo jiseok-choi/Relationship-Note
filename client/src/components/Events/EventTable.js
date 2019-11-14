@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import LookEvent from './LookEvent';
 import {Col, Row} from 'react-bootstrap';
 import Visit from './Visit';
+import UpdateWedding from '../../components/Events/UpdateWedding';
+import DeleteEvent from './DeleteEvent';
 
 class EventTable extends Component {
 
@@ -14,6 +16,10 @@ class EventTable extends Component {
 
     setTable = (eventList) => {
         return eventList.map((contact, i) => {
+            let url='';
+            if(contact.kinds === 'wedding') {
+                url = `http://172.30.1.48:3000/weddinginvitation/${contact.id}`
+            }
             return(
                 <tr key={i} className="table-success">
                     <td>
@@ -26,12 +32,17 @@ class EventTable extends Component {
                         {contact.date}
                     </td>
                     <td>
+                        {url}
+                    </td>
+                    <td>
                         <Col>
                         <Row>
                             {/* 이벤트보기 */}
-                            <LookEvent eventInfo={contact}/> 
+                            <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents}/> 
                             {/* 방명록 */}
                             <Visit eventInfo={contact}/>
+                            {/* 삭제하기 */}
+                            <DeleteEvent eventInfo={contact} getEvent={this.props.getEvents}>삭제</DeleteEvent>
                         </Row>
                         </Col>
                     </td>
@@ -56,6 +67,9 @@ class EventTable extends Component {
                             날짜
                         </th>
                         <th>
+                            초청장
+                        </th>
+                        <th>
                             기타
                         </th>
                     </tr>
@@ -69,7 +83,7 @@ class EventTable extends Component {
 
                     
 
-            <nav className="pagination-sm">
+            {/* <nav className="pagination-sm">
                 <ul className="pagination">
                     <li className="page-item">
                         <a className="page-link" href="#">Previous</a>
@@ -93,7 +107,7 @@ class EventTable extends Component {
                         <a className="page-link" href="#">Next</a>
                     </li>
                 </ul>
-            </nav>
+            </nav> */}
             </>
         );
     }

@@ -29,7 +29,7 @@ const upload = multer({ //멀터를 사용하면 upload 객체를 받을 수 있
 });
 
 // router.post('/sendCreateWedding', isLoggedIn, upload.single([{ name: 'mainPicture' }, { name: 'subPicture' }]), async (req, res, next) => {
-router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async (req, res, next) => {
+router.post('/sendCreateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
     try{
         console.log('결혼행사 생성');
         // const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
@@ -39,12 +39,13 @@ router.post('/sendCreateWedding', isLoggedIn, upload.array('Picture', 7), async 
         // }
         const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body;
 
-        const Picture = req.files;
         const userid = req.user.id;
-        const MainPicture = await Picture.pop().filename;
+        // const MainPicture = await Picture.pop().filename;
+        const MainPicture = await req.files.Picture[0].filename;
+        const Pictures = req.files.Pictures;
         let SubPicture = '';
         
-        await Picture.forEach((element) => {
+        await Pictures.forEach((element) => {
             SubPicture = SubPicture + ';' + element.filename;
         });
 
@@ -100,5 +101,60 @@ router.post('/getInvitation/wedding', async (req,res,next) => {
     }
 });
 
+router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
+    try{
+        const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall, fk_eventId } = req.body;
+
+        const beforeWedding = await Wedding.findOne({
+            where: {fk_eventId: fk_eventId}
+        });
+
+        const afterWedding = await Wedding.update({
+            date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall
+        },
+        {
+            where: {fk_eventId: fk_eventId}
+        });
+        if(req.files.Picture !== undefined){
+            const mainFile = req.files.Picture[0];
+            await fs.unlink(`uploads/${beforeWedding.mainPicture}`, (e)=> {
+                console.log('메인사진삭제완료');
+            })
+            console.log(mainFile.filename)
+            await Wedding.update({mainPicture: mainFile.filename}, {where: {fk_eventId:fk_eventId}})
+        }
+        if(req.files.Pictures !== undefined ){
+            let subPicture = beforeWedding.subPicture.slice(1).split(';');
+            await subPicture.map((contact) => {
+                fs.unlink(`uploads/${contact}`, (e)=>{
+                    console.log('서브사진삭제완료');
+                });
+            });
+            let sub = '';
+            await req.files.Pictures.forEach((element) => {
+                sub = sub + ';' + element.filename;
+            });
+            await Wedding.update({subPicture: sub}, {where: {fk_eventId: fk_eventId}});
+        }
+
+        return res.status(200).json(true);
+    }catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
+
+router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
+    try{
+        console.log(req.id)
+        // await Event.destroy({
+        //     where: {id: req.body.data}
+        // })
+        // return res.status(200).json(true);
+    } catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
 
 module.exports = router;

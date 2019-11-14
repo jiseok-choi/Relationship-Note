@@ -4,6 +4,12 @@ import React, { Component } from 'react';
 import { Button, Container, Row, Col, Card, CardColumns } from 'react-bootstrap';
 import axios from 'axios';
 import Carousel, { Modal as Modals, ModalGateway } from 'react-images';
+import MapWithAMarker from '../../components/Events/MapWithAMarker';
+
+const style = {
+    width: window.innerWidth-50,
+    height: window.innerWidth-50
+  }
 
 class WeddingInvitation extends Component {
     constructor(props) {
@@ -21,7 +27,7 @@ class WeddingInvitation extends Component {
             birdeFather: '',
             birdeMother: '',
             mainPicture: '',
-            subPicture: [],
+            subPicture: [{src:''}],
             lat: '', 
             lng: '', 
             post: '',
@@ -33,11 +39,13 @@ class WeddingInvitation extends Component {
         this.album = this.album.bind(this);
     }
 
+    images = [ ];
+
     getInvitation = () => {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://172.30.1.37:8000/event/getInvitation/wedding`, {
+            .post(`http://172.30.1.48:8000/event/getInvitation/wedding`, {
                 data: {
                     id : this.props.match.params.id
                 }
@@ -49,22 +57,30 @@ class WeddingInvitation extends Component {
                     lat, lng, 
                     post, weddingHall} = res.data;
                 //첫글자 ';' 제거
-                const changeSubPicture = subPicture.slice(1);
+                const changeSubPicture = subPicture.slice(1).split(';');
                 this.setState({
                     date, time, groom, birde, invite, 
                     groomFather, groomMother, birdeFather, birdeMother, 
                     mainPicture, 
-                    subPicture: changeSubPicture.split(';'),
+                    // lat:parseFloat(lat), lng:parseFloat(lng), 
+                    // lat:String(lat), lng:parseFloat(lng), 
                     lat, lng, 
                     post, weddingHall
                 })
+                // let images = changeSubPicture.map((text, key) => {this.images[key].src = text });
+                changeSubPicture.forEach(element => {
+                    this.images.push({src: 'http://172.30.1.48:8000/'+element})
+                });
+                // console.log(this.state.subPicture);
+                this.setState({subPicture: this.images})
+                console.log(this.state.subPicture);
             })
             .catch(err => {
                 console.error(err);
             });
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.getInvitation();
     }
 
@@ -78,23 +94,34 @@ class WeddingInvitation extends Component {
         this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
     }
 
-    album = (pictures) => {
+    album = (images) => {
         const { modalIsOpen } = this.state;
-        // const pictureImg = pictures.map(text => ({ src: `http://172.30.1.37:8000/${text}`}) )
-        const images = 
-            // pictureImg
-            [{ src: `http://172.30.1.37:8000/${this.state.mainPicture}`} ,{src: `http://172.30.1.37:8000/friend_img1572867145195.jpg` }]
+        // const pictureImg = pictures.map(text => ({ src: `http://172.30.1.48:8000/${text}`}) )
+        const temp = 
+            // [{ src: `http://172.30.1.48:8000/${this.state.mainPicture}`} ,{src: `http://172.30.1.48:8000/friend_img1572867145195.jpg` }]
+            [{ src: ''} ]
         ;
+        // if(images.length === 0) return;
+        console.log(images)
         return(
-            <ModalGateway>
-                {modalIsOpen ? (
-                    <Modals onClose={this.toggleModal}>
-                        <Carousel views={images} />
-                    </Modals>
-                ) : <div onClick={this.toggleModal}> <Carousel views={images} onClickImage={this.toggleModal}/> </div>  }
-            </ModalGateway>
-            
+            // <ModalGateway>
+            //     {modalIsOpen ? (
+            //         <Modals onClose={this.toggleModal}>
+            //             <Carousel views={images} />
+            //         </Modals>
+            //     ) : <div onClick={this.toggleModal}> <Carousel views={images} onClickImage={this.toggleModal}/> </div>  }
+            // </ModalGateway>
+            <Carousel views={images}/>
         )
+        
+    }
+    
+    map = () => {
+        if(this.state.lat !== ''){
+            return (
+                <MapWithAMarker lat={this.state.lat } lng={this.state.lng}/>
+            )
+        }
     }
 
     render() {
@@ -105,14 +132,14 @@ class WeddingInvitation extends Component {
             post, weddingHall } = this.state;
 
         const { modalIsOpen } = this.state;
-        const images = [{ src: `http://172.30.1.37:8000/${this.state.mainPicture}`} ,{src: `http://172.30.1.37:8000/friend_img1572867145195.jpg` }];
+        const images = [{ src: `http://172.30.1.48:8000/${mainPicture}`} ,{src: `http://172.30.1.48:8000/friend_img1572867145195.jpg` }];
             
         return (
             <>
             <Container align='center'>
 
                 {/* <Card align='center' style={{ width: '15rem' }}> */}
-                    <Card.Img variant="top"  src={`http://172.30.1.37:8000/${this.state.mainPicture}`} />
+                    <Card.Img variant="top"  src={`http://172.30.1.48:8000/${this.state.mainPicture}`} />
                 {/* </Card> */}
             
                 <h5>{`${groom} & ${birde}`}</h5>
@@ -169,9 +196,21 @@ class WeddingInvitation extends Component {
             <Container>
                 <Card.Header align="center">사진첩</Card.Header><br/>
                 
-                {this.album(this.state.subPicture)}
+                {this.album(subPicture)}
                 
                 
+                <br /><br />
+            </Container>
+
+            <Container>
+                <Card.Header align="center">오시는길</Card.Header><br/>
+                
+                {console.log('위도경도', lat, lng)}
+                {/* <MapWithAMarker lat={37.613251 } lng={127.030084}/> */}
+                {this.map()}
+                <br/>
+                <h2>{post}</h2>
+
                 <br /><br />
             </Container>
             </>

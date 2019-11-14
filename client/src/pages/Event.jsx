@@ -95,7 +95,7 @@ class Event extends Component {
                 <div class="row">
                     <div class="col-md-12" align="center">
                         {/* {행사테이블 들어갈 자리} */}
-                        < EventTable eventList={this.state.eventList} />
+                        < EventTable eventList={this.state.eventList} getEvents={this.getEvents} />
                     </div>
                 </div>
             </div>
