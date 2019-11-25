@@ -143,7 +143,7 @@ class UpdateWedding extends Component {
         const id = this.props.eventInfo.id;
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://172.30.1.48:8000/event/getInvitation/wedding`, {
+            .post(`http://172.30.1.33:8000/event/getInvitation/wedding`, {
                 data: {
                     id : id,
                 }

@@ -48,12 +48,12 @@ db.Schedule.belongsTo(db.Friend);
 
 db.Event.hasOne(db.Wedding, {
   foreignKey: 'fk_eventId',
-  onDelete: 'cascade'
+  onDelete: 'CASCADE'
 });
 
 db.Event.hasMany(db.Visit, {
   foreignKey: 'fk_eventId',
-  onDelete: 'cascade'
+  onDelete: 'CASCADE'
 });
 db.Visit.belongsTo(db.Event);
 // db.Wedding.belongsTo(db.Event);

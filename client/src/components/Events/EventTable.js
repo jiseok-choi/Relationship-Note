@@ -18,7 +18,7 @@ class EventTable extends Component {
         return eventList.map((contact, i) => {
             let url='';
             if(contact.kinds === 'wedding') {
-                url = `http://172.30.1.48:3000/weddinginvitation/${contact.id}`
+                url = `http://172.30.1.33:3000/weddinginvitation/${contact.id}`
             }
             return(
                 <tr key={i} className="table-success">
@@ -42,7 +42,7 @@ class EventTable extends Component {
                             {/* 방명록 */}
                             <Visit eventInfo={contact}/>
                             {/* 삭제하기 */}
-                            <DeleteEvent eventInfo={contact} getEvent={this.props.getEvents}>삭제</DeleteEvent>
+                            <DeleteEvent eventInfo={contact} getEvents={this.props.getEvents}>삭제</DeleteEvent>
                         </Row>
                         </Col>
                     </td>

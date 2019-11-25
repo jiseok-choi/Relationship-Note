@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Card, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { money, visit, meeting, birth, friend } from '../images';
 import CreateWedding from '../components/Events/CreateWedding';
+import CreateParty from '../components/Events/CreateParty';
 import EventTable from '../components/Events/EventTable';
 import axios from 'axios';
 
@@ -67,6 +68,7 @@ class Event extends Component {
                                 </DropdownButton> */}
 
                             <CreateWedding getEvents={this.getEvents}/>
+                            <CreateParty getEvents={this.getEvents}/>
 
 
                             </Card.Body>

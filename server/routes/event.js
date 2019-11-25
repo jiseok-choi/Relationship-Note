@@ -146,11 +146,36 @@ router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' },
 
 router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
     try{
-        console.log(req.id)
-        // await Event.destroy({
-        //     where: {id: req.body.data}
-        // })
-        // return res.status(200).json(true);
+        console.log(req.params.id)
+        // 1. 이벤트 조회
+        const id = req.params.id;
+        const event = await Event.findOne({where: {id}});
+        console.log('1번실행')
+        // 2. 정보확인
+        if(event.kinds === 'wedding'){
+            console.log('2번실행')
+
+            // 3. 사진삭제
+            const wedding = await Wedding.findOne({where: {fk_eventId: id}});
+            await fs.unlink(`uploads/${wedding.mainPicture}`, (e)=> {
+                console.log('메인사진삭제완료');
+            });
+            let subPicture = wedding.subPicture.slice(1).split(';');
+            await subPicture.map((contact) => {
+                fs.unlink(`uploads/${contact}`, (e)=>{
+                    console.log('서브사진삭제완료');
+                });
+            });
+            console.log('3번실행')
+
+            // 4. 이벤트 삭제
+            await Event.destroy({
+                where: {id}
+            })
+            console.log('4번실행')
+            
+            return res.status(200).json(true);
+        }
     } catch(e) {
         console.error(e);
         return next(e);

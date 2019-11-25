@@ -23,7 +23,7 @@ class Visit extends Component {
 
     getVisitList = () => {
         axios
-            .post(`http://172.30.1.48:8000/visit/getVisitList`, {
+            .post(`http://172.30.1.33:8000/visit/getVisitList`, {
                 data: {
                     id: this.props.eventInfo.id,
                 }
@@ -105,7 +105,7 @@ class Visit extends Component {
                             {/* 큐알코드자리 */}
                             <QRCode 
                             // value={`https://${process.env.IP}/visitPage/6`}
-                            value={`http://172.30.1.48:3000/visitPage/${this.props.eventInfo.id}`}
+                            value={`http://172.30.1.33:3000/visitPage/${this.props.eventInfo.id}`}
                             size={256}
                             />
 
