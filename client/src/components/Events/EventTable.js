@@ -4,6 +4,7 @@ import LookEvent from './LookEvent';
 import {Col, Row} from 'react-bootstrap';
 import Visit from './Visit';
 import UpdateWedding from '../../components/Events/UpdateWedding';
+import UpdateParty from '../../components/Events/UpdateParty';
 import DeleteEvent from './DeleteEvent';
 
 class EventTable extends Component {
@@ -17,8 +18,14 @@ class EventTable extends Component {
     setTable = (eventList) => {
         return eventList.map((contact, i) => {
             let url='';
+            let update;
             if(contact.kinds === 'wedding') {
-                url = `http://172.30.1.33:3000/weddinginvitation/${contact.id}`
+                url = `http://172.30.1.8:3000/weddinginvitation/${contact.id}`
+                update = <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents}/> 
+            }
+            if(contact.kinds === 'party') {
+                url = `http://172.30.1.8:3000/partyinvitation/${contact.id}`
+                update = <UpdateParty eventInfo={contact} getEvents={this.props.getEvents}/> 
             }
             return(
                 <tr key={i} className="table-success">
@@ -38,7 +45,7 @@ class EventTable extends Component {
                         <Col>
                         <Row>
                             {/* 이벤트보기 */}
-                            <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents}/> 
+                            {update}
                             {/* 방명록 */}
                             <Visit eventInfo={contact}/>
                             {/* 삭제하기 */}

@@ -2,7 +2,7 @@ var express = require('express');
 const path = require('path');
 const router = express.Router();
 const fs = require('fs');
-const { Friend, Event, Wedding, Visit } = require('../models');
+const { Event, Wedding, Party, Visit } = require('../models');
 
 
 router.use('uploads', express.static(path.join(__dirname, '../uploads')));
@@ -18,6 +18,9 @@ router.get('/getVisit', async (req, res, next) => {
         // console.log(kind);
         if(kind.kinds === 'wedding'){
             FindEvent = await Wedding.findOne({ where: {fk_eventId: req.query.id}})
+        }
+        if(kind.kinds === 'party'){
+            FindEvent = await Party.findOne({ where: {fk_eventId: req.query.id}})
         }
         // console.log('FindEvent',FindEvent.mainPicture);
         // console.log('__dirname',__dirname);

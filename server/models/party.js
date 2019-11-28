@@ -1,6 +1,6 @@
-//wedding 테이블 정보 담기
+//party 테이블 정보 담기
 module.exports = (sequelize, DataTypes) => (
-    sequelize.define('wedding', {
+    sequelize.define('party', {
         date: {
             type: DataTypes.DATE,
             allowNull: false,
@@ -9,33 +9,17 @@ module.exports = (sequelize, DataTypes) => (
             type: DataTypes.STRING,
             allowNull: false,
         }, 
-        groom: {
+        mainCharacter: {
             type: DataTypes.STRING, 
             allowNull: false,
         }, 
-        birde: {
+        title: {
             type: DataTypes.STRING, 
             allowNull: true,
         }, 
         invite: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        groomFather: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        groomMother: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        birdeFather: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        birdeMother: {
-            type: DataTypes.STRING,
-            allowNull: true,
         },
         mainPicture: {
             type: DataTypes.STRING,
@@ -47,17 +31,17 @@ module.exports = (sequelize, DataTypes) => (
         },
         lat: {
             type: DataTypes.STRING(120),
-            allowNull: false,
+            allowNull: true,
         },
         lng: {
             type: DataTypes.STRING(120),
-            allowNull: false,
+            allowNull: true,
         },
         post: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        weddingHall: {
+        location: {
             type: DataTypes.STRING,
             allowNull: false,
         },

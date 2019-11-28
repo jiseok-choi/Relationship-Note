@@ -88,7 +88,7 @@ class CreateParty extends Component {
       const subPicture = Array.from(this.state.subPicture);
       if(subPicture.length > 0){
           subPicture.map((contact, i) => {
-              form.append('Picture', contact);
+              form.append('Pictures', contact);
           })
       }
 
@@ -213,7 +213,7 @@ class CreateParty extends Component {
                 <br/>
                 <Form.Group as={Row} controlId="formPost">
                   <Form.Label column sm="4">
-                  상세주소명
+                  상세주소
                   </Form.Label>
                   <Col sm="8">
                   <Form.Control type="text" name="post" onChange={this.handleChange} />
@@ -225,7 +225,7 @@ class CreateParty extends Component {
                   행사 장소명
                   </Form.Label>
                   <Col sm="8">
-                  <Form.Control type="text" name="weddingHall" onChange={this.handleChange} />
+                  <Form.Control type="text" name="location" onChange={this.handleChange} />
                   </Col>
                 </Form.Group>
 
@@ -233,7 +233,7 @@ class CreateParty extends Component {
                     <Button variant="secondary" onClick={this.close}>
                         Close
                     </Button>
-                    <Button onClick={this.sendCreateWedding} variant="primary" >
+                    <Button onClick={this.sendCreateParty} variant="primary" >
                         확인
                     </Button>
                 </Modal.Footer>

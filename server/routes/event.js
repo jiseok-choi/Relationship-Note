@@ -3,7 +3,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Event, Wedding } = require('../models');
+const { Event, Wedding, Party } = require('../models');
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.post('/sendCreateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }
         const MainPicture = await req.files.Picture[0].filename;
         const Pictures = req.files.Pictures;
         let SubPicture = '';
-        
+        console.log(req.files);
         await Pictures.forEach((element) => {
             SubPicture = SubPicture + ';' + element.filename;
         });
@@ -92,7 +92,7 @@ router.get('/getEvents', isLoggedIn, async (req,res,next) => {
 router.post('/getInvitation/wedding', async (req,res,next) => {
     try{
         const wedding = await Wedding.findOne({ 
-            where: {fk_eventId: req.body.data.id}
+            where: {fk_eventId: req.body.id}
         });
         return res.status(200).json(wedding);
     }catch(e) {
@@ -176,7 +176,123 @@ router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
             
             return res.status(200).json(true);
         }
+        if(event.kinds === 'party'){
+            console.log('2번실행')
+
+            // 3. 사진삭제
+            const Party = await Party.findOne({where: {fk_eventId: id}});
+            await fs.unlink(`uploads/${Party.mainPicture}`, (e)=> {
+                console.log('메인사진삭제완료');
+            });
+            let subPicture = Party.subPicture.slice(1).split(';');
+            await subPicture.map((contact) => {
+                fs.unlink(`uploads/${contact}`, (e)=>{
+                    console.log('서브사진삭제완료');
+                });
+            });
+            console.log('3번실행')
+
+            // 4. 이벤트 삭제
+            await Event.destroy({
+                where: {id}
+            })
+            console.log('4번실행')
+            
+            return res.status(200).json(true);
+        }
     } catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
+
+router.post('/sendCreateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
+    try{
+        console.log('행사 생성');
+        const { date, time, mainCharacter, title, invite, lat, lng, post, location } = req.body;
+
+        const userid = req.user.id;
+        const MainPicture = await req.files.Picture[0].filename;
+        const Pictures = req.files.Pictures;
+        let SubPicture = '';
+        
+        await Pictures.forEach((element) => {
+            SubPicture = SubPicture + ';' + element.filename;
+        });
+
+        const newEvent = await Event.create({
+            kinds : 'party',
+            title : `${title}`,
+            date: date,
+            userid: userid,
+        });
+
+        const newParty = await Party.create({
+            date, time, mainCharacter, title, invite,  
+            mainPicture:MainPicture, subPicture: SubPicture,
+            lat, lng, 
+            post, location, userid, 
+            fk_eventId: newEvent.id
+        });
+
+        return res.status(201).json(true);
+
+    } catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
+
+router.put('/sendUpdateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
+    try{
+        const { date, time, mainCharacter, title, invite, lat, lng, post, location, fk_eventId } = req.body;
+
+        const beforeParty = await Party.findOne({
+            where: {fk_eventId: fk_eventId}
+        });
+
+        const afterParty = await Party.update({
+            date, time, mainCharacter, title, invite, lat, lng, post, location
+        },
+        {
+            where: {fk_eventId: fk_eventId}
+        });
+        if(req.files.Picture !== undefined){
+            const mainFile = req.files.Picture[0];
+            await fs.unlink(`uploads/${beforeParty.mainPicture}`, (e)=> {
+                console.log('메인사진삭제완료');
+            })
+            console.log(mainFile.filename)
+            await Party.update({mainPicture: mainFile.filename}, {where: {fk_eventId:fk_eventId}})
+        }
+        if(req.files.Pictures !== undefined ){
+            let subPicture = beforeParty.subPicture.slice(1).split(';');
+            await subPicture.map((contact) => {
+                fs.unlink(`uploads/${contact}`, (e)=>{
+                    console.log('서브사진삭제완료');
+                });
+            });
+            let sub = '';
+            await req.files.Pictures.forEach((element) => {
+                sub = sub + ';' + element.filename;
+            });
+            await Party.update({subPicture: sub}, {where: {fk_eventId: fk_eventId}});
+        }
+
+        return res.status(200).json(true);
+    }catch(e) {
+        console.error(e);
+        return next(e);
+    }
+});
+
+router.post('/getInvitation/party', async (req,res,next) => {
+    try{
+        const party = await Party.findOne({ 
+            where: {fk_eventId: req.body.id}
+        });
+        return res.status(200).json(party);
+    }catch(e) {
         console.error(e);
         return next(e);
     }

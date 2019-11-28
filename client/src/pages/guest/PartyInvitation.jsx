@@ -5,6 +5,7 @@ import { Button, Container, Row, Col, Card, CardColumns } from 'react-bootstrap'
 import axios from 'axios';
 import Carousel, { Modal as Modals, ModalGateway } from 'react-images';
 import MapWithAMarker from '../../components/Events/MapWithAMarker';
+import * as moment from 'moment';
 
 
 class PartyInvitation extends Component {
@@ -37,10 +38,8 @@ class PartyInvitation extends Component {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://172.30.1.33:8000/event/getInvitation/party`, {
-                data: {
-                    id : this.props.match.params.id
-                }
+            .post(`http://172.30.1.8:8000/event/getInvitation/party`, {
+                id : this.props.match.params.id
             })
             .then(res => {
                 const { date, time, mainCharacter, title, invite,
@@ -55,7 +54,7 @@ class PartyInvitation extends Component {
                     post, location
                 })
                 changeSubPicture.forEach(element => {
-                    this.images.push({src: 'http://172.30.1.33:8000/'+element})
+                    this.images.push({src: 'http://172.30.1.8:8000/'+element})
                 });
                 this.setState({subPicture: this.images})
                 console.log(this.state.subPicture);
@@ -104,9 +103,9 @@ class PartyInvitation extends Component {
             <Container align='center'>
 
                 
-                <Card.Img variant="top"  src={`http://172.30.1.33:8000/${mainPicture}`} />
+                <Card.Img variant="top"  src={`http://172.30.1.8:8000/${mainPicture}`} />
                
-                <h1>{mainCharacter}님의 {title}에</h1>
+                <h3>{mainCharacter}님의 {title}에</h3>
                 <br/>
                 <h1>초대합니다</h1>
 
@@ -138,8 +137,8 @@ class PartyInvitation extends Component {
                 <Card.Header align="center">시간 및 장소</Card.Header><br/>
                 
                 
-                <h2>일시: {date} {time}</h2>
-                <h2>장소: {post} {location}</h2>
+                <h3>일시: {moment(date).format("YYYY-MM-DD")} {time}</h3>
+                <h3>장소: {post} {location}</h3>
                 {console.log('위도경도', lat, lng)}
                 {this.map()}
                 <br/>

@@ -95,7 +95,7 @@ class CreateWedding extends Component {
       const subPicture = Array.from(this.state.subPicture);
       if(subPicture.length > 0){
           subPicture.map((contact, i) => {
-              form.append('Picture', contact);
+              form.append('Pictures', contact);
           })
       }
 

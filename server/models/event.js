@@ -1,4 +1,4 @@
-//wedding 테이블 정보 담기
+//event 테이블 정보 담기
 module.exports = (sequelize, DataTypes) => (
     sequelize.define('event', {
         kinds: {

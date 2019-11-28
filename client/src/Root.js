@@ -7,6 +7,7 @@ import App from './shared/App';
 import Login from './join/index';
 import visitPage from './pages/guest/VisitPage';
 import WeddingInvitation from './pages/guest/WeddingInvitation';
+import PartyInvitation from './pages/guest/PartyInvitation';
 import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -91,6 +92,7 @@ class Root extends Component {
                         <Route exact path="/main" component={Login}/>
                         <Route exact path="/visitpage/:id" component={visitPage}/>
                         <Route exact path="/weddinginvitation/:id" component={WeddingInvitation}/>
+                        <Route exact path="/PartyInvitation/:id" component={PartyInvitation}/>
 
                     </Switch>
                 </BrowserRouter>

@@ -58,6 +58,7 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => { //router(미�
         console.log('로그인 요청시도')
         // return res.redirect('/');
         console.log('로그인??',req.isAuthenticated());
+        // console.log(req);
           return res.status(201).json(user);
           
       });
