@@ -131,7 +131,7 @@ class UpdateParty extends Component {
     getParty = () => {
         const id = this.props.eventInfo.id;
         axios
-            .post(`http://172.30.1.8:8000/event/getInvitation/party`, {
+            .post(`http://192.168.0.35:8000/event/getInvitation/party`, {
                 id : id,
             })
             .then(res => {
@@ -142,7 +142,7 @@ class UpdateParty extends Component {
                 const center = {lat: parseFloat(lat), lng: parseFloat(lng)};
 
                 this.setState({
-                    date, time, mainCharacter, title, invite, 
+                    date:moment(date).format('YYYY-MM-DD'), time, mainCharacter, title, invite, 
                     center,
                     post, location
                 })

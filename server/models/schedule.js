@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => (
         }, 
         friendid: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         }, 
         startdate: {
             type: DataTypes.DATE, 

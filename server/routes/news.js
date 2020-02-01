@@ -10,7 +10,6 @@ router.post('/newNews', isLoggedIn, async (req, res, next) => {
         const { friendid, date, title, contents } = req.body.data; 
         console.log('소식정보'+friendid, date, title, contents);
 
-
         const newNews = await News.create({
             friendid,
             date,

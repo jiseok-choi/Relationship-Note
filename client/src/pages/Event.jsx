@@ -5,6 +5,7 @@ import { Card, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { money, visit, meeting, birth, friend } from '../images';
 import CreateWedding from '../components/Events/CreateWedding';
 import CreateParty from '../components/Events/CreateParty';
+import CreateScedule from '../components/Events/MySchedule';
 import EventTable from '../components/Events/EventTable';
 import axios from 'axios';
 
@@ -61,12 +62,6 @@ class Event extends Component {
                                 결혼식, 잔치, 생일파티 등 행사를 만들어 보세요
                                 </Card.Text>
 
-                                {/* <DropdownButton id="dropdown-basic-button" title="행사 만들기">
-                                    <Dropdown.Item onClick={this.createWedding}><CreateWedding show={this.state.show} close={this.close}/>결혼식</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                </DropdownButton> */}
-
                             <CreateWedding getEvents={this.getEvents}/>
                             <CreateParty getEvents={this.getEvents}/>
 
@@ -84,11 +79,7 @@ class Event extends Component {
                                 약속, 만남, 소모임 등의 일정을 만들 수 있습니다.
                                 </Card.Text>
 
-                                <DropdownButton id="dropdown-basic-button" title="일정 만들기">
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                </DropdownButton>
+                                <CreateScedule/>
 
                             </Card.Body>
                         </Card>

@@ -50,6 +50,7 @@ class ScheduleCalendar extends Component {
             ],
             scheduleList: [],
             birthList: [],
+            eventList: [],
             modalShow: false,
             eventTitle: '',
             eventContents: '',
@@ -120,6 +121,7 @@ class ScheduleCalendar extends Component {
         // return;
         // console.log(event);
         // const backgroundColor = '#' + event.hexColor;
+        console.log(event)
         if(event.birth !== undefined){
             const style = {
                 backgroundColor: 'red',
@@ -132,12 +134,19 @@ class ScheduleCalendar extends Component {
             return {
                 style: style
             }
-        } else {
-
+        } else if(event.kinds !== undefined){
+            const style = {
+                backgroundColor: 'yellow',
+                borderRadius: '0px',
+                opacity: 0.8,
+                color: 'black',
+                border: '0px',
+                display: 'block'
+            }
+            return {
+                style: style
+            }
         }
-        
-        
-        
     }
 
     changeSchedule = (scheduleList) => {
@@ -160,6 +169,15 @@ class ScheduleCalendar extends Component {
             contact.end = new Date(this.state.year, tempbirth[1]-1, tempbirth[2]);
         })
     }
+    changeEvent = (eventList) => {
+        return eventList.map((contact, i) => {
+            let tempdate = contact.date.split('-');
+            contact.title = contact.title;
+            contact.contents = contact.kinds;
+            contact.start = new Date(this.state.year, tempdate[1]-1, tempdate[2]);
+            contact.end = new Date(this.state.year, tempdate[1]-1, tempdate[2]);
+        })
+    }
 
     getSchedule = () => {
         axios.defaults.withCredentials = true;
@@ -176,9 +194,10 @@ class ScheduleCalendar extends Component {
             console.log(res.data);
             this.changeSchedule(res.data.scheduleList);
             this.changeBirth(res.data.birthList);
+            this.changeEvent(res.data.eventList);
 
-            const eevent = res.data.scheduleList.concat(res.data.birthList);
-
+            const eevent = res.data.scheduleList.concat(res.data.birthList).concat(res.data.eventList);
+            
 
             this.setState({
                 events: eevent,

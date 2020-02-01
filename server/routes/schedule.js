@@ -1,7 +1,7 @@
 var express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
-const { Schedule, Friend } = require('../models');
+const { Schedule, Friend, Event } = require('../models');
 
 
 router.post('/sendNewSchedule', isLoggedIn, async (req, res, next) => {
@@ -28,7 +28,6 @@ router.post('/sendNewSchedule', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// {userid: req.user.id, friendid: friendid}
 router.post('/getScheduleList', isLoggedIn, async (req, res, next) => {
     try{
         console.log('일정목록요청'+req.user.id);
@@ -46,9 +45,14 @@ router.post('/getScheduleList', isLoggedIn, async (req, res, next) => {
                 userid: req.user.id
             },
         })
+        const eventList = await Event.findAll({
+            where: { userid: req.user.id }
+        })
         let returnData = {};
         returnData.scheduleList = scheduleList;
         returnData.birthList = birthList;
+        returnData.eventList = eventList;
+        console.log(returnData)
         return res.status(201).json(returnData);
     } catch(e) {
         console.error(e);

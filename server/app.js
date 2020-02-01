@@ -41,6 +41,8 @@ app.use(cors({
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/', express.static('uploads'));
+app.use('/image', express.static('uploads/image'));
+
 // app.use('/visit/getVisit', express.static('uploads'));
 // app.use('/mainPicture', express.static(path.join(__dirname, 'uploads'))); // /img/abc.png
 app.use(express.json());

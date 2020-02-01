@@ -20,11 +20,11 @@ class EventTable extends Component {
             let url='';
             let update;
             if(contact.kinds === 'wedding') {
-                url = `http://172.30.1.8:3000/weddinginvitation/${contact.id}`
+                url = `http://192.168.0.35:3000/weddinginvitation/${contact.id}`
                 update = <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents}/> 
             }
             if(contact.kinds === 'party') {
-                url = `http://172.30.1.8:3000/partyinvitation/${contact.id}`
+                url = `http://192.168.0.35:3000/partyinvitation/${contact.id}`
                 update = <UpdateParty eventInfo={contact} getEvents={this.props.getEvents}/> 
             }
             return(

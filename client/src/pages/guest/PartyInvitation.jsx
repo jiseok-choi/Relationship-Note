@@ -38,7 +38,7 @@ class PartyInvitation extends Component {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://172.30.1.8:8000/event/getInvitation/party`, {
+            .post(`http://192.168.0.35:8000/event/getInvitation/party`, {
                 id : this.props.match.params.id
             })
             .then(res => {
@@ -54,7 +54,7 @@ class PartyInvitation extends Component {
                     post, location
                 })
                 changeSubPicture.forEach(element => {
-                    this.images.push({src: 'http://172.30.1.8:8000/'+element})
+                    this.images.push({src: 'http://192.168.0.35:8000/'+element})
                 });
                 this.setState({subPicture: this.images})
                 console.log(this.state.subPicture);
@@ -103,7 +103,7 @@ class PartyInvitation extends Component {
             <Container align='center'>
 
                 
-                <Card.Img variant="top"  src={`http://172.30.1.8:8000/${mainPicture}`} />
+                <Card.Img variant="top"  src={`http://192.168.0.35:8000/${mainPicture}`} />
                
                 <h3>{mainCharacter}님의 {title}에</h3>
                 <br/>

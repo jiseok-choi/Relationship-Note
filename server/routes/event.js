@@ -109,6 +109,10 @@ router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' },
             where: {fk_eventId: fk_eventId}
         });
 
+        await Event.update({
+            date, title: `${groom} 님과 ${birde} 님의 결혼식`,
+        },{ where: {id: fk_eventId} })
+
         const afterWedding = await Wedding.update({
             date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall
         },
@@ -250,6 +254,10 @@ router.put('/sendUpdateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, {
         const beforeParty = await Party.findOne({
             where: {fk_eventId: fk_eventId}
         });
+
+        await Event.update({
+            date, title,
+        },{ where: {id: fk_eventId} })
 
         const afterParty = await Party.update({
             date, time, mainCharacter, title, invite, lat, lng, post, location
