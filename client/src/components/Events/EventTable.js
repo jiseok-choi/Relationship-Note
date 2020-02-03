@@ -6,6 +6,9 @@ import Visit from './Visit';
 import UpdateWedding from '../../components/Events/UpdateWedding';
 import UpdateParty from '../../components/Events/UpdateParty';
 import DeleteEvent from './DeleteEvent';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 class EventTable extends Component {
 
@@ -20,11 +23,11 @@ class EventTable extends Component {
             let url='';
             let update;
             if(contact.kinds === 'wedding') {
-                url = `http://192.168.0.35:3000/weddinginvitation/${contact.id}`
+                url = `http://${process.env.REACT_APP_IP}:3000/weddinginvitation/${contact.id}`
                 update = <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents}/> 
             }
             if(contact.kinds === 'party') {
-                url = `http://192.168.0.35:3000/partyinvitation/${contact.id}`
+                url = `http://${process.env.REACT_APP_IP}:3000/partyinvitation/${contact.id}`
                 update = <UpdateParty eventInfo={contact} getEvents={this.props.getEvents}/> 
             }
             return(

@@ -3,7 +3,7 @@ import { Modal, ButtonToolbar, Button, Card, CardColumns } from 'react-bootstrap
 import QRCode from 'qrcode.react';
 import axios from 'axios';
 import dotenv from 'dotenv';
-const env = dotenv.config();
+dotenv.config();
 
 class Visit extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class Visit extends Component {
 
     getVisitList = () => {
         axios
-            .post(`http://192.168.0.35:8000/visit/getVisitList`, {
+            .post(`http://${process.env.REACT_APP_IP}:8000/visit/getVisitList`, {
                 data: {
                     id: this.props.eventInfo.id,
                 }
@@ -105,7 +105,7 @@ class Visit extends Component {
                             {/* 큐알코드자리 */}
                             <QRCode 
                             // value={`https://${process.env.IP}/visitPage/6`}
-                            value={`http://192.168.0.35:3000/visitPage/${this.props.eventInfo.id}`}
+                            value={`http://${process.env.REACT_APP_IP}:3000/visitPage/${this.props.eventInfo.id}`}
                             size={256}
                             />
 

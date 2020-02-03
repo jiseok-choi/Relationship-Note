@@ -6,7 +6,8 @@ import axios from 'axios';
 import Carousel, { Modal as Modals, ModalGateway } from 'react-images';
 import MapWithAMarker from '../../components/Events/MapWithAMarker';
 import * as moment from 'moment';
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 class WeddingInvitation extends Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class WeddingInvitation extends Component {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://192.168.0.35:8000/event/getInvitation/wedding`, {
+            .post(`http://${process.env.REACT_APP_IP}:8000/event/getInvitation/wedding`, {
                 id : this.props.match.params.id
             })
             .then(res => {
@@ -64,7 +65,7 @@ class WeddingInvitation extends Component {
                 })
                 // let images = changeSubPicture.map((text, key) => {this.images[key].src = text });
                 changeSubPicture.forEach(element => {
-                    this.images.push({src: 'http://192.168.0.35:8000/'+element})
+                    this.images.push({src: `http://${process.env.REACT_APP_IP}:8000/`+element})
                 });
                 // console.log(this.state.subPicture);
                 this.setState({subPicture: this.images})
@@ -91,9 +92,9 @@ class WeddingInvitation extends Component {
 
     album = (images) => {
         const { modalIsOpen } = this.state;
-        // const pictureImg = pictures.map(text => ({ src: `http://192.168.0.35:8000/${text}`}) )
+        // const pictureImg = pictures.map(text => ({ src: `http://172.30.1.35:8000/${text}`}) )
         const temp = 
-            // [{ src: `http://192.168.0.35:8000/${this.state.mainPicture}`} ,{src: `http://192.168.0.35:8000/friend_img1572867145195.jpg` }]
+            // [{ src: `http://172.30.1.35:8000/${this.state.mainPicture}`} ,{src: `http://172.30.1.35:8000/friend_img1572867145195.jpg` }]
             [{ src: ''} ]
         ;
         // if(images.length === 0) return;
@@ -127,14 +128,14 @@ class WeddingInvitation extends Component {
             post, weddingHall } = this.state;
 
         const { modalIsOpen } = this.state;
-        const images = [{ src: `http://192.168.0.35:8000/${mainPicture}`} ,{src: `http://192.168.0.35:8000/friend_img1572867145195.jpg` }];
+        const images = [{ src: `http://${process.env.REACT_APP_IP}:8000/${mainPicture}`} ,{src: `http://${process.env.REACT_APP_IP}:8000/friend_img1572867145195.jpg` }];
             
         return (
             <>
             <Container align='center'>
 
                 {/* <Card align='center' style={{ width: '15rem' }}> */}
-                    <Card.Img variant="top"  src={`http://192.168.0.35:8000/${this.state.mainPicture}`} />
+                    <Card.Img variant="top"  src={`http://${process.env.REACT_APP_IP}:8000/${this.state.mainPicture}`} />
                 {/* </Card> */}
             
                 <h5>{`${groom} & ${birde}`}</h5>

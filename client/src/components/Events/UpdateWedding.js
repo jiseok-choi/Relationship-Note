@@ -3,7 +3,8 @@ import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import MapWithASearchBox from './MapWithASearchBox';
 import * as moment from 'moment';
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 class UpdateWedding extends Component {
 
@@ -142,7 +143,7 @@ class UpdateWedding extends Component {
     getWedding = () => {
         const id = this.props.eventInfo.id;
         axios
-            .post(`http://192.168.0.35:8000/event/getInvitation/wedding`, {
+            .post(`http://${process.env.REACT_APP_IP}:8000/event/getInvitation/wedding`, {
                 id : id,
             })
             .then(res => {

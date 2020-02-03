@@ -96,10 +96,7 @@ class Root extends Component {
 
                     </Switch>
                 </BrowserRouter>
-
-                
             )
-            
         }
     }
     

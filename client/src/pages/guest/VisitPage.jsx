@@ -41,7 +41,7 @@ class VisitPage extends Component {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .get(`http://192.168.0.35:8000/visit/getVisit`, {
+            .get(`http://${process.env.REACT_APP_IP}:8000/visit/getVisit`, {
                 params: {
                     id : this.props.match.params.id
                 }
@@ -71,7 +71,7 @@ class VisitPage extends Component {
         e.preventDefault();
 
         axios
-            .post(`http://192.168.0.35:8000/visit/newVisit`, {
+            .post(`http://${process.env.REACT_APP_IP}:8000/visit/newVisit`, {
                 data: {
                     name: this.state.name,
                     contents: this.state.contents,
@@ -110,7 +110,7 @@ class VisitPage extends Component {
                 <Container align='center'>
 
                 <Card align='center' style={{ width: '15rem' }}>
-                    <Card.Img variant="top"  src={`http://192.168.0.35:8000/${this.state.picture}`} />
+                    <Card.Img variant="top"  src={`http://${process.env.REACT_APP_IP}:8000/${this.state.picture}`} />
                 </Card>
                 {/* <ImageLoader file={this.state.picture} alt='some text'/> */}
                 {/* <ImageLoader file={'http://localhost:8000/visit_img1572859573171.jpg'} alt='some text'/> */}

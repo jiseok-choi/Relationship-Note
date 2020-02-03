@@ -6,7 +6,8 @@ import axios from 'axios';
 import Carousel, { Modal as Modals, ModalGateway } from 'react-images';
 import MapWithAMarker from '../../components/Events/MapWithAMarker';
 import * as moment from 'moment';
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 class PartyInvitation extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class PartyInvitation extends Component {
 
         axios
             // .get(`http://${process.env.IP}/visit/getVisit`, {
-            .post(`http://192.168.0.35:8000/event/getInvitation/party`, {
+            .post(`http://${process.env.REACT_APP_IP}:8000/event/getInvitation/party`, {
                 id : this.props.match.params.id
             })
             .then(res => {
@@ -54,7 +55,7 @@ class PartyInvitation extends Component {
                     post, location
                 })
                 changeSubPicture.forEach(element => {
-                    this.images.push({src: 'http://192.168.0.35:8000/'+element})
+                    this.images.push({src: `http://${process.env.REACT_APP_IP}:8000/`+element})
                 });
                 this.setState({subPicture: this.images})
                 console.log(this.state.subPicture);
@@ -103,7 +104,7 @@ class PartyInvitation extends Component {
             <Container align='center'>
 
                 
-                <Card.Img variant="top"  src={`http://192.168.0.35:8000/${mainPicture}`} />
+                <Card.Img variant="top"  src={`http://${process.env.REACT_APP_IP}:8000/${mainPicture}`} />
                
                 <h3>{mainCharacter}님의 {title}에</h3>
                 <br/>
