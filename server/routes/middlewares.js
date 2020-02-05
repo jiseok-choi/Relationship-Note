@@ -3,7 +3,6 @@
 exports.isLoggedIn = (req, res, next) => {
   console.log(req.isAuthenticated());
     if (req.isAuthenticated()) { //로그인 여부를 알려줌
-      console.log("req",req);
       next();
     } else {
       res.status(403).send(false);

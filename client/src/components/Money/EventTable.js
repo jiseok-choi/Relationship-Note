@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import {Col, Row} from 'react-bootstrap';
 
-class FriendTable extends Component {
+class EventTable extends Component {
 
 
     state = {
-        friendList2: [],
+        eventList: [],
         id : '',
+        date : '',
         name : '',
-        relationship : '',
     }
 
     friendclick = (name) => {
@@ -15,23 +16,29 @@ class FriendTable extends Component {
     }
 
 
-    setTable = (friendList) => {
-        return friendList.map((contact, i) => {
+    setTable = (eventList) => {
+        return eventList.map((contact, i) => {
             return(
-                <tr key={i} className="table-success" onClick={ () =>this.props.selectFriend(contact) }>
+                <tr key={i} className="table-success" 
+                onClick={ () =>this.props.selectEvent(contact) }
+                >
                     <td>
-                        {i+1}
+                        {contact.date}
                     </td>
                     <td>
-                        {contact.relationship}
+                        {contact.title}
                     </td>
                     <td>
-                        {contact.name}
+                        <Col>
+                        <Row>
+                            {/* <LookNews newsInfo={contact}/>  */}
+                            {/* <ReviseNews newsInfo={contact}/> */}
+                        </Row>
+                        </Col>
                     </td>
                 </tr>
             );
         })
-        
     }
 
     render() {
@@ -41,18 +48,18 @@ class FriendTable extends Component {
                 <thead>
                     <tr>
                         <th>
-                            #
+                            날짜
                         </th>
                         <th>
-                            관계
+                            행사
                         </th>
                         <th>
-                            이름
+                            정산여부
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.setTable(this.props.friendList)}
+                    {this.setTable(this.props.eventList)}
                 </tbody>
             </table>
 
@@ -72,7 +79,7 @@ class FriendTable extends Component {
                         <a className="page-link" href="#">2</a>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">3</a>
+                        <a className="page-link" href="../main">3</a>
                     </li>
                     <li className="page-item">
                         <a className="page-link" href="#">4</a>
@@ -90,4 +97,4 @@ class FriendTable extends Component {
     }
 }
 
-export default FriendTable;
+export default EventTable;

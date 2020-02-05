@@ -76,11 +76,11 @@ router.post('/sendCreateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }
 
 router.get('/getEvents', isLoggedIn, async (req,res,next) => {
     try{
+        console.log('이벤트 리스트 요청');
         const eventList = await Event.findAll({ 
             where: {userid: req.user.id},
             order: [['date', 'DESC']]
         });
-        console.log(eventList);
         return res.status(200).json(eventList);
     }catch(e) {
         console.error(e);
@@ -150,7 +150,7 @@ router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' },
 
 router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
     try{
-        console.log(req.params.id)
+        console.log('이벤트 삭제 요청',req.params.id)
         // 1. 이벤트 조회
         const id = req.params.id;
         const event = await Event.findOne({where: {id}});

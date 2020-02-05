@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+// import NewNews from './NewNews';
+// import ReviseNews from './ReviseNews';
+// import LookNews from './LookNews';
+import {Col, Row} from 'react-bootstrap';
 
-class FriendTable extends Component {
+class MoneyTable extends Component {
 
 
     state = {
-        friendList2: [],
+        newsList: [],
         id : '',
+        date : '',
         name : '',
-        relationship : '',
     }
 
     friendclick = (name) => {
@@ -15,44 +19,51 @@ class FriendTable extends Component {
     }
 
 
-    setTable = (friendList) => {
-        return friendList.map((contact, i) => {
+    setTable = (visitList) => {
+        return visitList.map((contact, i) => {
             return(
-                <tr key={i} className="table-success" onClick={ () =>this.props.selectFriend(contact) }>
-                    <td>
-                        {i+1}
-                    </td>
-                    <td>
-                        {contact.relationship}
-                    </td>
+                <tr key={i} className="table-success" 
+                // onClick={ () =>this.props.selectFriend(contact) }
+                >
                     <td>
                         {contact.name}
+                    </td>
+                    <td>
+                        {contact.contents}
+                    </td>
+                    <td>
+                        {contact.celebration}
+                    </td>
+                    <td>
+                        {contact.check}
                     </td>
                 </tr>
             );
         })
-        
     }
 
     render() {
         return(
-            <div>
+            <>
             <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
-                            #
-                        </th>
-                        <th>
-                            관계
-                        </th>
-                        <th>
                             이름
+                        </th>
+                        <th>
+                            코멘트
+                        </th>
+                        <th>
+                            축의금
+                        </th>
+                        <th>
+                            체크
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.setTable(this.props.friendList)}
+                    {this.setTable(this.props.visitList)}
                 </tbody>
             </table>
 
@@ -72,7 +83,7 @@ class FriendTable extends Component {
                         <a className="page-link" href="#">2</a>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">3</a>
+                        <a className="page-link" href="../main">3</a>
                     </li>
                     <li className="page-item">
                         <a className="page-link" href="#">4</a>
@@ -85,9 +96,9 @@ class FriendTable extends Component {
                     </li>
                 </ul>
             </nav>
-            </div>
+            </>
         );
     }
 }
 
-export default FriendTable;
+export default MoneyTable;

@@ -74,7 +74,6 @@ class NewsTable extends Component {
 
 
 
-                    
 
             <nav className="pagination-sm">
                 <ul className="pagination">
