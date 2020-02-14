@@ -2,6 +2,7 @@
 // 이 라우터는 주소에 아무 path 도 주어지지 않았을 때 기본적으로 보여주는 라우트
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import AdminNavbar from '../components/Navbars/AdminNavbar';
 import axios from 'axios';
 
 
@@ -43,34 +44,11 @@ class Home extends Component {
     render() {
         return (
             <div>
+                {/* <AdminNavbar/> */}
                 <h2>
                 <h1>Home 화면</h1>
                 <Button onClick={this.sendLogout}>로그아웃</Button>
                 <p>{this.props.match.url}</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
-                <p>Home 화면 입니다</p>
                 </h2>
             </div>
         );

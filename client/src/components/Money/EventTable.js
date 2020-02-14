@@ -18,9 +18,13 @@ class EventTable extends Component {
 
     setTable = (eventList) => {
         return eventList.map((contact, i) => {
+            let 완료여부 = '미완료';
+            if(contact.check === true){
+            완료여부 = '완료'}
             return(
                 <tr key={i} className="table-success" 
-                onClick={ () =>this.props.selectEvent(contact) }
+                
+                onClick={ () => {this.props.selectEvent(contact);console.log('이것이 내부여',contact)} }
                 >
                     <td>
                         {contact.date}
@@ -29,12 +33,7 @@ class EventTable extends Component {
                         {contact.title}
                     </td>
                     <td>
-                        <Col>
-                        <Row>
-                            {/* <LookNews newsInfo={contact}/>  */}
-                            {/* <ReviseNews newsInfo={contact}/> */}
-                        </Row>
-                        </Col>
+                        {완료여부}
                     </td>
                 </tr>
             );

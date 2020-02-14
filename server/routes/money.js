@@ -11,13 +11,37 @@ const router = express.Router();
 router.get('/events', isLoggedIn, async (req,res,next) => {
     try{
         console.log('이벤트 리스트 가져오기 요청');
-        let result = await Event.findAll({ 
+        let result = new Object();
+        result.result = [];
+        let visitlist;
+        result.eventList = await Event.findAll({ 
             where: {userid: req.user.id},
             order: [['date', 'DESC']]
         });
-        return res.status(200).json(result);
+        await Promise.all( 
+            result.eventList.map(async (event) => {
+                let resultevent = new Object();
+                resultevent.check = true;
+                resultevent.id = event.id;
+                resultevent.title = event.title;
+                resultevent.date = event.date;
+                visitlist = await Visit.findAll({
+                    where: {fk_eventId: event.id}
+                })
+                await visitlist.map(async(visit) => {
+                    if(!visit.check){ resultevent.check = false; }
+                    console.log(visit.name,visit.check)
+                })
+                await console.log('resultevent.check',resultevent.check)
+                await result.result.push(await resultevent)
+            })
+        )
+        console.log('result.result',result.result)
+        await res.status(200).json(result.result);
+
     }catch(e) {
         console.error(e);
+        res.status(500).json(false);
         return next(e);
     }
 });
@@ -34,6 +58,7 @@ router.get('/visits/:eventid', isLoggedIn, async (req,res,next) => {
         res.status(200).json(result);
     }catch(e) {
         console.error(e);
+        res.status(500).json(false);
         return next(e);
     }
 });
@@ -45,7 +70,7 @@ router.get('/eventInfo/:eventid', async (req,res,next) => {
         console.log('이벤트 종합 정보 요청', eventid);
 
         const exEvent = await Event.findOne({ 
-            where: {id: eventid}
+            where: {id: eventid},
         });
         const exVisit = await Visit.findAll({
             where: {fk_eventId: eventid}
@@ -70,56 +95,69 @@ router.get('/eventInfo/:eventid', async (req,res,next) => {
         return res.status(200).json(result);
     }catch(e) {
         console.error(e);
+        res.status(500).json(false);
         return next(e);
     }
 });
 
-// router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
-//     try{
-//         const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall, fk_eventId } = req.body;
+//방명록 수정
+router.put('/reviseMoney', isLoggedIn, async (req,res,next) => {
+    try{
+        const { visitid, name, celebration } = req.body;
 
-//         const beforeWedding = await Wedding.findOne({
-//             where: {fk_eventId: fk_eventId}
-//         });
+        const beforeVisit = await Visit.findOne({
+            where: {id: visitid}
+        });
 
-//         await Event.update({
-//             date, title: `${groom} 님과 ${birde} 님의 결혼식`,
-//         },{ where: {id: fk_eventId} })
+        let tempVisit = new Object();
+        if (name || name !== beforeVisit.name) {
+            tempVisit.name = await name;
+        } else { tempVisit.name = await beforeVisit.name; }
 
-//         const afterWedding = await Wedding.update({
-//             date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall
-//         },
-//         {
-//             where: {fk_eventId: fk_eventId}
-//         });
-//         if(req.files.Picture !== undefined){
-//             const mainFile = req.files.Picture[0];
-//             await fs.unlink(`uploads/${beforeWedding.mainPicture}`, (e)=> {
-//                 console.log('메인사진삭제완료');
-//             })
-//             console.log(mainFile.filename)
-//             await Wedding.update({mainPicture: mainFile.filename}, {where: {fk_eventId:fk_eventId}})
-//         }
-//         if(req.files.Pictures !== undefined ){
-//             let subPicture = beforeWedding.subPicture.slice(1).split(';');
-//             await subPicture.map((contact) => {
-//                 fs.unlink(`uploads/${contact}`, (e)=>{
-//                     console.log('서브사진삭제완료');
-//                 });
-//             });
-//             let sub = '';
-//             await req.files.Pictures.forEach((element) => {
-//                 sub = sub + ';' + element.filename;
-//             });
-//             await Wedding.update({subPicture: sub}, {where: {fk_eventId: fk_eventId}});
-//         }
+        if (celebration || celebration !== beforeVisit.celebration) {
+            tempVisit.celebration = await celebration;
+        } else { tempVisit.celebration = await beforeVisit.celebration; }
 
-//         return res.status(200).json(true);
-//     }catch(e) {
-//         console.error(e);
-//         return next(e);
-//     }
-// });
+        await Visit.update({
+            name: tempVisit.name, 
+            celebration: tempVisit.celebration,
+            check: false
+        },{ where: {id: visitid} })
+
+        return res.status(200).json(true);
+    }catch(e) {
+        console.error(e);
+        res.status(500).json(false);
+        return next(e);
+    }
+});
+
+//방명록 한명 확인
+router.patch('/check/:id', isLoggedIn, async (req,res,next) => {
+    try{
+        const visitid = req.params.id;
+
+        const beforeVisit = await Visit.findOne({
+            where: {id: visitid}
+        });
+
+        if(beforeVisit.check){
+            await Visit.update({
+                check: false
+            },{ where: {id: visitid} })
+        }else {
+            await Visit.update({
+                check: true
+            },{ where: {id: visitid} })
+        }
+
+        return res.status(200).json(true);
+    }catch(e) {
+        console.error(e);
+        res.status(500).json(false);
+        return next(e);
+    }
+});
 
 // router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
 //     try{

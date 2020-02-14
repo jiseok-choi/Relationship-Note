@@ -52,12 +52,12 @@ class EventInfo extends Component {
                     지인 정보
                 </h5> */}
                 {this.info()}
-                <div className="card-footer">
-                    {/* <Col><Row>
+                {/* <div className="card-footer">
+                    <Col><Row>
                     <ReviseFriend friendInfo={eventInfo}/>
                     <FriendSchedule friendInfo={eventInfo}/>
-                    </Row></Col> */}
-                </div>
+                    </Row></Col>
+                </div> */}
             </div>
             {/* <div className="btn-group" role="group">
                 

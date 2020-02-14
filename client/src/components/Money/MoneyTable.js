@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 // import NewNews from './NewNews';
-// import ReviseNews from './ReviseNews';
+import ReviseMoney from './ReviseMoney';
 // import LookNews from './LookNews';
-import {Col, Row} from 'react-bootstrap';
+import axios from 'axios';
+import {Col, Row, Form, FormCheck, Feedback} from 'react-bootstrap';
 
 class MoneyTable extends Component {
 
@@ -14,16 +15,39 @@ class MoneyTable extends Component {
         name : '',
     }
 
-    friendclick = (name) => {
-        alert(name);
+    checkclick = (id) => {
+        axios
+        .patch(`http://localhost:8000/money/check/${id}`, {
+        })
+        .then(res => {
+            const newvisit = res.data !== undefined;
+            if(newvisit){
+                this.setState({lgShow: false});
+                // alert('반환받음');
+                console.log(res.data);
+                this.props.getEvents();
+                this.props.getVisits();
+                // window.location.reload(); //새로고침
+            } else {
+                // alert('반환 못받음');
+                console.error(res.data);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        })
     }
 
 
     setTable = (visitList) => {
         return visitList.map((contact, i) => {
+            let check = false;
+            if(contact.check){
+                check = true;
+            }
             return(
                 <tr key={i} className="table-success" 
-                // onClick={ () =>this.props.selectFriend(contact) }
+                // onClick={ () =>alert(contact) }
                 >
                     <td>
                         {contact.name}
@@ -35,7 +59,21 @@ class MoneyTable extends Component {
                         {contact.celebration}
                     </td>
                     <td>
-                        {contact.check}
+                        {
+                            <ReviseMoney visitInfo={contact} getEvent={this.props.getEvent} getEvents={this.props.getEvents} getVisits={this.props.getVisits}/>
+                            
+                        }
+                        <Form>
+                            <Form.Check 
+                                onClick={() => {
+                                    this.checkclick(contact.id);
+                                }}
+                                type="switch"
+                                id={contact.id}
+                                checked={check}
+                                label="확인"
+                            />
+                        </Form>
                     </td>
                 </tr>
             );

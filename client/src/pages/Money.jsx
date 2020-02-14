@@ -19,6 +19,9 @@ class Money extends Component {
             selectEvent : '',
         }
         this.getEvents = this.getEvents.bind(this);
+        this.getVisits = this.getVisits.bind(this);
+        this.getEvent = this.getEvent.bind(this);
+        this.selectEvent = this.selectEvent.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -35,9 +38,14 @@ class Money extends Component {
             },
             credentials: "same-origin",
         })
-        .then(res => {
-            console.log(res.data);
-            this.setState({
+        .then(async res => {
+            console.log('money/events',res.data);
+            // let temp = await Promise.all( res.data.sort( async (a, b) => {
+            //     console.log('하하하하')
+            //     return await a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
+            // })
+            // )
+            await this.setState({
                 eventList: res.data,
             })
         })
@@ -124,7 +132,7 @@ class Money extends Component {
                     </div>
                     <div class="col-md-8" align="center">
                         {/* {방명록 들어갈 자리} */}
-                        <MoneyTable visitList={this.state.visitList}/>
+                        <MoneyTable getVisits={this.getVisits} getEvent={this.getEvent} getEvents={this.getEvents} visitList={this.state.visitList}/>
                     </div>
                 </div>
                 <div class="row">
