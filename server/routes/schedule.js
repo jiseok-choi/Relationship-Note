@@ -1,10 +1,10 @@
 var express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const router = express.Router();
 const { Schedule, Friend, Event } = require('../models');
 
 
-router.post('/sendNewSchedule', isLoggedIn, async (req, res, next) => {
+router.post('/sendNewSchedule', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         console.log('새일정 등록 '+req.user.id);
         const userid = req.user.id;

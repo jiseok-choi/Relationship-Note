@@ -16,6 +16,7 @@ import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
 import "./assets/css/demo.css";
 import "./assets/css/modals.css";
 import "./assets/css/pe-icon-7-stroke.css";
+import "./assets/css/font-awesome.min.css";
 
 require('dotenv').config(); //.env 설정
 
@@ -82,9 +83,6 @@ class Root extends Component {
                 </BrowserRouter>
                 )
         } else if (false === this.state.logged) {
-            // alert(window.location.href);
-            // alert(this.state.testvalue);
-            // return <Login loged={this.loged.bind(this)}/>;
             return(
                 <BrowserRouter>
                     <Switch>

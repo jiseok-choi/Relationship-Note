@@ -109,6 +109,67 @@
     margin-left: auto;
     left: auto;
 }
+
+.text-muted {
+  color: #9A9A9A; }
+
+.text-info, .text-info:hover {
+  color: #1DC7EA !important;
+}
+
+.text-primary, .text-primary:hover {
+  color: #1D62F0 !important;
+ }
+
+.text-success, .text-success:hover {
+  color: #87CB16 !important; 
+}
+
+.text-warning, .text-warning:hover {
+  color: #FF9500 !important; 
+}
+
+.text-danger, .text-danger:hover {
+  color: #FF4A55 !important; 
+}
+
+.text-color1, .text-color1:hover {
+  background: #1DC7EA !important;
+}
+.text-color2, .text-color2:hover {
+  background: #FB404B !important;
+}
+.text-color3, .text-color3:hover {
+  background: #FFA534 !important;
+}
+.text-color4, .text-color4:hover {
+  background: #9368E9 !important;
+}
+.text-color5, .text-color5:hover {
+  background: #87CB16 !important;
+}
+.text-color6, .text-color6:hover {
+  background: #1B8DFF !important;
+}
+.text-color7, .text-color7:hover {
+  background: #5E5E5E !important;
+}
+.text-color8, .text-color8:hover {
+  background: #DD4B39 !important;
+}
+.text-color9, .text-color9:hover {
+  background: #35485C !important;
+}
+.text-color10, .text-color10:hover {
+  background: #E52D27 !important;
+}
+
+.test-circle{
+  width:20px;
+  height:20px;
+  border:1pt solid #ffffff;
+  border-radius:50px;
+}
 .fixed-plugin .fa-circle-thin{
     color: #FFFFFF;
 }

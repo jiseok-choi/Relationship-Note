@@ -1,0 +1,10 @@
+.jiseok-circle:before{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+#test-circle{
+    width:100px;
+    height:100px;
+    border-radius: 50px;
+}

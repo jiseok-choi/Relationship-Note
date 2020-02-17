@@ -18,6 +18,7 @@ const scheduleRouter = require('./routes/schedule');
 const eventRouter = require('./routes/event');
 const visitRouter = require('./routes/visit');
 const moneyRouter = require('./routes/money');
+const dashboardRouter = require('./routes/dashboard');
 // var usersRouter = require('./routes/users');
 
 const { sequelize } = require('./models');
@@ -72,6 +73,7 @@ app.use('/schedule', scheduleRouter);
 app.use('/event',  eventRouter );
 app.use('/visit',  visitRouter );
 app.use('/money',  moneyRouter );
+app.use('/dashboard',  dashboardRouter );
 
 
 

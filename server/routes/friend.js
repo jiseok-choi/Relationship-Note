@@ -1,5 +1,5 @@
 var express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const router = express.Router();
 const { Friend } = require('../models');
 
@@ -15,7 +15,7 @@ router.post('/getfriendList', isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.put('/revisefriend', isLoggedIn, async (req, res, next) => {
+router.put('/revisefriend', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         const { name, relationship, age, gender, birth, job, school, phone_Num, id } = req.body.data;
         if(name !== 'notChange' || name !== undefined){
@@ -50,7 +50,7 @@ router.post('/getfriend', isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.post('/newfriend', isLoggedIn, async (req, res, next) => {
+router.post('/newfriend', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         console.log('새친구 등록 '+req.user.id);
         const userid = req.user.id;

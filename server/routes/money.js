@@ -1,5 +1,5 @@
 const express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -101,7 +101,7 @@ router.get('/eventInfo/:eventid', async (req,res,next) => {
 });
 
 //방명록 수정
-router.put('/reviseMoney', isLoggedIn, async (req,res,next) => {
+router.put('/reviseMoney', isLoggedIn, isUpdateActivity, async (req,res,next) => {
     try{
         const { visitid, name, celebration } = req.body;
 
@@ -133,7 +133,7 @@ router.put('/reviseMoney', isLoggedIn, async (req,res,next) => {
 });
 
 //방명록 한명 확인
-router.patch('/check/:id', isLoggedIn, async (req,res,next) => {
+router.patch('/check/:id', isLoggedIn, isUpdateActivity, async (req,res,next) => {
     try{
         const visitid = req.params.id;
 

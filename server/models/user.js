@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => (
             type: DataTypes.STRING(15),
             allowNull: false,
         },
+        activitydate: {
+            type: DataTypes.DATE,
+            allowNull: true
+        }
     }, {
         timestamps: true, //생성일, 수정일 기록
         paranoid: true, //삭제일기록(복구용)

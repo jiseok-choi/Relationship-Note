@@ -38,7 +38,6 @@ class Loginform extends Component {
 
                 const mainUser = res.data.userid !== undefined;
                 if(mainUser){
-                    alert('로그인 성공'+res.data.userid);
                     // return this.loged();
                     window.location.reload(); //새로고침
                 } else {

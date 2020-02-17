@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Form, Button, Nav } from "react-bootstrap";
 
 import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
 
@@ -29,15 +29,14 @@ class Header extends Component {
   }
   render() {
     return (
-      <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#pablo">{'Dashboard'}</a>
-          </Navbar.Brand>
-          <Navbar.Toggle onClick={this.mobileSidebarToggle} />
-        </Navbar.Header>
+      <Navbar fluid bg="white">
+        <Navbar.Brand>Dashboard
+        </Navbar.Brand>
         <Navbar.Collapse>
-          <AdminNavbarLinks />
+          <Nav className="mr-auto"/>
+          <Form inline>
+            <Button variant="outline-success" onClick={this.props.sendLogout}>로그아웃</Button>
+          </Form>
         </Navbar.Collapse>
       </Navbar>
     );

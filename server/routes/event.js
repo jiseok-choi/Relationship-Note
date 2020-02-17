@@ -1,5 +1,5 @@
 const express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -29,7 +29,7 @@ const upload = multer({ //멀터를 사용하면 upload 객체를 받을 수 있
 });
 
 // router.post('/sendCreateWedding', isLoggedIn, upload.single([{ name: 'mainPicture' }, { name: 'subPicture' }]), async (req, res, next) => {
-router.post('/sendCreateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
+router.post('/sendCreateWedding', isLoggedIn, isUpdateActivity, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
     try{
         console.log('결혼행사 생성');
         // const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
@@ -101,7 +101,7 @@ router.post('/getInvitation/wedding', async (req,res,next) => {
     }
 });
 
-router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
+router.put('/sendUpdateWedding', isLoggedIn, isUpdateActivity, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
     try{
         const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall, fk_eventId } = req.body;
 
@@ -148,7 +148,7 @@ router.put('/sendUpdateWedding', isLoggedIn, upload.fields([{ name: 'Picture' },
     }
 });
 
-router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
+router.delete('/delete:id', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         console.log('이벤트 삭제 요청',req.params.id)
         // 1. 이벤트 조회
@@ -210,7 +210,7 @@ router.delete('/delete:id', isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.post('/sendCreateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
+router.post('/sendCreateParty', isLoggedIn, isUpdateActivity, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req, res, next) => {
     try{
         console.log('행사 생성');
         const { date, time, mainCharacter, title, invite, lat, lng, post, location } = req.body;
@@ -247,7 +247,7 @@ router.post('/sendCreateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, 
     }
 });
 
-router.put('/sendUpdateParty', isLoggedIn, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
+router.put('/sendUpdateParty', isLoggedIn, isUpdateActivity, upload.fields([{ name: 'Picture' }, { name: 'Pictures' }]), async (req,res,next) => {
     try{
         const { date, time, mainCharacter, title, invite, lat, lng, post, location, fk_eventId } = req.body;
 

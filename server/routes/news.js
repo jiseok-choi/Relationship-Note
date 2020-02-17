@@ -1,9 +1,9 @@
 const express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const router = express.Router();
 const { News } = require('../models');
 
-router.post('/newNews', isLoggedIn, async (req, res, next) => {
+router.post('/newNews', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         console.log('새소식 등록 '+req.user.id);
         const userid = req.user.id;
@@ -37,7 +37,7 @@ router.post('/getNewsList', isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.put('/reviseNews', isLoggedIn, async (req, res, next) => {
+router.put('/reviseNews', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
         const { friendid, date, title, contents, id} = req.body.data; 
         console.log('소식정보수정'+req.user.id+friendid,id);
