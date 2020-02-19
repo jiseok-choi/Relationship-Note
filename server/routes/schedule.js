@@ -52,7 +52,7 @@ router.post('/getScheduleList', isLoggedIn, async (req, res, next) => {
         returnData.scheduleList = scheduleList;
         returnData.birthList = birthList;
         returnData.eventList = eventList;
-        console.log(returnData)
+        console.log('returnData', returnData.scheduleList);
         return res.status(201).json(returnData);
     } catch(e) {
         console.error(e);

@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Card from '../components/Card/Card';
 import ChartistGraph from 'react-chartist';
+import ChartistGraph2 from '../components/Pie/ChrtistGraph';
+import {Pie, Bar} from 'react-chartjs-2';
 import AdminNavbar from '../components/Navbars/AdminNavbar';
 import axios from 'axios';
 import StatsCard from '../components/StatsCard/StatsCard';
@@ -22,14 +24,7 @@ import {
     style,iconsArray
   } from "../components/variables/Variables.jsx";
 
-var dataPie = {
-    labels: ['40%', '20%', '30%', '10%'],
-    series: [10, 10, 10,10, 10,10,10,10,10,10]
-};
-var legendPie = {
-    names: ["Open", "Bounce", "Unsubscribe"],
-    types: ['color1', 'color2', 'color3']
-};
+
 class Home extends Component {
     constructor(props){
         super(props);
@@ -39,6 +34,13 @@ class Home extends Component {
             activity : '',
             dataPie : {labels: ['0%'], series: [100]},
             legendPie : {names: ["지인을 등록해보세요"], types: ['color1']},
+            datasetsPie:[{ data: [200, 10], backgroundColor: ['#FB404B', 'green']}],
+            //dataBar 에 들어갈 data 와 labels
+            bardata : [4, 9, 4, 0, 4, 2, 3],
+            barlabels : ["August", "September", "October", "November", "December", "January", "February"],
+
+            
+            
         }
         this.getDashboard = this.getDashboard.bind(this);
         this.chartistGraph = this.chartistGraph.bind(this);
@@ -59,7 +61,7 @@ class Home extends Component {
     chartistGraph=(pie)=> {
         return <ChartistGraph data={pie} type="Pie" />
     }
-      
+    
     sendLogout = (e) => {
         e.preventDefault();
 
@@ -104,17 +106,19 @@ class Home extends Component {
                 countevents: res.data.countevents,
                 activity: res.data.activity,
                 legendPie: res.data.legendPie,
+                datasetsPie: [res.data.datasetsPie],
+                // dataBar: res.data.dataBar,
             })
         })
         .catch(err => {
             console.error(err);
         });
     }
-    
+
     componentDidMount(){
         this.getDashboard();
     }
-    
+
     render() {
         return (
             <div>
@@ -137,7 +141,7 @@ class Home extends Component {
                             statsText="행사 및 일정"
                             statsValue={this.state.countevents+" 개"}
                             statsIcon={<i className="fa fa-calendar-o" />}
-                            statsIconText="This week"
+                            statsIconText="7 days from today"
                         />
                         </Col>
                         <Col lg={4} sm={6}>
@@ -162,11 +166,18 @@ class Home extends Component {
                                 id="chartPreferences"
                                 className="ct-chart ct-perfect-fourth"
                             >
-                                {this.chartistGraph(this.state.dataPie)}
+                                {/* {this.chartistGraph(this.state.dataPie)} */}
+                                <Pie
+                                data = {{
+                                    labels: this.state.legendPie.names,
+                                    datasets: this.state.datasetsPie
+                                }}
+                                height='190%'/>
                             </div>
                             }
                             legend={
-                            <div className="legend">{this.createLegend(this.state.legendPie)}</div>
+                                <br/>
+                            // <div className="legend">{this.createLegend(this.state.legendPie)}</div>
                             }
                             
                         />
@@ -180,16 +191,39 @@ class Home extends Component {
                             statsIcon="fa fa-check"
                             content={
                             <div className="ct-chart">
-                                <ChartistGraph
-                                data={dataBar}
+                                <Bar data={{
+                                    datasets:[{
+                                        backgroundColor: 'rgba(255,99,132,0.2)',
+                                        borderColor: 'rgba(255,99,132,1)',
+                                        borderWidth: 1,
+                                        data: this.state.bardata,
+                                        hoverBackgroundColor: "#f279d3",
+                                        hoverBorderColor: "#7989f2",
+                                        label:"추가된 소식",
+                                    }], 
+                                        labels:this.state.barlabels,
+                                }}
+                                width={100}
+                                height={50}
+                                legend={{display: true, position: "bottom"}}
+                                options={{ 
+                                    maintainAspectRatio: false,
+                                    redraw: false,
+                                    type: "bar",
+                                    width: 300
+                                }}
+                                />
+                                {/* <ChartistGraph
+                                data={this.state.dataBar}
                                 type="Bar"
                                 options={optionsBar}
                                 responsiveOptions={responsiveBar}
-                                />
+                                /> */}
                             </div>
                             }
                             legend={
-                            <div className="legend">{this.createLegend(legendBar)}</div>
+                                <br/>
+                            // <div className="legend">{this.createLegend(legendBar)}</div>
                             }
                         />
                         </Col>

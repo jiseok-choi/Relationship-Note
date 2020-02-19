@@ -2,16 +2,6 @@ import React, { Component } from 'react';
 // import BigCalendar from 'react-big-calendar';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-// import {
-//     Calendar,
-//     DateLocalizer,
-//     momentLocalizer,
-//     globalizeLocalizer,
-//     move,
-//     Views,
-//     Navigate,
-//     components,
-//   } from 'react-big-calendar'
 import moment from 'moment';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
@@ -20,9 +10,6 @@ import { Modal, Button } from 'react-bootstrap';
 moment.locale("ko");
 const localizer = momentLocalizer(moment);
 
-
-
-// const localizer = BigCalendar.momentLocalizer(moment)
 
 class ScheduleCalendar extends Component {
 
@@ -37,15 +24,15 @@ class ScheduleCalendar extends Component {
                     title: "출근",
                     contents: "내용",
                     allDay: false,
-                    start: new Date(2019,9,4,10,0),
-                    end: new Date(2019, 9, 4, 10, 30),
+                    start: new Date(2020,2,18,10,0),
+                    end: new Date(2020, 2, 19, 10, 30),
                 },
                 {
                     title: "퇴근",
                     contents: "내용",
                     allDay: false,
-                    start: new Date(2019, 9, 4, 17, 30),
-                    end: new Date(2019, 9, 5, 17, 40),
+                    start: new Date(2020, 2, 20, 17, 30),
+                    end: new Date(2020, 2, 21, 17, 40),
                 }
             ],
             scheduleList: [],
@@ -59,7 +46,6 @@ class ScheduleCalendar extends Component {
         this.clickevent = this.clickevent.bind(this);
         this.onNavigate = this.onNavigate.bind(this);
         this.eventStyleGetter = this.eventStyleGetter.bind(this);
-        // this.changeSchedule = this.changeSchedule.bind(this);
     }
     
     
@@ -67,9 +53,7 @@ class ScheduleCalendar extends Component {
         // event.preventDefault();
 
         let obj = target.currentTarget;
-        const day = (new Date(2019, 1,1,8,0)).toString();
-        // alert(event.title+ event.contents+day);
-        // console.log(event);
+        const day = (new Date(2020, 1,1,8,0)).toString();
         let EventDate;
         if(moment(event.start).format("YYYY-MM-DD") === moment(event.end).format("YYYY-MM-DD")){
             EventDate = moment(event.start).format("YYYY-MM-DD");
@@ -94,26 +78,36 @@ class ScheduleCalendar extends Component {
     }
 
     onNavigate = (date, view, action) => {
-        // if(date.getFullYear() !== this.state.year){
-        //     this.setState({
-        //         year : date.getFullYear()
-        //     })
-        // }
         if (action === 'NEXT') {
-            this.setState({
-                month : this.state.month + 1,
-            })
+            if(this.state.month !== 11){
+                this.setState({
+                    month : this.state.month + 1,
+                })
+            }else {
+                this.setState({
+                    year : this.state.year + 1,
+                    month : 1
+                })
+            }
+            
         } else if (action === 'PREV') {
-            this.setState({
-                month : this.state.month - 1,
-            })
+            if(this.state.month !== 0){
+                this.setState({
+                    month : this.state.month - 1,
+                })
+            }else {
+                this.setState({
+                    year : this.state.year - 1,
+                    month : 11
+                })
+            }
+            
         } else {
             this.setState({
+                year : new Date().getFullYear(),
                 month : new Date().getMonth(),
             })
         }
-      
-        // this.setState({ date: today.month+1 });
       };
 
     
@@ -122,7 +116,7 @@ class ScheduleCalendar extends Component {
         // console.log(event);
         // const backgroundColor = '#' + event.hexColor;
         console.log(event)
-        if(event.birth !== undefined){
+        if(event.type === 'birth'){
             const style = {
                 backgroundColor: 'red',
                 borderRadius: '0px',
@@ -134,9 +128,21 @@ class ScheduleCalendar extends Component {
             return {
                 style: style
             }
-        } else if(event.kinds !== undefined){
+        } else if(event.type === 'event'){
             const style = {
                 backgroundColor: 'yellow',
+                borderRadius: '0px',
+                opacity: 0.8,
+                color: 'black',
+                border: '0px',
+                display: 'block'
+            }
+            return {
+                style: style
+            }
+        } else if(event.type === 'schedule'){
+            const style = {
+                backgroundColor: 'green',
                 borderRadius: '0px',
                 opacity: 0.8,
                 color: 'black',
@@ -150,12 +156,10 @@ class ScheduleCalendar extends Component {
     }
 
     changeSchedule = (scheduleList) => {
-        const temp = scheduleList.map((contact, i) => {
-            let tempstart = contact.startdate.split('-');
-            let tempend = contact.enddate.split('-');
-            contact.start = new Date(tempstart[0], tempstart[1]-1, tempstart[2]);
-            contact.end = new Date(tempend[0], tempend[1]-1, tempend[2]);
-            // alert(contact.enddate);
+        let temp = scheduleList.map((contact, i) => {
+            contact.start = new Date(contact.startdate);
+            contact.end = new Date(contact.enddate);
+            contact.type = 'schedule';
         })
         return temp;
     }
@@ -167,15 +171,16 @@ class ScheduleCalendar extends Component {
             contact.contents = contact.birth;
             contact.start = new Date(this.state.year, tempbirth[1]-1, tempbirth[2]);
             contact.end = new Date(this.state.year, tempbirth[1]-1, tempbirth[2]);
+            contact.type = 'birth';
         })
     }
     changeEvent = (eventList) => {
         return eventList.map((contact, i) => {
-            let tempdate = contact.date.split('-');
             contact.title = contact.title;
             contact.contents = contact.kinds;
-            contact.start = new Date(this.state.year, tempdate[1]-1, tempdate[2]);
-            contact.end = new Date(this.state.year, tempdate[1]-1, tempdate[2]);
+            contact.start = new Date(contact.date);
+            contact.end = new Date(contact.date);
+            contact.type = 'event';
         })
     }
 
@@ -190,13 +195,13 @@ class ScheduleCalendar extends Component {
             },
             credentials: "same-origin"
         })
-        .then(res => {
+        .then(async res => {
             console.log(res.data);
-            this.changeSchedule(res.data.scheduleList);
-            this.changeBirth(res.data.birthList);
-            this.changeEvent(res.data.eventList);
+            await this.changeSchedule(res.data.scheduleList);
+            await this.changeBirth(res.data.birthList);
+            await this.changeEvent(res.data.eventList);
 
-            const eevent = res.data.scheduleList.concat(res.data.birthList).concat(res.data.eventList);
+            const eevent = await res.data.scheduleList.concat(res.data.birthList).concat(res.data.eventList);
             
 
             this.setState({
