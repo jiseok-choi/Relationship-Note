@@ -34,9 +34,9 @@ class Home extends Component {
             activity : '',
             dataPie : {labels: ['0%'], series: [100]},
             legendPie : {names: ["지인을 등록해보세요"], types: ['color1']},
-            datasetsPie:[{ data: [200, 10], backgroundColor: ['#FB404B', 'green']}],
+            datasetsPie:[{ data: [200], backgroundColor: ['#FB404B']}],
             //dataBar 에 들어갈 data 와 labels
-            bardata : [4, 9, 4, 0, 4, 2, 3],
+            bardata : [1, 1, 1, 1, 1, 1, 1],
             barlabels : ["August", "September", "October", "November", "December", "January", "February"],
 
             
@@ -107,7 +107,8 @@ class Home extends Component {
                 activity: res.data.activity,
                 legendPie: res.data.legendPie,
                 datasetsPie: [res.data.datasetsPie],
-                // dataBar: res.data.dataBar,
+                bardata: res.data.dataBar.bardata,
+                barlabels: res.data.dataBar.barlabels,
             })
         })
         .catch(err => {

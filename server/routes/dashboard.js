@@ -77,13 +77,13 @@ router.get('/', isLoggedIn, async (req, res, next) => {
     //지인 등록 분포도
     let color = ["#1DC7EA", "#FB404B", "#FFA534", "#9368E9","#87CB16","#1B8DFF","#5E5E5E","#DD4B39","#35485C","#E52D27"];
     const Friends = await Friend.findAll({ attributes: ['relationship'], where: { userid }})
-    let query_select = `SELECT relationship as names, count(relationship) as count, ROUND(sum(100) / total) as series, concat(ROUND(sum(100) / total), '%') as labels
+    let query_Acquaintance = `SELECT relationship as names, count(relationship) as count, ROUND(sum(100) / total) as series, concat(ROUND(sum(100) / total), '%') as labels
       FROM r_note.friends
       cross join (SELECT count(*) as total FROM r_note.friends WHERE userid = :userid order by total asc) x
       where userid = :userid
       group by 1
       order by series desc`;
-    await sequelize.query(query_select, {
+    await sequelize.query(query_Acquaintance, {
       replacements: {userid},
       type: Sequelize.QueryTypes.SELECT,
       raw: true
@@ -110,16 +110,62 @@ router.get('/', isLoggedIn, async (req, res, next) => {
         result.datasetsPie.backgroundColor.push(color[i-1])
         i= i+1;
       })
-    })
+    });
 
-    //월별 추가된 지인 소식
+    //월별 추가된 지인 소식(labels)
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    result.dataBar = new Object();
-    result.dataBar.bardata = [];
+    result.dataBar = await new Object();
     result.dataBar.barlabels = [];
-    for(let i = date.getMonth(); i <= 6; i++){
-      
+    let indexdate = date.getMonth();
+    let tempdate = [];
+    for(let i = 0; i < 7; i++){
+      if(indexdate < 6){ //1~6월
+        await tempdate.push(months[indexdate+6]);
+        indexdate += await 1;
+      }else{ //7월~12월
+        await tempdate.push(months[indexdate-6]);
+        indexdate += await 1;
+        if(indexdate === 12) indexdate = await 0;
+      }
     }
+    result.dataBar.barlabels = await tempdate;
+    console.log('barlabels', result.dataBar.barlabels);
+    //월별 추가된 지인 소식(count)
+    // 날짜 더미 데이터 만들기 (오늘일자부터 7개월 전까지 월별 데이터)
+    let query_Contacts = `SELECT T.Date, ifnull(A.count, 0) as count FROM (
+      SELECT a.Date FROM (
+        SELECT
+          date_format(curdate() - INTERVAL (a.a) month, '%Y-%m') as date
+        FROM (select 0 as a
+            union all
+              select 1 union all
+              select 2 union all
+              select 3 union all
+              select 4 union all
+              select 5 union all
+              select 6 union all
+              select 7 union all
+              select 8 union all
+              select 9 union all
+              select 10 union all
+              select 11 ) as a
+              ) a
+              where a.Date between date_format( DATE_ADD(now(), INTERVAL - 6 month ), '%Y-%m') and date_format(now(), '%Y-%m')
+    ) T LEFT OUTER JOIN
+    (
+      SELECT date_format(date, '%Y-%m') m, COUNT(*) as count FROM r_note.news where userid = :userid group by m order by date desc
+    ) as A
+    ON T.date = A.m;`;
+    result.dataBar.bardata = [];
+    await sequelize.query(query_Contacts, {
+      replacements: {userid},
+      type: Sequelize.QueryTypes.SELECT,
+      raw: true
+    }).then(data => {
+      for(let i = 6; i >= 0; i--){
+        result.dataBar.bardata.push(data[i].count);
+      }
+    });
     console.log('대쉬보드 result 완료', result);
     return res.status(200).json(result);
   } catch (error) {

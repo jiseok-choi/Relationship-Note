@@ -120,9 +120,9 @@ class Money extends Component {
         return (
             <>
             
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4" align="center">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-4" align="center">
                         <Col>
                             {/* {행사 목록 들어갈 자리} */}
                             <EventTable eventList={this.state.eventList} selectEvent={this.selectEvent}/>
@@ -130,13 +130,13 @@ class Money extends Component {
 
                         </Col>
                     </div>
-                    <div class="col-md-8" align="center">
+                    <div className="col-md-8" align="center">
                         {/* {방명록 들어갈 자리} */}
                         <MoneyTable getVisits={this.getVisits} getEvent={this.getEvent} getEvents={this.getEvents} visitList={this.state.visitList}/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12" align="center">
+                <div className="row">
+                    <div className="col-md-12" align="center">
                         {/* {행사테이블 들어갈 자리} */}
                         {/* < EventTable eventList={this.state.eventList} getEvents={this.getEvents} /> */}
                     </div>

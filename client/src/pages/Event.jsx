@@ -50,9 +50,9 @@ class Event extends Component {
         return (
             <>
             
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6" align="center">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-6" align="center">
                         {/* {행사생성 버튼 들어갈 자리} */}
                         <Card style={{ width: '30rem' }}>
                             <Card.Img variant="top"  src={birth} />
@@ -69,7 +69,7 @@ class Event extends Component {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div class="col-md-6" align="center">
+                    <div className="col-md-6" align="center">
                         {/* {일정생성 버튼 들어갈 자리} */}
                         <Card style={{ width: '30rem' }}>
                             <Card.Img variant="top"  src={meeting} />
@@ -85,8 +85,8 @@ class Event extends Component {
                         </Card>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12" align="center">
+                <div className="row">
+                    <div className="col-md-12" align="center">
                         {/* {행사테이블 들어갈 자리} */}
                         < EventTable eventList={this.state.eventList} getEvents={this.getEvents} />
                     </div>
