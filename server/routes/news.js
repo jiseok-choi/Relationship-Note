@@ -1,7 +1,7 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require('./middlewares');
 const router = express.Router();
-const { News } = require('../models');
+const { News, Sequelize: { Op } } = require('../models');
 
 router.post('/newNews', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
@@ -29,7 +29,10 @@ router.post('/getNewsList', isLoggedIn, async (req, res, next) => {
     try{
         const { friendid } = req.body.data;
         console.log('소식목록요청'+req.user.id, friendid);
-        const newsList = await News.findAll({ where: {userid: req.user.id, friendid: friendid}})
+        const newsList = await News.findAll({ 
+            where: {userid: req.user.id, friendid: friendid},
+            order: [['createdAt', 'DESC']],
+        })
         return res.status(201).json(newsList);
     } catch(e) {
         console.error(e);

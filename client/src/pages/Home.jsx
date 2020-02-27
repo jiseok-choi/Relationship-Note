@@ -3,26 +3,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Card from '../components/Card/Card';
-import ChartistGraph from 'react-chartist';
-import ChartistGraph2 from '../components/Pie/ChrtistGraph';
 import {Pie, Bar} from 'react-chartjs-2';
 import AdminNavbar from '../components/Navbars/AdminNavbar';
 import axios from 'axios';
 import StatsCard from '../components/StatsCard/StatsCard';
 import "../assets/css/font-awesome.min.css";
-import {
-    // dataPie,
-    // legendPie,
-    dataSales,
-    optionsSales,
-    responsiveSales,
-    legendSales,
-    dataBar,
-    optionsBar,
-    responsiveBar,
-    legendBar,
-    style,iconsArray
-  } from "../components/variables/Variables.jsx";
 
 
 class Home extends Component {
@@ -39,11 +24,8 @@ class Home extends Component {
             bardata : [1, 1, 1, 1, 1, 1, 1],
             barlabels : ["August", "September", "October", "November", "December", "January", "February"],
 
-            
-            
         }
         this.getDashboard = this.getDashboard.bind(this);
-        this.chartistGraph = this.chartistGraph.bind(this);
     }
 
     createLegend(json) {
@@ -57,10 +39,6 @@ class Home extends Component {
         }
         return legend;
       }
-
-    chartistGraph=(pie)=> {
-        return <ChartistGraph data={pie} type="Pie" />
-    }
     
     sendLogout = (e) => {
         e.preventDefault();
@@ -167,7 +145,6 @@ class Home extends Component {
                                 id="chartPreferences"
                                 className="ct-chart ct-perfect-fourth"
                             >
-                                {/* {this.chartistGraph(this.state.dataPie)} */}
                                 <Pie
                                 data = {{
                                     labels: this.state.legendPie.names,
@@ -180,7 +157,6 @@ class Home extends Component {
                                 <br/>
                             // <div className="legend">{this.createLegend(this.state.legendPie)}</div>
                             }
-                            
                         />
                         </Col>
                         <Col md={7}>
@@ -214,12 +190,6 @@ class Home extends Component {
                                     width: 300
                                 }}
                                 />
-                                {/* <ChartistGraph
-                                data={this.state.dataBar}
-                                type="Bar"
-                                options={optionsBar}
-                                responsiveOptions={responsiveBar}
-                                /> */}
                             </div>
                             }
                             legend={

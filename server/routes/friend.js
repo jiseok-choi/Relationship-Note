@@ -4,9 +4,10 @@ const router = express.Router();
 const { Friend } = require('../models');
 
 
-router.post('/getfriendList', isLoggedIn, async (req, res, next) => {
+router.post('/friendList/:page', isLoggedIn, async (req, res, next) => {
     try{
         console.log('친구목록요청'+req.user.id);
+        let page = parseInt(req.params.page);
         const friendList = await Friend.findAll({ where: {userid: req.user.id}})
         return res.status(201).json(friendList);
     } catch(e) {

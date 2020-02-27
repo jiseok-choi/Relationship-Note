@@ -78,19 +78,19 @@ class NewsTable extends Component {
             <nav className="pagination-sm">
                 <ul className="pagination">
                     <li className="page-item">
-                        <a className="page-link" href="#">Previous</a>
+                        <a className="page-link">Previous</a>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">1</a>
+                        <a className="page-link">1</a>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">2</a>
+                        <a className="page-link">2</a>
                     </li>
                     <li className="page-item">
                         <a className="page-link" href="../main">3</a>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">4</a>
+                        <a className="page-link" href="">4</a>
                     </li>
                     <li className="page-item">
                         <a className="page-link" href="#">5</a>

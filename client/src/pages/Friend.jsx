@@ -17,6 +17,8 @@ class Friend extends Component {
         super(props);
         this.state = {
             friendList : [],
+            friendCurrentPage : 0,
+            friendPostPerPage : 0,
             newsList : [],
             selectFriend : '',
             today: moment(new Date()).format('YYYY-MM-DD'),
@@ -33,7 +35,7 @@ class Friend extends Component {
         axios.defaults.withCredentials = true;
 
         axios
-        .post(`http://localhost:8000/friend/getfriendList`, {
+        .post(`http://localhost:8000/friend/friendList`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ class ScheduleCalendar extends Component {
         super(props);
         this.state={
             year: new Date().getFullYear(),
-            month: new Date().getMonth(),
+            month: new Date().getMonth()+1,
             day: new Date().getDay(),
             events: [
                 {
@@ -105,7 +105,7 @@ class ScheduleCalendar extends Component {
         } else {
             this.setState({
                 year : new Date().getFullYear(),
-                month : new Date().getMonth(),
+                month : new Date().getMonth()+1,
             })
         }
       };

@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
+import Pagenation from '../Pagenation/Pagenation';
 
 class FriendTable extends Component {
 
 
     state = {
-        friendList2: [],
         id : '',
         name : '',
         relationship : '',
+
+        start: 0,
+        end: 10,
+        current:1,
     }
 
     friendclick = (name) => {
         alert(name);
     }
 
+    updateCurrPage = page => (
+        this.setState({
+            current: page,
+        })
+    )
+
+    updateStartEndPage = (start, end) => (
+        this.setState({
+            start: start,
+            end: end,
+        })
+    )
 
     setTable = (friendList) => {
         return friendList.map((contact, i) => {
@@ -58,33 +74,9 @@ class FriendTable extends Component {
 
 
 
-                    
 
-            <nav className="pagination-sm">
-                <ul className="pagination">
-                    <li className="page-item">
-                        <a className="page-link" href="#">Previous</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">1</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">2</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">3</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">4</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">5</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+
+            <Pagenation/>
             </div>
         );
     }
