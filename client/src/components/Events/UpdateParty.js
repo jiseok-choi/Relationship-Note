@@ -167,119 +167,157 @@ class UpdateParty extends Component {
 
     render() {
 
-        return(
-            <>
-            <Button onClick={this.open}>수정</Button>
-
+        return (
+          <>
+            <button onClick={this.open}>
+              <img src="./images/edit.png" class="h-6 w-6 ml-2" />
+            </button>
             <Modal
-            size="lg"
-            show={this.state.lgShow}
-            onHide={() => this.close
-            }
-            aria-labelledby="example-modal-sizes-title-lg"
+              size="lg"
+              show={this.state.lgShow}
+              onHide={() => this.close}
+              aria-labelledby="example-modal-sizes-title-lg"
             >
-            <Modal.Header>
+              <Modal.Header>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    행사 정보 수정하기 
+                  행사 정보 수정하기
                 </Modal.Title>
                 <Modal.Dialog>
-                    (사진과 지도위치는 입력하지 않으면 변경되지 않습니다)
+                  (사진과 지도위치는 입력하지 않으면 변경되지 않습니다)
                 </Modal.Dialog>
-            </Modal.Header>
-            <Modal.Body>
-                <Form >
-
-                <Form.Group as={Row} controlId="formDate">
-                  <Form.Label column sm="2">
-                  날짜
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="date" onChange={this.handleChange} defaultValue={this.state.date}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formTime">
-                  <Form.Label column sm="2">
-                  시간
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="time" onChange={this.handleChange} defaultValue={this.state.time}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Group as={Row}>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group as={Row} controlId="formDate">
                     <Form.Label column sm="2">
-                    행사 주인공 이름
+                      날짜
                     </Form.Label>
                     <Col sm="8">
-                    <Form.Control type="text" name="mainCharacter" onChange={this.handleChange} defaultValue={this.state.mainCharacter}/>
+                      <Form.Control
+                        type="text"
+                        name="date"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.date}
+                      />
                     </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} >
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formTime">
                     <Form.Label column sm="2">
-                    행사명
+                      시간
                     </Form.Label>
                     <Col sm="8">
-                    <Form.Control type="text" name="title" onChange={this.handleChange}  defaultValue={this.state.title}/>
+                      <Form.Control
+                        type="text"
+                        name="time"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.time}
+                      />
                     </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formInvite">
+                  </Form.Group>
+                  <Form.Group as={Row}>
                     <Form.Label column sm="2">
-                    초대의 글
+                      행사 주인공 이름
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="mainCharacter"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.mainCharacter}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row}>
+                    <Form.Label column sm="2">
+                      행사명
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="title"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.title}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formInvite">
+                    <Form.Label column sm="2">
+                      초대의 글
                     </Form.Label>
                     <Col sm="10">
-                    <Form.Control as="textarea" type="text" row="10" name="invite" onChange={this.handleChange} defaultValue={this.state.invite}/>
+                      <Form.Control
+                        as="textarea"
+                        type="text"
+                        row="10"
+                        name="invite"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.invite}
+                      />
                     </Col>
-                </Form.Group>
-
-                메인사진 선택
-                <div>
-                    <input type='file' name='mainPicture' id='mainPicture' onChange={e => this.handleFileInput(e)}/>
-                </div>
-                <br/>
-                사진첩 사진 선택(최대 6개 까지)
-                <div>
-                    <input type='file' name='subPicture' id='subPicture' multiple onChange={this.handleFileInputs}/>
-                </div>
-                <br/>
-                {/* 지도 띄우기 */}
-                장소 선택하기
-                {this.map()}
-                <br/>
-                <Form.Group as={Row} controlId="formPost">
-                  <Form.Label column sm="4">
-                  상세주소
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="post" onChange={this.handleChange} defaultValue={this.state.post}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formLocation">
-                  <Form.Label column sm="4">
-                  장소명
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="location" onChange={this.handleChange} defaultValue={this.state.location}/>
-                  </Col>
-                </Form.Group>
-
-                <Modal.Footer>
+                  </Form.Group>
+                  메인사진 선택
+                  <div>
+                    <input
+                      type="file"
+                      name="mainPicture"
+                      id="mainPicture"
+                      onChange={e => this.handleFileInput(e)}
+                    />
+                  </div>
+                  <br />
+                  사진첩 사진 선택(최대 6개 까지)
+                  <div>
+                    <input
+                      type="file"
+                      name="subPicture"
+                      id="subPicture"
+                      multiple
+                      onChange={this.handleFileInputs}
+                    />
+                  </div>
+                  <br />
+                  {/* 지도 띄우기 */}
+                  장소 선택하기
+                  {this.map()}
+                  <br />
+                  <Form.Group as={Row} controlId="formPost">
+                    <Form.Label column sm="4">
+                      상세주소
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="post"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.post}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formLocation">
+                    <Form.Label column sm="4">
+                      장소명
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="location"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.location}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Modal.Footer>
                     <Button variant="secondary" onClick={this.close}>
-                        Close
+                      Close
                     </Button>
-                    <Button onClick={this.sendUpdateParty} variant="primary" >
-                        확인
+                    <Button onClick={this.sendUpdateParty} variant="primary">
+                      확인
                     </Button>
-                </Modal.Footer>
-
+                  </Modal.Footer>
                 </Form>
-            </Modal.Body>
-
+              </Modal.Body>
             </Modal>
-            </>
+          </>
         );
     }
 }

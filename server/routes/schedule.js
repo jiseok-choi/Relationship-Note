@@ -6,9 +6,9 @@ const { Schedule, Friend, Event } = require('../models');
 
 router.post('/sendNewSchedule', isLoggedIn, isUpdateActivity, async (req, res, next) => {
     try{
-        console.log('새일정 등록 '+req.user.id);
         const userid = req.user.id;
         const { kinds, friendid, startdate, enddate, title, contents } = req.body.data; 
+        console.log('새일정 등록 '+req.user.id, kinds, friendid, startdate, enddate, title, contents);
 
 
         const newSchedule = await Schedule.create({

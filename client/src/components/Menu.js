@@ -32,7 +32,7 @@ const Menu = [
         name: "Money",
         component: Money,
         layout: true,
-    },
+    }
     // {
     //     path: "/visitPage",
     //     name: "visitPage",

@@ -66,9 +66,9 @@ class NewFriend extends Component {
     render() {
         return(
             <ButtonToolbar>
-                <Button onClick={() => this.setState({
+                <button onClick={() => this.setState({
                 lgShow: true,
-                })}>지인생성</Button>
+                })} class="flex justify-center mr-10 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">지인생성</button>
         
                 <Modal
                 size="lg"

@@ -142,7 +142,9 @@ class CreateWedding extends Component {
 
         return(
             <>
-            <Button onClick={this.open}>결혼식</Button>
+            <button onClick={this.open}
+                class="block bg-white rounded-full text-orange-500 text-xs font-bold px-3 py-2 leading-none flex items-center">생성
+            </button>
 
             <Modal
             size="lg"

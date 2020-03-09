@@ -82,54 +82,49 @@ class Visit extends Component {
 
     render(){
 
-        return(
-            <ButtonToolbar>
-                <Button variant="primary" onClick={this.open}>
-                    방명록
-                </Button>
-
-                <Modal
-                show={this.state.modalShow}
-                dialogClassName="modal-95w"
-                aria-labelledby="example-custom-modal-styling-title"
-                >
-                <Modal.Header>
-                    <div className="col-md-12" align='center'>                
-                        <h2>방명록</h2>
-                    </div>    
-                </Modal.Header>
-                <Modal.Body>
-                <div className="container-fluid">
-                    <div className="row" >
-                        <div className="col-md-5" align='center'>
-                            {/* 큐알코드자리 */}
-                            <QRCode 
-                            // value={`https://${process.env.IP}/visitPage/6`}
-                            value={`http://${process.env.REACT_APP_IP}:3000/visitPage/${this.props.eventInfo.id}`}
-                            size={256}
-                            />
-
-                            <h2>
-                                QR코드로 방명록을 작성해주세요
-                            </h2>
-                        </div>
-                        <div className="col-md-7">
-                            {/* 방명록자리 */}
-                            <CardColumns>
-                            {this.showVisits(this.state.visitList)}
-                            </CardColumns>
-                        </div>
-                    </div>
+        return (
+          <>
+            <button onClick={this.open}>
+              <img src="./images/visit_writing.png" class="h-6 w-6 ml-2" />
+            </button>
+            <Modal
+              show={this.state.modalShow}
+              dialogClassName="modal-95w"
+              aria-labelledby="example-custom-modal-styling-title"
+            >
+              <Modal.Header>
+                <div className="col-md-12" align="center">
+                  <h2>방명록</h2>
                 </div>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-md-5" align="center">
+                      {/* 큐알코드자리 */}
+                      <QRCode
+                        // value={`https://${process.env.IP}/visitPage/6`}
+                        value={`http://${process.env.REACT_APP_IP}:3000/visitPage/${this.props.eventInfo.id}`}
+                        size={256}
+                      />
 
-                </Modal.Body>
+                      <h2>QR코드로 방명록을 작성해주세요</h2>
+                    </div>
+                    <div className="col-md-7">
+                      {/* 방명록자리 */}
+                      <CardColumns>
+                        {this.showVisits(this.state.visitList)}
+                      </CardColumns>
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
 
-                <Modal.Footer>
-                    <Button onClick={this.close}>Close</Button>
-                </Modal.Footer>
-
-                </Modal>
-            </ButtonToolbar>
+              <Modal.Footer>
+                <Button onClick={this.close}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+          </>
         );
     }
 }

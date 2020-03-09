@@ -111,25 +111,76 @@ class Friend extends Component {
             <div>
               <div class="flex justify-between m-10">
                 <div>
-                  <p class=" text-3xl ">지인 목록</p>
+                  <p class=" text-3xl ">지인의 기록을 남겨보세요</p>
                 </div>
                 <div class=" ">
                   <NewFriend getFriend={this.getFriend} />
                 </div>
               </div>
 
-              <FriendTable
-                friendList={this.state.friendList}
-                selectFriend={this.selectFriend}
-              />
+              {/* <div className="row">
+                    <div className="col-md-5">
+                        <FriendTable friendList={this.state.friendList} selectFriend={this.selectFriend}></FriendTable>
+                    </div>
+                    <div className="col-md-7">
+                        <FriendProfile friendInfo={this.state.selectFriend}/>
+                    </div>
+                </div> */}
+              <div class="flex flex-wrap">
+                <div class="w-full lg:mb-0 lg:w-1/4 px-4 flex flex-col">
+                  <div class="flex-grow flex flex-col bg-white border-t border-b sm:rounded sm:border shadow overflow-hidden">
+                    <FriendTable
+                      friendList={this.state.friendList}
+                      selectFriend={this.selectFriend}
+                    ></FriendTable>
+                  </div>
+                </div>
+                <div class="w-full lg:w-3/4 px-4">
+                  <div class="bg-white border-t border-b sm:rounded sm:border shadow">
+                    <div class="border-b">
+                      <div class="flex justify-between px-6 -mb-px">
+                        <h3 class="text-blue-dark py-4 font-normal text-lg">
+                          Recent Activity
+                        </h3>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-center px-6 py-4">
+                        <div class="py-8">
+                          <FriendProfile friendInfo={this.state.selectFriend} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              {/* <div className="text-right">
+              <div class="w-full mt-6 px-4">
+                <div class="bg-white border-t border-b sm:rounded sm:border shadow">
+                  <div class="border-b">
+                    <div class="flex justify-between px-6 -mb-px">
+                      <h3 class="text-blue-dark py-4 font-normal text-lg">
+                        Recent Activity
+                      </h3>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-center px-6 py-4">
+                      <div class="py-8">
+                        <NewsTable newsList={this.state.newsList} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-right">
                 <NewNews
                   friendInfo={this.state.selectFriend}
                   addNews={this.addNews}
                   today={date}
                 />
-              </div> */}
+              </div>
               <div className="row">
                 {/* <NewsTable newsList={this.state.newsList} /> */}
               </div>

@@ -81,11 +81,12 @@ class MySchedule extends Component {
         return (
 
             <ButtonToolbar>
-                <Button onClick={() => this.setState({
+                <button onClick={() => this.setState({
                     date: new Date(),
                     lgShow: true,
-                    })}>일정생성
-                </Button>
+                    })}
+                    class="block bg-white rounded-full text-purple-500 text-xs font-bold px-3 py-2 leading-none flex items-center">생성
+                </button>
         
             <Modal
                 size="lg"

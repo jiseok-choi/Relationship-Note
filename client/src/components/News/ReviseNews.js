@@ -57,69 +57,94 @@ class ReviseNews extends Component {
 
 
     render() {
-        return(
-            <ButtonToolbar>
-                <Button onClick={() => this.setState({
-                lgShow: true,
-                friendid: this.props.newsInfo.friendid,
-                date: this.props.newsInfo.date,
-                title: this.props.newsInfo.title,
-                contents: this.props.newsInfo.contents,
-                id: this.props.newsInfo.id,
-                })}>수정</Button>
-        
-                <Modal
-                size="lg"
-                show={this.state.lgShow}
-                onHide={() => this.setState({
-                    lgShow: false,
-                })}
-                aria-labelledby="example-modal-sizes-title-lg"
-                >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                    소식 수정 하기
-                    </Modal.Title>
-                </Modal.Header>
+        return (
+          <>
+            <button onClick={() =>
+                this.setState({
+                  lgShow: true,
+                  friendid: this.props.newsInfo.friendid,
+                  date: this.props.newsInfo.date,
+                  title: this.props.newsInfo.title,
+                  contents: this.props.newsInfo.contents,
+                  id: this.props.newsInfo.id
+                })
+              }>
+              <img src="../images/edit.png" class="h-6 w-6 ml-2" />
+            </button>
 
-                <Modal.Body>
-                    <Form>
+            <Modal
+              size="lg"
+              show={this.state.lgShow}
+              onHide={() =>
+                this.setState({
+                  lgShow: false
+                })
+              }
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">
+                  소식 수정 하기
+                </Modal.Title>
+              </Modal.Header>
 
-                    <Form.Group as={Row} controlId="formDate">
-                        <Form.Label column sm="2">
-                        날짜
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control type="date" name="date" onChange={this.handleChange} defaultValue={this.props.newsInfo.date}/>
-                        </Col>
-                    </Form.Group>
+              <Modal.Body>
+                <Form>
+                  <Form.Group as={Row} controlId="formDate">
+                    <Form.Label column sm="2">
+                      날짜
+                    </Form.Label>
+                    <Col sm="10">
+                      <Form.Control
+                        type="date"
+                        name="date"
+                        onChange={this.handleChange}
+                        defaultValue={this.props.newsInfo.date}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                    <Form.Group as={Row} controlId="formTitle">
-                        <Form.Label column sm="2">
-                        제목
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control type="text" name="title" onChange={this.handleChange} defaultValue={this.props.newsInfo.title}/>
-                        </Col>
-                    </Form.Group>
+                  <Form.Group as={Row} controlId="formTitle">
+                    <Form.Label column sm="2">
+                      제목
+                    </Form.Label>
+                    <Col sm="10">
+                      <Form.Control
+                        type="text"
+                        name="title"
+                        onChange={this.handleChange}
+                        defaultValue={this.props.newsInfo.title}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                    <Form.Group as={Row} controlId="formContents">
-                        <Form.Label column sm="2">
-                        내용
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control as="textarea" type="text" row="10" name="contents" onChange={this.handleChange} defaultValue={this.props.newsInfo.contents}/>
-                        </Col>
-                    </Form.Group>
+                  <Form.Group as={Row} controlId="formContents">
+                    <Form.Label column sm="2">
+                      내용
+                    </Form.Label>
+                    <Col sm="10">
+                      <Form.Control
+                        as="textarea"
+                        type="text"
+                        row="10"
+                        name="contents"
+                        onChange={this.handleChange}
+                        defaultValue={this.props.newsInfo.contents}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                    <Button onClick={this.sendNewNews} variant="primary" type="submit">
-                        수정
-                    </Button>
-                    </Form>
-                </Modal.Body>
-
-                </Modal>
-            </ButtonToolbar>
+                  <Button
+                    onClick={this.sendNewNews}
+                    variant="primary"
+                    type="submit"
+                  >
+                    수정
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </Modal>
+          </>
         );
     }
 }

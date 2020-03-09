@@ -181,160 +181,216 @@ class UpdateWedding extends Component {
 
     render() {
 
-        return(
-            <>
-            <Button onClick={this.open}>수정</Button>
-
+        return (
+          <>
+            <button onClick={this.open}>
+              <img src="./images/edit.png" class="h-6 w-6 ml-2" />
+            </button>
             <Modal
-            size="lg"
-            show={this.state.lgShow}
-            onHide={() => this.close
-            }
-            aria-labelledby="example-modal-sizes-title-lg"
+              size="lg"
+              show={this.state.lgShow}
+              onHide={() => this.close}
+              aria-labelledby="example-modal-sizes-title-lg"
             >
-            <Modal.Header>
+              <Modal.Header>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    청첩장 정보 수정하기 
+                  청첩장 정보 수정하기
                 </Modal.Title>
                 <Modal.Dialog>
-                    (사진과 지도위치는 입력하지 않으면 변경되지 않습니다)
+                  (사진과 지도위치는 입력하지 않으면 변경되지 않습니다)
                 </Modal.Dialog>
-            </Modal.Header>
-            <Modal.Body>
-                <Form >
-
-                <Form.Group as={Row} controlId="formDate">
-                  <Form.Label column sm="2">
-                  날짜
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="date" onChange={this.handleChange} defaultValue={this.state.date}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formTime">
-                  <Form.Label column sm="2">
-                  시간
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="time" onChange={this.handleChange} defaultValue={this.state.time}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Row>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group as={Row} controlId="formDate">
+                    <Form.Label column sm="2">
+                      날짜
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="date"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.date}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formTime">
+                    <Form.Label column sm="2">
+                      시간
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="time"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.time}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Row>
                     <Form.Group as={Row} controlId="formGroom">
-                        <Form.Label column sm="4">
+                      <Form.Label column sm="4">
                         신랑 이름
-                        </Form.Label>
-                        <Col sm="8">
-                        <Form.Control type="text" name="groom" onChange={this.handleChange} defaultValue={this.state.groom}/>
-                        </Col>
+                      </Form.Label>
+                      <Col sm="8">
+                        <Form.Control
+                          type="text"
+                          name="groom"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.groom}
+                        />
+                      </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formBirde">
-                        <Form.Label column sm="5">
+                      <Form.Label column sm="5">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신부 이름
-                        </Form.Label>
-                        <Col sm="7">
-                        <Form.Control type="text" name="groom" onChange={this.handleChange} defaultValue={this.state.groom}/>
-                        </Col>
+                      </Form.Label>
+                      <Col sm="7">
+                        <Form.Control
+                          type="text"
+                          name="groom"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.groom}
+                        />
+                      </Col>
                     </Form.Group>
-                </Form.Row>
-                
-
-                <Form.Group as={Row} controlId="formInvite">
+                  </Form.Row>
+                  <Form.Group as={Row} controlId="formInvite">
                     <Form.Label column sm="2">
-                    초대의 글
+                      초대의 글
                     </Form.Label>
                     <Col sm="10">
-                    <Form.Control as="textarea" type="text" row="10" name="invite" onChange={this.handleChange} defaultValue={this.state.invite}/>
+                      <Form.Control
+                        as="textarea"
+                        type="text"
+                        row="10"
+                        name="invite"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.invite}
+                      />
                     </Col>
-                </Form.Group>
-
-                <Form.Row>
+                  </Form.Group>
+                  <Form.Row>
                     <Form.Group as={Row} controlId="formGroomFather">
-                        <Form.Label column sm="2">
+                      <Form.Label column sm="2">
                         신랑 아버지 성함 입력
-                        </Form.Label>
-                        <Col sm="4">
-                        <Form.Control type="text" name="groomFather" onChange={this.handleChange} defaultValue={this.state.groomFather}/>
-                        </Col>
-                    {/* </Form.Group>
+                      </Form.Label>
+                      <Col sm="4">
+                        <Form.Control
+                          type="text"
+                          name="groomFather"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.groomFather}
+                        />
+                      </Col>
+                      {/* </Form.Group>
                     <Form.Group as={Row} controlId="formGroomMother"> */}
-                        <Form.Label column sm="2">
+                      <Form.Label column sm="2">
                         신랑 어머니 성함 입력
-                        </Form.Label>
-                        <Col sm="4">
-                        <Form.Control type="text" name="groomMother" onChange={this.handleChange} defaultValue={this.state.groomMother}/>
-                        </Col>
+                      </Form.Label>
+                      <Col sm="4">
+                        <Form.Control
+                          type="text"
+                          name="groomMother"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.groomMother}
+                        />
+                      </Col>
                     </Form.Group>
-                </Form.Row>
-
-                <Form.Row>
+                  </Form.Row>
+                  <Form.Row>
                     <Form.Group as={Row} controlId="formBirdeFather">
-                        <Form.Label column sm="2">
+                      <Form.Label column sm="2">
                         신부 아버지 성함 입력
-                        </Form.Label>
-                        <Col sm="4">
-                        <Form.Control type="text" name="birdeFather" onChange={this.handleChange} defaultValue={this.state.birdeFather}/>
-                        </Col>
-                    {/* </Form.Group>
+                      </Form.Label>
+                      <Col sm="4">
+                        <Form.Control
+                          type="text"
+                          name="birdeFather"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.birdeFather}
+                        />
+                      </Col>
+                      {/* </Form.Group>
                     <Form.Group as={Row} controlId="formBirdeMother"> */}
-                        <Form.Label column sm="2">
+                      <Form.Label column sm="2">
                         신부 어머니 성함 입력
-                        </Form.Label>
-                        <Col sm="4">
-                        <Form.Control type="text" name="birdeMother" onChange={this.handleChange} defaultValue={this.state.birdeMother}/>
-                        </Col>
+                      </Form.Label>
+                      <Col sm="4">
+                        <Form.Control
+                          type="text"
+                          name="birdeMother"
+                          onChange={this.handleChange}
+                          defaultValue={this.state.birdeMother}
+                        />
+                      </Col>
                     </Form.Group>
-                </Form.Row>
-
-                메인사진 선택
-                <div>
-                    <input type='file' name='mainPicture' id='mainPicture' onChange={e => this.handleFileInput(e)}/>
-                </div>
-                <br/>
-                사진첩 사진 선택(최대 6개 까지)
-                <div>
-                    <input type='file' name='subPicture' id='subPicture' multiple onChange={this.handleFileInputs}/>
-                </div>
-                <br/>
-                {/* 지도 띄우기 */}
-                장소 선택하기
-                {this.map()}
-                <br/>
-                <Form.Group as={Row} controlId="formPost">
-                  <Form.Label column sm="4">
-                  상세주소명
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="post" onChange={this.handleChange} defaultValue={this.state.post}/>
-                  </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formWeddingHall">
-                  <Form.Label column sm="4">
-                  예식장명
-                  </Form.Label>
-                  <Col sm="8">
-                  <Form.Control type="text" name="weddingHall" onChange={this.handleChange} defaultValue={this.state.weddingHall}/>
-                  </Col>
-                </Form.Group>
-
-                <Modal.Footer>
+                  </Form.Row>
+                  메인사진 선택
+                  <div>
+                    <input
+                      type="file"
+                      name="mainPicture"
+                      id="mainPicture"
+                      onChange={e => this.handleFileInput(e)}
+                    />
+                  </div>
+                  <br />
+                  사진첩 사진 선택(최대 6개 까지)
+                  <div>
+                    <input
+                      type="file"
+                      name="subPicture"
+                      id="subPicture"
+                      multiple
+                      onChange={this.handleFileInputs}
+                    />
+                  </div>
+                  <br />
+                  {/* 지도 띄우기 */}
+                  장소 선택하기
+                  {this.map()}
+                  <br />
+                  <Form.Group as={Row} controlId="formPost">
+                    <Form.Label column sm="4">
+                      상세주소명
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="post"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.post}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formWeddingHall">
+                    <Form.Label column sm="4">
+                      예식장명
+                    </Form.Label>
+                    <Col sm="8">
+                      <Form.Control
+                        type="text"
+                        name="weddingHall"
+                        onChange={this.handleChange}
+                        defaultValue={this.state.weddingHall}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Modal.Footer>
                     <Button variant="secondary" onClick={this.close}>
-                        Close
+                      Close
                     </Button>
-                    <Button onClick={this.sendUpdateWedding} variant="primary" >
-                        확인
+                    <Button onClick={this.sendUpdateWedding} variant="primary">
+                      확인
                     </Button>
-                </Modal.Footer>
-
+                  </Modal.Footer>
                 </Form>
-            </Modal.Body>
-
+              </Modal.Body>
             </Modal>
-            </>
+          </>
         );
     }
 }

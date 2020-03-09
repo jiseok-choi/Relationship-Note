@@ -2,7 +2,7 @@
 // 이 라우터는 주소에 아무 path 도 주어지지 않았을 때 기본적으로 보여주는 라우트
 import React, { Component } from 'react';
 import { Card, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
-import { money, visit, meeting, birth, friend } from '../images';
+import { birth, birth2, friend, wedding4, schedule, party1 } from '../images';
 import CreateWedding from '../components/Events/CreateWedding';
 import CreateParty from '../components/Events/CreateParty';
 import CreateScedule from '../components/Events/MySchedule';
@@ -48,53 +48,62 @@ class Event extends Component {
     render() {
         
         return (
-            <>
-            
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-6" align="center">
-                        {/* {행사생성 버튼 들어갈 자리} */}
-                        <Card style={{ width: '30rem' }}>
-                            <Card.Img variant="top"  src={birth} />
-                            <Card.Body>
-                                <Card.Title><h3>행사를 생성해 보세요</h3></Card.Title>
-                                <Card.Text>
-                                결혼식, 잔치, 생일파티 등 행사를 만들어 보세요
-                                </Card.Text>
-
-                            <CreateWedding getEvents={this.getEvents}/>
-                            <CreateParty getEvents={this.getEvents}/>
-
-
-                            </Card.Body>
-                        </Card>
+          <>
+            <div>
+              <div>
+                {/* 결혼식생성 버튼 들어갈 자리 */}
+                <div class="p-10 -mb-20 flex flex-wrap items-center justify-center">
+                  <div class="flex-shrink-0 m-6 relative overflow-hidden bg-orange-500 rounded-lg max-w-xs shadow-lg">
+                    <div class="relative pt-10 px-10 flex items-center justify-center">
+                      <img class="relative w-40" src={wedding4} alt="" />
                     </div>
-                    <div className="col-md-6" align="center">
-                        {/* {일정생성 버튼 들어갈 자리} */}
-                        <Card style={{ width: '30rem' }}>
-                            <Card.Img variant="top"  src={meeting} />
-                            <Card.Body>
-                                <Card.Title><h3>일정을 생성해 보세요</h3></Card.Title>
-                                <Card.Text>
-                                약속, 만남, 소모임 등의 일정을 만들 수 있습니다.
-                                </Card.Text>
-
-                                <CreateScedule/>
-
-                            </Card.Body>
-                        </Card>
+                    <div class="relative text-white px-6 pb-6 mt-6">
+                      {/* <span class="block opacity-75 -mb-1">행사</span> */}
+                      <div class="flex justify-between">
+                        <span class="block font-semibold text-xl">결혼식</span>
+                        <CreateWedding getEvents={this.getEvents}/>
+                      </div>
                     </div>
+                  </div>
+                  {/* 행사생성 버튼 들어갈 자리 */}
+                  <div class="flex-shrink-0 m-6 relative overflow-hidden bg-teal-500 rounded-lg max-w-xs shadow-lg">
+                    <div class="relative pt-10 px-10 flex items-center justify-center">
+                      <img class="relative w-40" src={party1} alt="" />
+                    </div>
+                    <div class="relative text-white px-6 pb-6 mt-6">
+                      {/* <span class="block opacity-75 -mb-1">Outdoor</span> */}
+                      <div class="flex justify-between">
+                        <span class="block font-semibold text-xl">행사</span>
+                        <CreateParty getEvents={this.getEvents}/>
+                      </div>
+                    </div>
+                  </div>
+                  {/* 일정생성 버튼 들어갈 자리 */}
+                  <div class="flex-shrink-0 m-6 relative overflow-hidden bg-purple-500 rounded-lg max-w-xs shadow-lg">
+                    <div class="relative pt-10 px-10 flex items-center justify-center">
+                      <img class="relative w-40" src={schedule} alt="" />
+                    </div>
+                    <div class="relative text-white px-6 pb-6 mt-6">
+                      {/* <span class="block opacity-75 -mb-1">Outdoor</span> */}
+                      <div class="flex justify-between">
+                        <span class="block font-semibold text-xl">일정</span>
+                        <CreateScedule />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-12" align="center">
-                        {/* {행사테이블 들어갈 자리} */}
-                        < EventTable eventList={this.state.eventList} getEvents={this.getEvents} />
-                    </div>
+              </div>
+              <div>
+                <div>
+                  {/* {행사테이블 들어갈 자리} */}
+                  <EventTable
+                    eventList={this.state.eventList}
+                    getEvents={this.getEvents}
+                  />
                 </div>
+              </div>
             </div>
-
-
-            </>
+          </>
         );
     }
 };

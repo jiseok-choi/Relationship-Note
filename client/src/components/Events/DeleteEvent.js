@@ -43,26 +43,29 @@ class DeleteEvent extends Component {
     }
 
     render() {
-        return(
-            <>
-            <Button onClick={this.open}>삭제</Button>
-
-            <Modal size='lg' show={this.state.lgShow} onHide={this.close}>
-                <Modal.Header>
-                    <Modal.Title>삭제 확인!!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>해당 이벤트와 관련된 내용도 같이 사라집니다 계속하시겠습니까?</Modal.Body>
-                <Modal.Footer>
+        return (
+          <>
+            <button onClick={this.open}>
+              <img src="./images/delete.png" class="h-6 w-6 ml-2" />
+            </button>
+            <Modal size="lg" show={this.state.lgShow} onHide={this.close}>
+              <Modal.Header>
+                <Modal.Title>삭제 확인!!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                해당 이벤트와 관련된 내용도 같이 사라집니다 계속하시겠습니까?
+              </Modal.Body>
+              <Modal.Footer>
                 <Button variant="secondary" onClick={this.close}>
-                    취소
+                  취소
                 </Button>
                 <Button variant="warning" onClick={this.deleteEvent}>
-                    삭제
+                  삭제
                 </Button>
-                </Modal.Footer>
+              </Modal.Footer>
             </Modal>
-            </>
-        )
+          </>
+        );
     }
 }
 

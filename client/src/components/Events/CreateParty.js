@@ -131,8 +131,9 @@ class CreateParty extends Component {
 
         return(
             <>
-            <Button onClick={this.open}>행사</Button>
-
+            <button onClick={this.open}
+                class="block bg-white rounded-full text-teal-500 text-xs font-bold px-3 py-2 leading-none flex items-center">생성
+            </button>
             <Modal
             size="lg"
             show={this.state.lgShow}

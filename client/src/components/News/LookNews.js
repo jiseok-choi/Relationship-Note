@@ -43,39 +43,35 @@ class LookNews extends Component {
 
     render(){
 
-        return(
-            <ButtonToolbar>
-                <Button variant="primary" onClick={this.open}>
-                    보기
-                </Button>
+        return (
+          <>
+            <button onClick={this.open}>
+              <img src="../images/paperlook.png" class="h-6 w-6 ml-2" />
+            </button>
 
-                <Modal
-                // {...props}
-                size="lg"
-                show={this.state.modalShow}
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                onClick={this.close}
-                >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                    {this.state.title}
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <h5>날짜 : {this.state.date}</h5>
-                    <p>
-                        
-                    {this.changeText(this.state.contents)}
-                    </p>
-                </Modal.Body>
+            <Modal
+              // {...props}
+              size="lg"
+              show={this.state.modalShow}
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+              onClick={this.close}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  {this.state.title}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <h5>날짜 : {this.state.date}</h5>
+                <p>{this.changeText(this.state.contents)}</p>
+              </Modal.Body>
 
-                <Modal.Footer>
-                    <Button onClick={this.close}>Close</Button>
-                </Modal.Footer>
-
-                </Modal>
-            </ButtonToolbar>
+              <Modal.Footer>
+                <Button onClick={this.close}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+          </>
         );
     }
 }
