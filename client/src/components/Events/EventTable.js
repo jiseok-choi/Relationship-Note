@@ -1,34 +1,30 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 // import ReviseNews from './ReviseNews';
-import LookEvent from "./LookEvent";
-import { Col, Row } from "react-bootstrap";
-import Visit from "./Visit";
-import UpdateWedding from "../../components/Events/UpdateWedding";
-import UpdateParty from "../../components/Events/UpdateParty";
-import DeleteEvent from "./DeleteEvent";
-import dotenv from "dotenv";
-dotenv.config();
+import LookEvent from "./LookEvent"
+import { Col, Row } from "react-bootstrap"
+import Visit from "./Visit"
+import UpdateWedding from "../../components/Events/UpdateWedding"
+import UpdateParty from "../../components/Events/UpdateParty"
+import DeleteEvent from "./DeleteEvent"
+import dotenv from "dotenv"
+dotenv.config()
 
 class EventTable extends Component {
   state = {
     eventList: []
-  };
+  }
 
   setTable = eventList => {
     return eventList.map((contact, i) => {
-      let url = "";
-      let update;
+      let url = ""
+      let update
       if (contact.kinds === "wedding") {
-        url = `http://${process.env.REACT_APP_IP}:3000/weddinginvitation/${contact.id}`;
-        update = (
-          <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents} />
-        );
+        url = `http://${process.env.REACT_APP_IP}:3000/weddinginvitation/${contact.id}`
+        update = <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents} />
       }
       if (contact.kinds === "party") {
-        url = `http://${process.env.REACT_APP_IP}:3000/partyinvitation/${contact.id}`;
-        update = (
-          <UpdateParty eventInfo={contact} getEvents={this.props.getEvents} />
-        );
+        url = `http://${process.env.REACT_APP_IP}:3000/partyinvitation/${contact.id}`
+        update = <UpdateParty eventInfo={contact} getEvents={this.props.getEvents} />
       }
       return (
         <tr>
@@ -46,17 +42,19 @@ class EventTable extends Component {
             <p class="text-gray-900 whitespace-no-wrap">{contact.date}</p>
           </td>
           <td class="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-            <p class="text-gray-900 whitespace-no-wrap">{url}</p>
+            <a class="text-blue-500 hover:text-blue-800" href={url}>
+              {url}
+            </a>
           </td>
           <td class="px-5 py-3 border-b border-gray-200 bg-white text-sm">
             {update}
             <Visit eventInfo={contact} />
-            <DeleteEvent eventInfo={contact} getEvents={this.props.getEvents}/>
+            <DeleteEvent eventInfo={contact} getEvents={this.props.getEvents} />
           </td>
         </tr>
-      );
-    });
-  };
+      )
+    })
+  }
 
   render() {
     return (
@@ -84,9 +82,7 @@ class EventTable extends Component {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {this.setTable(this.props.eventList)}
-                </tbody>
+                <tbody>{this.setTable(this.props.eventList)}</tbody>
               </table>
               {/* <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
             <Pagination items={exampleItems} onChangePage={onChangePage} />
@@ -120,8 +116,8 @@ class EventTable extends Component {
                 </ul>
             </nav> */}
       </>
-    );
+    )
   }
 }
 
-export default EventTable;
+export default EventTable
