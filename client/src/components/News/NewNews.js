@@ -1,136 +1,144 @@
-import React, { Component } from 'react';
-import { Modal, ButtonToolbar, Button, Form, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import React, { Component } from "react"
+import { Modal, ButtonToolbar, Button, Form, Row, Col } from "react-bootstrap"
+import axios from "axios"
+import * as moment from "moment"
 
 class NewNews extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
 
-        
-        this.state = {
-            value: '',
-            lgShow: false,
-            friendid: this.props.friendInfo.id,
-            date: this.props.today,
-            title: '',
-            contents: '',
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.sendNewNews = this.sendNewNews.bind(this);
+    this.state = {
+      value: "",
+      lgShow: false,
+      friendid: this.props.friendInfo.id,
+      date: moment(new Date()).format("YYYY-MM-DD"),
+      title: "",
+      contents: ""
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.sendNewNews = this.sendNewNews.bind(this)
+  }
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    }
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
 
-    sendNewNews = (event) => {
-        event.preventDefault();
+  sendNewNews = event => {
+    event.preventDefault()
 
-        // this.setState({
-        //     friendid: this.props.friendInfo.id,
-        // });
+    axios
+      .post(`http://localhost:8000/news/newNews`, {
+        data: {
+          friendid: this.props.friendInfo.id,
+          date: this.state.date,
+          title: this.state.title,
+          contents: this.state.contents
+        }
+      })
+      .then(res => {
+        const newFriend = res.data !== undefined
+        if (newFriend) {
+          this.setState({ lgShow: false })
+          console.log(res.data)
+          this.props.addNews()
+          // window.location.reload(); //새로고침
+        } else {
+          alert(res.data)
+          console.error(res.data)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
-        axios
-        .post(`http://localhost:8000/news/newNews`, {
-            data: {
-                friendid: this.props.friendInfo.id,
-                date: this.state.date,
-                title: this.state.title,
-                contents: this.state.contents,
-            }
-        })
-        .then(res => {
-            const newFriend = res.data !== undefined;
-            if(newFriend){
-                this.setState({lgShow: false});
-                console.log(res.data);
-                this.props.addNews();
-                // window.location.reload(); //새로고침
-            } else {
-                alert(res.data);
-                console.error(res.data);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        })
-    }
+  open = e => {
+    e.preventDefault()
+    this.setState(prev => ({
+      ...prev,
+      lgShow: true
+    }))
+  }
 
-    open = (e) => {
-        e.preventDefault();
-        this.setState(prev=>({
-                ...prev,
-            lgShow: true,
-        }))
-    }
+  render() {
+    const friendInfo = this.props.friendInfo
+    return (
+      <ButtonToolbar>
+        <button
+          onClick={this.open}
+          class="flex justify-center mr-10 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+        >
+          소식추가
+        </button>
+        <Modal
+          size="lg"
+          show={this.state.lgShow}
+          onHide={() =>
+            this.setState({
+              lgShow: false
+            })
+          }
+          aria-labelledby="example-modal-sizes-title-lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-modal-sizes-title-lg">
+              {friendInfo.name}의 새 소식 적기
+            </Modal.Title>
+          </Modal.Header>
 
+          <Modal.Body>
+            <Form>
+              <Form.Group as={Row} controlId="formDate">
+                <Form.Label column sm="2">
+                  날짜
+                </Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    type="date"
+                    name="date"
+                    onChange={this.handleChange}
+                    defaultValue={this.state.date}
+                  />
+                </Col>
+              </Form.Group>
 
+              <Form.Group as={Row} controlId="formTitle">
+                <Form.Label column sm="2">
+                  제목
+                </Form.Label>
+                <Col sm="10">
+                  <Form.Control type="text" name="title" onChange={this.handleChange} />
+                </Col>
+              </Form.Group>
 
+              <Form.Group as={Row} controlId="formContents">
+                <Form.Label column sm="2">
+                  내용
+                </Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    as="textarea"
+                    type="text"
+                    row="10"
+                    name="contents"
+                    onChange={this.handleChange}
+                  />
+                </Col>
+              </Form.Group>
 
-    render() {
-        const friendInfo  = this.props.friendInfo;
-        return(
-            <ButtonToolbar>
-                <Button 
-                onClick={this.open}
-                >소식추가</Button>
-        
-                <Modal
-                size="lg"
-                show={this.state.lgShow}
-                onHide={() => this.setState({
-                    lgShow: false,
-                })}
-                aria-labelledby="example-modal-sizes-title-lg"
-                >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                        {friendInfo.name}의 새 소식 적기
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form>
-
-                    <Form.Group as={Row} controlId="formDate">
-                        <Form.Label column sm="2">
-                        날짜
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control type="date" name="date" onChange={this.handleChange} defaultValue={this.props.today}/>
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="formTitle">
-                        <Form.Label column sm="2">
-                        제목
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control type="text" name="title" onChange={this.handleChange}/>
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="formContents">
-                        <Form.Label column sm="2">
-                        내용
-                        </Form.Label>
-                        <Col sm="10">
-                        <Form.Control as="textarea" type="text" row="10" name="contents" onChange={this.handleChange}/>
-                        </Col>
-                    </Form.Group>
-
-                    <Button onClick={this.sendNewNews} variant="primary" type="submit">
-                        확인
-                    </Button>
-                    </Form>
-                </Modal.Body>
-
-                </Modal>
-            </ButtonToolbar>
-        );
-    }
+              <div class="flex flex-col xs:flex-row items-center">
+                <Button onClick={this.sendNewNews} variant="primary" type="submit">
+                  작성
+                </Button>
+              </div>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </ButtonToolbar>
+    )
+  }
 }
 
-export default NewNews;
+export default NewNews

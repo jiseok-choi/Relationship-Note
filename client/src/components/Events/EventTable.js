@@ -6,12 +6,39 @@ import Visit from "./Visit"
 import UpdateWedding from "../../components/Events/UpdateWedding"
 import UpdateParty from "../../components/Events/UpdateParty"
 import DeleteEvent from "./DeleteEvent"
+import Pagination from "../Pagination/Pagination"
 import dotenv from "dotenv"
 dotenv.config()
 
 class EventTable extends Component {
-  state = {
-    eventList: []
+  constructor(props) {
+    super(props)
+    this.state = {
+      eventList: [],
+      pageOfitems: []
+    }
+    this.onChangePage = this.onChangePage.bind(this)
+  }
+  exampleItemList = [...Array(60).keys()].map(i => ({
+    age: "i + 1",
+    birth: "Item " + (i + 1),
+    createdAt: "Item " + (i + 1),
+    deletedAt: "Item " + (i + 1),
+    gender: "Item " + (i + 1),
+    id: "Item " + (i + 1),
+    job: "Item " + (i + 1),
+    name: "Item " + (i + 1),
+    phone_num: "Item " + (i + 1),
+    relationship: "Item " + (i + 1),
+    school: "Item " + (i + 1),
+    updatedAt: "Item " + (i + 1),
+    userId: "Item " + (i + 1),
+    userId: "Item " + (i + 1)
+  }))
+  onChangePage(pageOfitems) {
+    this.setState({
+      pageOfitems: pageOfitems
+    })
   }
 
   setTable = eventList => {
@@ -31,7 +58,7 @@ class EventTable extends Component {
           <td class="px-4 py-3 border-b border-gray-200 bg-white text-sm">
             <div class="flex items-center">
               <div class="ml-1">
-                <p class="text-gray-900 whitespace-no-wrap">{i + 1}</p>
+                <p class="text-gray-900 whitespace-no-wrap">{contact.index}</p>
               </div>
             </div>
           </td>
@@ -82,7 +109,7 @@ class EventTable extends Component {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{this.setTable(this.props.eventList)}</tbody>
+                <tbody>{this.setTable(this.state.pageOfitems)}</tbody>
               </table>
               {/* <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
             <Pagination items={exampleItems} onChangePage={onChangePage} />
@@ -90,31 +117,9 @@ class EventTable extends Component {
             </div>
           </div>
         </div>
-        {/* <nav className="pagination-sm">
-                <ul className="pagination">
-                    <li className="page-item">
-                        <a className="page-link" href="#">Previous</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">1</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">2</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="../main">3</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">4</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">5</a>
-                    </li>
-                    <li className="page-item">
-                        <a className="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav> */}
+        <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+          <Pagination items={this.props.eventList} onChangePage={this.onChangePage} />
+        </div>
       </>
     )
   }

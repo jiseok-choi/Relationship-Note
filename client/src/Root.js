@@ -74,6 +74,7 @@ class Root extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/" render={props => <App {...props} />} />
+            <Route path="/main" render={props => <App {...props} />} />
           </Switch>
         </BrowserRouter>
       )

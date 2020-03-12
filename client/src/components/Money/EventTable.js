@@ -1,12 +1,24 @@
 import React, { Component } from "react"
 import { Col, Row } from "react-bootstrap"
+import Pagination from "../Pagination/Pagination"
 
 class EventTable extends Component {
-  state = {
-    eventList: [],
-    id: "",
-    date: "",
-    name: ""
+  constructor(props) {
+    super(props)
+    this.state = {
+      eventList: [],
+      id: "",
+      date: "",
+      name: "",
+      pageOfitems: []
+    }
+    this.onChangePage = this.onChangePage.bind(this)
+  }
+
+  onChangePage(pageOfitems) {
+    this.setState({
+      pageOfitems: pageOfitems
+    })
   }
 
   friendclick = name => {
@@ -20,20 +32,6 @@ class EventTable extends Component {
         완료여부 = "완료"
       }
       return (
-        // <tr key={i} className="table-success"
-
-        // onClick={ () => {this.props.selectEvent(contact);console.log('이것이 내부여',contact)} }
-        // >
-        //     <td>
-        //         {contact.date}
-        //     </td>
-        //     <td>
-        //         {contact.title}
-        //     </td>
-        //     <td>
-        //         {완료여부}
-        //     </td>
-        // </tr>
         <tr
           onClick={() => {
             this.props.selectEvent(contact)
@@ -55,24 +53,6 @@ class EventTable extends Component {
   render() {
     return (
       <div>
-        {/* <table className="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            날짜
-                        </th>
-                        <th>
-                            행사
-                        </th>
-                        <th>
-                            정산여부
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.setTable(this.props.eventList)}
-                </tbody>
-            </table> */}
         <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="-mx-4 sm:-mx-8 overflow-x-auto">
             <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -90,7 +70,7 @@ class EventTable extends Component {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{this.setTable(this.props.eventList)}</tbody>
+                <tbody>{this.setTable(this.state.pageOfitems)}</tbody>
               </table>
               {/* <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
             <Pagination items={exampleItems} onChangePage={onChangePage} />
@@ -98,46 +78,9 @@ class EventTable extends Component {
             </div>
           </div>
         </div>
-
-        <nav className="pagination-sm">
-          <ul className="pagination">
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="../main">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                4
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                5
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+          <Pagination items={this.props.eventList} onChangePage={this.onChangePage} />
+        </div>
       </div>
     )
   }

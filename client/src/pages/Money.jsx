@@ -73,7 +73,7 @@ class Money extends Component {
       })
   }
 
-  getEvent = eventID => {
+  getEvent = () => {
     axios.defaults.withCredentials = true
     axios
       .get(`http://localhost:8000/money/eventInfo/${this.state.selectEvent.id}`, {

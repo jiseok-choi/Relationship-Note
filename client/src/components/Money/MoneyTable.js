@@ -4,13 +4,25 @@ import ReviseMoney from "./ReviseMoney"
 // import LookNews from './LookNews';
 import axios from "axios"
 import { Col, Row, Form, FormCheck, Feedback } from "react-bootstrap"
+import Pagination from "../Pagination/Pagination"
 
 class MoneyTable extends Component {
-  state = {
-    newsList: [],
-    id: "",
-    date: "",
-    name: ""
+  constructor(props) {
+    super(props)
+    this.state = {
+      newsList: [],
+      id: "",
+      date: "",
+      name: "",
+      pageOfitems: []
+    }
+    this.onChangePage = this.onChangePage.bind(this)
+  }
+
+  onChangePage(pageOfitems) {
+    this.setState({
+      pageOfitems: pageOfitems
+    })
   }
 
   checkclick = id => {
@@ -42,37 +54,6 @@ class MoneyTable extends Component {
         check = true
       }
       return (
-        // <tr key={i} className="table-success"
-        // // onClick={ () =>alert(contact) }
-        // >
-        //     <td>
-        //         {contact.name}
-        //     </td>
-        //     <td>
-        //         {contact.contents}
-        //     </td>
-        //     <td>
-        //         {contact.celebration}
-        //     </td>
-        //     <td>
-        //         {
-        //             <ReviseMoney visitInfo={contact} getEvent={this.props.getEvent} getEvents={this.props.getEvents} getVisits={this.props.getVisits}/>
-
-        //         }
-        //         <Form>
-        //             <Form.Check
-        //                 onClick={() => {
-        //                     this.checkclick(contact.id);
-        //                 }}
-        //                 type="switch"
-        //                 id={contact.id}
-        //                 checked={check}
-        //                 label="확인"
-        //             />
-        //         </Form>
-        //     </td>
-        // </tr>
-
         <tr>
           <td class="px-5 py-3 border-b border-gray-200 bg-white text-sm">
             <p class="text-gray-900 whitespace-no-wrap">{contact.name}</p>
@@ -110,29 +91,14 @@ class MoneyTable extends Component {
   }
 
   render() {
+    let message
+    {
+      if (this.state.pageOfitems.length === 0) {
+        message = `<<< 이벤트 항목을 클릭하세요`
+      }
+    }
     return (
       <>
-        {/* <table className="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            이름
-                        </th>
-                        <th>
-                            코멘트
-                        </th>
-                        <th>
-                            축의금
-                        </th>
-                        <th>
-                            체크
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.setTable(this.props.visitList)}
-                </tbody>
-            </table> */}
         <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="-mx-4 sm:-mx-8 px-4 overflow-x-auto">
             <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -153,54 +119,15 @@ class MoneyTable extends Component {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{this.setTable(this.props.visitList)}</tbody>
+                <tbody>{this.setTable(this.state.pageOfitems)}</tbody>
               </table>
-              {/* <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-            <Pagination items={exampleItems} onChangePage={onChangePage} />
-          </div> */}
+              <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
+                {message}
+                <Pagination items={this.props.visitList} onChangePage={this.onChangePage} />
+              </div>
             </div>
           </div>
         </div>
-
-        <nav className="pagination-sm">
-          <ul className="pagination">
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="../main">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                4
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                5
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
       </>
     )
   }
