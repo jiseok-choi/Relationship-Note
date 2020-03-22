@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import NewsTable from "../../components/News/NewsTable"
 import Pagination from "../Pagination/Pagination"
 
+var temppageOfitems = []
+
 class FriendTable extends Component {
   constructor(props) {
     super(props)
@@ -10,12 +12,14 @@ class FriendTable extends Component {
       name: "",
       relationship: "",
       pageOfitems: [],
-
+      friendList: [],
+      temppageOfitems: [],
       start: 0,
       end: 10,
       current: 1
     }
     this.onChangePage = this.onChangePage.bind(this)
+    this.onChangeItems = this.onChangeItems.bind(this)
   }
 
   exampleItemList = [...Array(60).keys()].map(i => ({
@@ -45,6 +49,39 @@ class FriendTable extends Component {
     })
   }
 
+  onChangeItems(pageOfitems) {
+    this.setState({
+      temppageOfitems: pageOfitems
+    })
+    temppageOfitems = pageOfitems
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // reset page if items array has changed
+    if (this.props.friendList !== prevProps.friendList) {
+      // console.log("items 가 달라 componentdidupdate 탔음")
+      // this.setPage(this.props.initialPage)
+      // this.onChangePage(this.state.pageOfitems)
+      // this.setTable()
+      // alert("gkgkgk")
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      friendList: nextProps.friendList
+    })
+    if (this.props.friendList !== nextProps.friendList) {
+      // this.onChangePage(nextProps.friendList)
+      console.log("componentWillReceiveProps")
+      this.onChangePage(nextProps.friendList)
+    }
+  }
+
+  pagena = () => {
+    return <Pagination items={this.props.friendList} onChangePage={this.onChangePage} />
+  }
+
   setTable = () => {
     if (this.state.pageOfitems.length === 0) return
     return this.state.pageOfitems.map((contact, i) => {
@@ -53,6 +90,17 @@ class FriendTable extends Component {
         gender = "남자"
       } else {
         gender = "여자"
+      }
+      let age
+      if (contact.birth !== null || contact.birth !== undefined) {
+        console.log(typeof Number(contact.birth.split("-")[0]))
+        age = new Date().getFullYear() - Number(contact.birth.split("-")[0]) + 1
+      }
+      let portrait
+      if (contact.portrait !== null || contact.portrait !== undefined) {
+        portrait = "./images/peopleimg.jpg"
+      } else {
+        portrait = contact.portrait
       }
       return (
         <div class="bg-white shadow overflow-hidden sm:rounded-md mx-10">
@@ -66,11 +114,7 @@ class FriendTable extends Component {
                 <div class="flex items-center px-4 py-4 sm:px-6">
                   <div class="min-w-0 flex-1 flex items-center">
                     <div class="flex-shrink-0">
-                      <img
-                        class="h-12 w-12 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                      <img class="h-12 w-12 rounded-full" src={portrait} alt="" />
                     </div>
                     <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                       <div>
@@ -91,8 +135,8 @@ class FriendTable extends Component {
                       <div class="hidden md:block">
                         <div>
                           <div class="flex text-sm leading-5 text-gray-900">
-                            <img src="images/party1.png" class="h-5 mr-2" />
-                            <time datetime="2020-01-07">{contact.birth}</time>
+                            <img src="images/party1.png" class="  h-5 mr-2" />
+                            <time datetime="2020-01-07">{`${contact.birth} ▷ ${age}세`}</time>
                           </div>
                           <div class="mt-2 flex items-center text-sm leading-5 text-gray-500">
                             {`직업: ${contact.job} | ${contact.school} 졸업`}
@@ -122,9 +166,12 @@ class FriendTable extends Component {
   render() {
     return (
       <>
-        {this.setTable()}
+        {this.props.friendList && this.setTable()}
         <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-          <Pagination items={this.props.friendList} onChangePage={this.onChangePage} />
+          {/* {this.pagena} */}
+          {this.props.friendList && (
+            <Pagination items={this.props.friendList} onChangePage={this.onChangePage} />
+          )}
         </div>
       </>
     )

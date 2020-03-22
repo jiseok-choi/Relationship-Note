@@ -4,10 +4,11 @@ import React, { Component } from "react"
 import FriendTable from "../components/Friend/FriendTable"
 import FriendProfile from "../components/Friend/FriendProfile"
 import NewFriend from "../components/Friend/NewFriend"
-import ReviseFriend from "../components/Friend/ReviseFriend"
 import NewsTable from "../components/News/NewsTable"
 import axios from "axios"
 import * as moment from "moment"
+
+var Flist
 
 class Friend extends Component {
   constructor(props) {
@@ -20,12 +21,45 @@ class Friend extends Component {
       selectFriend: "",
       today: moment(new Date()).format("YYYY-MM-DD")
     }
-
+    this.handleChange = this.handleChange.bind(this)
     this.getFriend = this.getFriend.bind(this)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return true
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      friendList: nextProps.friendList
+    })
+  }
+
+  handleChange(e) {
+    let currentList = []
+    let newList = []
+
+    // If the search bar isn't empty
+    if (e.target.value !== "") {
+      currentList = Flist
+
+      newList = currentList.filter(item => {
+        const lc = item.name.toLowerCase()
+        const filter = e.target.value.toLowerCase()
+        return lc.includes(filter)
+      })
+      this.setState({
+        friendList: newList
+      })
+    } else {
+      // newList = this.props.items
+      // newList = Flist
+      // this.getFriend()
+      window.location.reload()
+    }
+    // this.setState({
+    //   friendList: newList
+    // })
   }
 
   getFriend = () => {
@@ -41,6 +75,8 @@ class Friend extends Component {
       })
       .then(res => {
         console.log(res.data)
+        Friend.defaultProps = res.data
+        Flist = res.data
         this.setState({
           friendList: res.data
         })
@@ -103,24 +139,24 @@ class Friend extends Component {
     return (
       <>
         <div>
-          <div class="flex justify-between m-10">
-            <div>
+          <div class="flex justify-between m-10 grid grid-cols-3 gap-4">
+            <div class="col-span-1">
               <p class=" text-3xl ">지인 목록</p>
             </div>
-            <div class=" ">
+            <div class="flex justify-end col-span-2">
+              <input
+                class="rounded p-2"
+                type="text"
+                onChange={this.handleChange}
+                placeholder="Search"
+              />
+
               <NewFriend getFriend={this.getFriend} />
             </div>
           </div>
 
           <FriendTable friendList={this.state.friendList} selectFriend={this.selectFriend} />
 
-          {/* <div className="text-right">
-                <NewNews
-                  friendInfo={this.state.selectFriend}
-                  addNews={this.addNews}
-                  today={date}
-                />
-              </div> */}
           <div className="row">{/* <NewsTable newsList={this.state.newsList} /> */}</div>
         </div>
       </>

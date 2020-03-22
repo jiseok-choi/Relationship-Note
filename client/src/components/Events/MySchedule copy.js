@@ -101,86 +101,81 @@ class MySchedule extends Component {
           aria-labelledby="example-modal-sizes-title-lg"
         >
           <Modal.Header closeButton>
-            <div class="flex justify-center">
-              <Modal.Title id="example-modal-sizes-title-lg">나의 일정 등록</Modal.Title>
-            </div>
+            <Modal.Title id="example-modal-sizes-title-lg">나의 일정 등록</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <form class="w-full">
-              <div class="md:flex md:items-center mb-6">
-                <div class="md:w-1/6">
-                  <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                    제목
-                  </label>
-                </div>
-                <div class="md:w-5/6">
+            <Form>
+              <Form.Group as={Row} controlId="formTitle">
+                <Form.Label column sm="2">
+                  제목
+                </Form.Label>
+                <Col sm="10">
                   <Form.Control
                     type="text"
                     name="title"
                     onChange={this.handleChange}
                   ></Form.Control>
-                </div>
-              </div>
-
-              <div class="flex flex-col xs:flex-row items-center mb-6">
+                </Col>
+              </Form.Group>
+              <div class="flex flex-col xs:flex-row items-center">
                 <Calendar
                   onChange={this.onChange}
                   value={this.state.date}
                   selectRange={this.selectRange}
                 />
               </div>
-
-              <div class="md:flex md:items-center mb-6">
-                <div class="md:w-1/6">
-                  <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+              <Row>
+                <Form.Group as={Row} controlId="formStart">
+                  <Form.Label column sm="4">
                     시작 날짜
-                  </label>
-                </div>
-                <div class="md:w-2/6">
-                  <Form.Control
-                    type="text"
-                    name="start"
-                    defaultValue={this.state.start}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <div class="md:w-1/6">
-                  <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-username">
+                  </Form.Label>
+
+                  <Col sm="6">
+                    <Form.Control
+                      type="text"
+                      name="start"
+                      defaultValue={this.state.start}
+                      onChange={this.onChange}
+                    />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} controlId="formEnd">
+                  <Form.Label column sm="4">
                     끝 날짜
-                  </label>
-                </div>
-                <div class="md:w-2/6">
-                  <Form.Control
-                    type="text"
-                    name="end"
-                    defaultValue={this.state.end}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div class="md:flex md:items-center mb-6">
-                <div class="md:w-1/6">
-                  <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                    내용
-                  </label>
-                </div>
-                <div class="md:w-5/6">
+                  </Form.Label>
+                  <Col sm="6">
+                    <Form.Control
+                      type="text"
+                      name="end"
+                      defaultValue={this.state.end}
+                      onChange={this.handleChange}
+                    />
+                  </Col>
+                </Form.Group>
+              </Row>
+
+              <Form.Group as={Row} controlId="formContents">
+                <Form.Label column sm="2">
+                  내용
+                </Form.Label>
+                <Col sm="10">
                   <Form.Control
                     as="textarea"
                     type="text"
                     name="contents"
                     onChange={this.handleChange}
                   />
-                </div>
-              </div>
+                </Col>
+              </Form.Group>
 
               <div class="flex flex-col xs:flex-row items-center">
                 <Button onClick={this.sendNewSchedule} variant="primary" type="submit">
                   등록
                 </Button>
               </div>
-            </form>
+            </Form>
           </Modal.Body>
         </Modal>
       </ButtonToolbar>

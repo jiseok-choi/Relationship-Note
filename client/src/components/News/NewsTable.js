@@ -5,6 +5,7 @@ import LookNews from "./LookNews"
 import { Col, Row } from "react-bootstrap"
 import Pagination from "../Pagination/Pagination"
 import NewNews from "../../components/News/NewNews"
+import ReviseFriend from "../../components/Friend/ReviseFriend"
 import axios from "axios"
 
 class NewsTable extends Component {
@@ -89,17 +90,18 @@ class NewsTable extends Component {
   render() {
     return (
       <>
-        <div class="flex justify-between m-10">
-          <div>
-            <p class=" text-3xl ">{this.state.selectFriend.name} 의 소식 목록</p>
+        <div class="flex justify-between m-10 grid grid-cols-3 gap-4">
+          <div class="col-span-2">
+            <p class="text-3xl">{this.state.selectFriend.name} 의 소식 목록</p>
           </div>
-          <div class=" ">
+          <div class="flex justify-end  col-span-1">
+            <ReviseFriend friendInfo={this.state.selectFriend} />
             <NewNews friendInfo={this.state.selectFriend} addNews={this.getNews} />
           </div>
         </div>
 
-        <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-          <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div class="-max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+          <div class="-mt-8 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
               <table class="min-w-full leading-normal">
                 <thead>

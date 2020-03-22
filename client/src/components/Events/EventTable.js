@@ -19,22 +19,22 @@ class EventTable extends Component {
     }
     this.onChangePage = this.onChangePage.bind(this)
   }
-  exampleItemList = [...Array(60).keys()].map(i => ({
-    age: "i + 1",
-    birth: "Item " + (i + 1),
-    createdAt: "Item " + (i + 1),
-    deletedAt: "Item " + (i + 1),
-    gender: "Item " + (i + 1),
-    id: "Item " + (i + 1),
-    job: "Item " + (i + 1),
-    name: "Item " + (i + 1),
-    phone_num: "Item " + (i + 1),
-    relationship: "Item " + (i + 1),
-    school: "Item " + (i + 1),
-    updatedAt: "Item " + (i + 1),
-    userId: "Item " + (i + 1),
-    userId: "Item " + (i + 1)
-  }))
+  // exampleItemList = [...Array(60).keys()].map(i => ({
+  //   age: "i + 1",
+  //   birth: "Item " + (i + 1),
+  //   createdAt: "Item " + (i + 1),
+  //   deletedAt: "Item " + (i + 1),
+  //   gender: "Item " + (i + 1),
+  //   id: "Item " + (i + 1),
+  //   job: "Item " + (i + 1),
+  //   name: "Item " + (i + 1),
+  //   phone_num: "Item " + (i + 1),
+  //   relationship: "Item " + (i + 1),
+  //   school: "Item " + (i + 1),
+  //   updatedAt: "Item " + (i + 1),
+  //   userId: "Item " + (i + 1),
+  //   userId: "Item " + (i + 1)
+  // }))
   onChangePage(pageOfitems) {
     this.setState({
       pageOfitems: pageOfitems

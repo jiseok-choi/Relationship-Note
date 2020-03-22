@@ -65,10 +65,10 @@ class NewNews extends Component {
   render() {
     const friendInfo = this.props.friendInfo
     return (
-      <ButtonToolbar>
+      <>
         <button
           onClick={this.open}
-          class="flex justify-center mr-10 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+          class="flex justify-right mr-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
         >
           소식추가
         </button>
@@ -136,7 +136,7 @@ class NewNews extends Component {
             </Form>
           </Modal.Body>
         </Modal>
-      </ButtonToolbar>
+      </>
     )
   }
 }
