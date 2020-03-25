@@ -28,7 +28,8 @@ class ReviseNews extends Component {
     event.preventDefault()
 
     axios
-      .put(`http://localhost:8000/news/reviseNews`, {
+      // .put(`http://localhost:8000/news/reviseNews`, {
+      .put(`http://54.180.149.57:8000/news/reviseNews`, {
         data: {
           friendid: this.state.friendid,
           date: this.state.date,

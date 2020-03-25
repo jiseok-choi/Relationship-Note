@@ -34,8 +34,8 @@ class Root extends Component {
   initializeUserInfo = () => {
     axios.defaults.withCredentials = true
     axios
-      .post(`http://localhost:8000/main`, {
-        // .post(process.env.HTTP || `http://localhost:8000/main`, {
+      // .post(`http://localhost:8000/main`, {
+      .post(`http://54.180.149.57:8000/main`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

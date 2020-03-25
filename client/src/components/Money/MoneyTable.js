@@ -27,7 +27,8 @@ class MoneyTable extends Component {
 
   checkclick = id => {
     axios
-      .patch(`http://localhost:8000/money/check/${id}`, {})
+      // .patch(`http://localhost:8000/money/check/${id}`, {})
+      .patch(`http://54.180.149.57:8000/money/check/${id}`, {})
       .then(res => {
         const newvisit = res.data !== undefined
         if (newvisit) {

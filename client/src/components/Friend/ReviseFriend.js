@@ -76,7 +76,8 @@ class ReviseFriend extends Component {
     }
 
     axios
-      .put(`http://localhost:8000/friend/revisefriend`, form, config)
+      // .put(`http://localhost:8000/friend/revisefriend`, form, config)
+      .put(`http://54.180.149.57:8000/friend/revisefriend`, form, config)
       .then(res => {
         const newFriend = res.data !== undefined
         if (newFriend) {
