@@ -62,7 +62,8 @@ class NewFriend extends Component {
     }
 
     axios
-      .post(`http://localhost:8000/friend/newfriend`, form, config)
+      .post(`http://54.180.149.57:8000/friend/newfriend`, form, config)
+      // .post(`http://localhost:8000/friend/newfriend`, form, config)
       .then(res => {
         const newFriend = res.data !== undefined
         if (newFriend) {

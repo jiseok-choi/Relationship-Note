@@ -24,7 +24,8 @@ class Loginform extends Component {
 
     axios
       // .post(`process.env.HTTP` || `http://localhost:8000/auth/login`, {
-      .post(`http://localhost:8000/auth/login`, {
+      // .post(`http://localhost:8000/auth/login`, {
+      .post(`http://54.180.149.57:8000/auth/login`, {
         // .post(`http://172.30.1.9:8000/auth/login`, {
 
         userid: this.state.userid,
