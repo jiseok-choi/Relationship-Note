@@ -61,7 +61,7 @@ class ReviseFriend extends Component {
     } else if (this.state.gender === "여자") {
       gender = "W"
     }
-    const { name, relationship, age, birth, job, school, phone_Num } = this.state
+    const { name, relationship, age, birth, job, school, phoneNum, id } = this.state
     form.set("name", name)
     form.set("relationship", relationship)
     form.set("age", age)
@@ -69,15 +69,15 @@ class ReviseFriend extends Component {
     form.set("birth", birth)
     form.set("job", job)
     form.set("school", school)
-    form.set("phone_Num", phone_Num)
+    form.set("phone_Num", phoneNum)
+    form.set("id", id)
 
     const config = {
       headers: { "Content-Type": "multipart/form-data" }
     }
 
     axios
-      // .put(`http://localhost:8000/friend/revisefriend`, form, config)
-      .put(`http://54.180.149.57:8000/friend/revisefriend`, form, config)
+      .put(`http://localhost:8000/friend/revisefriend`, form, config)
       .then(res => {
         const newFriend = res.data !== undefined
         if (newFriend) {

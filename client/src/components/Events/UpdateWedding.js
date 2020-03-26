@@ -139,8 +139,7 @@ class UpdateWedding extends Component {
     }
 
     axios
-      // .put(`http://localhost:8000/event/sendUpdateWedding`, form, config)
-      .put(`http://54.180.149.57:8000/event/sendUpdateWedding`, form, config)
+      .put(`http://localhost:8000/event/sendUpdateWedding`, form, config)
       .then(res => {
         alert("url로 청접장을 보내보세요")
         //   return this.props.close

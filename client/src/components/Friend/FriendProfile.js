@@ -16,8 +16,7 @@ class FriendProfile extends Component {
       alert(friendID)
       axios.defaults.withCredentials = true
       axios
-        // .post(`http://localhost:8000/friend/getfriend`, {
-        .post(`http://54.180.149.57:8000/friend/getfriend`, {
+        .post(`http://localhost:8000/friend/getfriend`, {
           friendID: friendID,
           withCredentials: true,
           headers: {

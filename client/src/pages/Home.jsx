@@ -44,9 +44,7 @@ class Home extends Component {
     axios.defaults.withCredentials = true
 
     axios
-      // .post(`process.env.HTTP` || `http://localhost:8000/auth/login`, {
-      // .get(`http://localhost:8000/auth/logout`, {
-      .get(`http://54.180.149.57:8000/auth/logout`, {
+      .get(`http://localhost:8000/auth/logout`, {
         // .post(`http://172.30.1.9:8000/auth/login`, {
       })
       .then(res => {
@@ -67,8 +65,7 @@ class Home extends Component {
     axios.defaults.withCredentials = true
 
     axios
-      //   .get(`http://localhost:8000/dashboard/`, {
-      .get(`http://54.180.149.57:8000/dashboard/`, {
+      .get(`http://localhost:8000/dashboard/`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

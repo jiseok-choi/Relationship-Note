@@ -108,8 +108,7 @@ class CreateParty extends Component {
     }
 
     axios
-      //   .post(`http://localhost:8000/event/sendCreateParty`, form, config)
-      .post(`http://54.180.149.57:8000/event/sendCreateParty`, form, config)
+      .post(`http://localhost:8000/event/sendCreateParty`, form, config)
       .then(res => {
         this.setState({
           lgShow: false

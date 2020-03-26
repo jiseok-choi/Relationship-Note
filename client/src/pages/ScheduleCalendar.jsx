@@ -183,8 +183,7 @@ class ScheduleCalendar extends Component {
     axios.defaults.withCredentials = true
 
     axios
-      // .post(`http://localhost:8000/schedule/getScheduleList`, {
-      .post(`http://54.180.149.57:8000/schedule/getScheduleList`, {
+      .post(`http://localhost:8000/schedule/getScheduleList`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

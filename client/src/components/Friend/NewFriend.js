@@ -47,7 +47,7 @@ class NewFriend extends Component {
       gender = "W"
     }
 
-    const { name, relationship, age, birth, job, school, phone_Num } = this.state
+    const { name, relationship, age, birth, job, school, phoneNum } = this.state
     form.set("name", name)
     form.set("relationship", relationship)
     form.set("age", age)
@@ -55,15 +55,14 @@ class NewFriend extends Component {
     form.set("birth", birth)
     form.set("job", job)
     form.set("school", school)
-    form.set("phone_Num", phone_Num)
+    form.set("phone_Num", phoneNum)
 
     const config = {
       headers: { "Content-Type": "multipart/form-data" }
     }
 
     axios
-      .post(`http://54.180.149.57:8000/friend/newfriend`, form, config)
-      // .post(`http://localhost:8000/friend/newfriend`, form, config)
+      .post(`http://localhost:8000/friend/newfriend`, form, config)
       .then(res => {
         const newFriend = res.data !== undefined
         if (newFriend) {

@@ -48,7 +48,18 @@ router.put(
   async (req, res, next) => {
     try {
       const { name, relationship, age, gender, birth, job, school, phone_Num, id } = req.body
-
+      console.log(
+        "req revisefriend",
+        name,
+        relationship,
+        age,
+        gender,
+        birth,
+        job,
+        school,
+        phone_Num,
+        id
+      )
       const beforefriend = await Friend.findOne({ where: { userid: req.user.id, id: id } })
 
       if (name !== "notChange" || name !== undefined) {
@@ -113,7 +124,8 @@ router.post(
       const userid = req.user.id
       const { name, relationship, age, gender, birth, job, school, phone_Num } = req.body
 
-      const portrait = await req.files.Picture[0].filename
+      let portrait = null
+      if (req.files.Picture !== undefined) portrait = await req.files.Picture[0].filename
 
       const newFriend = await Friend.create({
         name,

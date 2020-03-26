@@ -29,8 +29,7 @@ class NewNews extends Component {
     event.preventDefault()
 
     axios
-      // .post(`http://localhost:8000/news/newNews`, {
-      .post(`http://54.180.149.57:8000/news/newNews`, {
+      .post(`http://localhost:8000/news/newNews`, {
         data: {
           friendid: this.props.friendInfo.id,
           date: this.state.date,

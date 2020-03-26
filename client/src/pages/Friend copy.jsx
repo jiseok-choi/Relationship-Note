@@ -33,8 +33,7 @@ class Friend extends Component {
     axios.defaults.withCredentials = true
 
     axios
-      // .post(`http://localhost:8000/friend/friendList/1/10`, {
-      .post(`http://54.180.149.57:8000/friend/friendList/1/10`, {
+      .post(`http://localhost:8000/friend/friendList/1/10`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
@@ -55,8 +54,7 @@ class Friend extends Component {
     axios.defaults.withCredentials = true
     // alert(this.state.selectFriend.id);
     axios
-      // .post(`http://localhost:8000/news/getNewsList`, {
-      .post(`http://54.180.149.57:8000/news/getNewsList`, {
+      .post(`http://localhost:8000/news/getNewsList`, {
         data: {
           friendid: this.state.selectFriend.id
         },

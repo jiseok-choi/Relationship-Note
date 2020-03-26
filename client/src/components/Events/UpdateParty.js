@@ -115,8 +115,7 @@ class UpdateParty extends Component {
     }
 
     axios
-      // .put(`http://localhost:8000/event/sendUpdateParty`, form, config)
-      .put(`http://54.180.149.57:8000/event/sendUpdateParty`, form, config)
+      .put(`http://localhost:8000/event/sendUpdateParty`, form, config)
       .then(res => {
         alert("url로 청접장을 보내보세요")
         //   return this.props.close
