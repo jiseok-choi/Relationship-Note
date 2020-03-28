@@ -2,25 +2,11 @@ var express = require("express")
 const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require("./middlewares")
 const router = express.Router()
 const { Friend } = require("../models")
+const { deleteS3Obj, upload_s3 } = require("./S3")
 const multer = require("multer")
 
-const upload = multer({
-  //멀터를 사용하면 upload 객체를 받을 수 있다.
-  storage: multer.diskStorage({
-    //어디에 저장할지? 서버디스크에 이미지를 저장하겠다는 의미
-    destination(req, file, cb) {
-      //파일이 저장될 경로
-      cb(null, "uploads/") //cb(에러, 결과값)
-    },
-    filename(req, file, cb) {
-      //파일이름
-      const ext = path.extname(file.originalname) //확장자 가져오기
-      const basename = path.basename(file.originalname, ext)
-      cb(null, basename + new Date().valueOf() + ext) //basename 은 확장자 이외 이름
-    }
-  }),
-  limits: { fileSize: 5000 * 1024 * 1024 } //파일 사이즈 (500mb)
-})
+let type = "friend_portrait"
+let fileSize = 50 * 1024 * 1024
 
 router.post("/friendList/:page/:countPerPage", isLoggedIn, async (req, res, next) => {
   try {
@@ -44,22 +30,11 @@ router.put(
   "/revisefriend",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }]),
   async (req, res, next) => {
     try {
       const { name, relationship, age, gender, birth, job, school, phone_Num, id } = req.body
-      console.log(
-        "req revisefriend",
-        name,
-        relationship,
-        age,
-        gender,
-        birth,
-        job,
-        school,
-        phone_Num,
-        id
-      )
+
       const beforefriend = await Friend.findOne({ where: { userid: req.user.id, id: id } })
 
       if (name !== "notChange" || name !== undefined) {
@@ -78,16 +53,17 @@ router.put(
           { where: { userid: req.user.id, id: id } }
         )
 
+        let deleteItems = []
         if (req.files.Picture !== undefined) {
-          const mainFile = req.files.Picture[0]
-          await fs.unlink(`uploads/${beforefriend.portrait}`, e => {
-            console.log("메인사진삭제완료")
-          })
-          console.log(mainFile.filename)
-          await Friend.update(
-            { portrait: mainFile.filename },
-            { where: { userid: req.user.id, id: id } }
-          )
+          //s3 파일삭제
+          if (beforefriend.portrait !== null) {
+            deleteItems.push({ Key: beforefriend.portrait })
+            await deleteS3Obj(deleteItems)
+          }
+
+          const mainFile = req.files.Picture[0].key
+          console.log(mainFile)
+          await Friend.update({ portrait: mainFile }, { where: { userid: req.user.id, id: id } })
         }
         const friend = await Friend.findOne({ where: { userid: req.user.id, id: id } })
         return res.status(201).json(friend)
@@ -117,7 +93,7 @@ router.post(
   "/newfriend",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }]),
   async (req, res, next) => {
     try {
       console.log("새친구 등록 " + req.user.id)
@@ -125,7 +101,7 @@ router.post(
       const { name, relationship, age, gender, birth, job, school, phone_Num } = req.body
 
       let portrait = null
-      if (req.files.Picture !== undefined) portrait = await req.files.Picture[0].filename
+      if (req.files.Picture !== undefined) portrait = await req.files.Picture[0].key
 
       const newFriend = await Friend.create({
         name,

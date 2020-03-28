@@ -127,10 +127,11 @@ class Signup extends Component {
                   <Form.Control type="text" name="name" onChange={this.handleChange} />
                 </Col>
               </Form.Group>
-
-              <Button onClick={this.sendSignup} variant="primary" type="submit">
-                확인
-              </Button>
+              <div class="flex flex-col xs:flex-row items-center">
+                <Button onClick={this.sendSignup} variant="primary" type="submit">
+                  확인
+                </Button>
+              </div>
             </Form>
           </Modal.Body>
         </Modal>

@@ -17,20 +17,20 @@ class ScheduleCalendar extends Component {
       month: new Date().getMonth(),
       day: new Date().getDay(),
       events: [
-        {
-          title: "출근",
-          contents: "내용",
-          allDay: false,
-          start: new Date(2020, 2, 18, 10, 0),
-          end: new Date(2020, 2, 19, 10, 30)
-        },
-        {
-          title: "퇴근",
-          contents: "내용",
-          allDay: false,
-          start: new Date(2020, 2, 20, 17, 30),
-          end: new Date(2020, 2, 21, 17, 40)
-        }
+        // {
+        //   title: "출근",
+        //   contents: "내용",
+        //   allDay: false,
+        //   start: new Date(2020, 2, 18, 10, 0),
+        //   end: new Date(2020, 2, 19, 10, 30)
+        // },
+        // {
+        //   title: "퇴근",
+        //   contents: "내용",
+        //   allDay: false,
+        //   start: new Date(2020, 2, 20, 17, 30),
+        //   end: new Date(2020, 2, 21, 17, 40)
+        // }
       ],
       scheduleList: [],
       birthList: [],

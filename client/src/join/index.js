@@ -1,21 +1,58 @@
 import React, { Component } from "react"
 import Loginform from "./Loginform"
+import axios from "axios"
 import { Container, Row, Col, Image } from "react-bootstrap"
 import { money, visit, meeting, birth, friend } from "../images"
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom"
 import Signup from "./Signup"
 
 class joinindex extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: "",
+      email: "",
+      message: ""
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.sendmail = this.sendmail.bind(this)
+  }
+
+  sendmail = e => {
+    e.preventDefault()
+    const { name, email, message } = this.state
+    if (name === "" || email === "" || message === "") {
+      return alert("모든 항목을 작성해주세요")
+    }
+    const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    if (!emailRegexp.test(email)) {
+      return alert("이메일 형식을 지켜주세요")
+    }
+
+    axios
+      .post(`http://localhost:8000/auth/mail`, {
+        name: this.state.name,
+        email: this.state.email,
+        message: this.state.message
+      })
+      .then(res => {
+        alert("질문 감사합니다 응답은 메일로 보내드립니다")
+        window.location.reload()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
   render() {
     return (
       <>
-        {/* <h2>Post List</h2> 
-                        <ul>
-                            <li><Link to={`${this.props.match.url}/1`}>Post #1</Link></li>
-                            <li><Link to={`${this.props.match.url}/2`}>Post #2</Link></li>
-                            <li><Link to={`${this.props.match.url}/3`}>Post #3</Link></li>
-                            <li><Link to={`${this.props.match.url}/4`}>Post #4</Link></li>
-                        </ul> */}
         <main>
           <div
             className="relative pt-16 pb-32 flex content-center items-center justify-center"
@@ -253,7 +290,7 @@ class joinindex extends Component {
           <section className="pt-20 pb-48">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap justify-center text-center mb-2">
-                <div className="w-full lg:w-6/12 px-4">
+                <div className="w-full lg:w-8/12 px-4">
                   <h2 className="text-4xl font-semibold">Who created by this site</h2>
                   <p className="text-lg leading-relaxed m-4 text-gray-600">
                     더 좋은 서비스를 고민하고 더 좋은 개발자가 되기를 꿈꾸는
@@ -261,13 +298,13 @@ class joinindex extends Component {
                 </div>
               </div>
               <div className="flex flex-wrap justify-center">
-                <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
+                <div className="w-full md:w-6/12 lg:mb-0 mb-12 px-4">
                   <div className="px-6">
                     <img
                       alt="..."
-                      src="./images/edit.png"
+                      src="./images/root_profile.jpg"
                       className="shadow-lg rounded-full max-w-full mx-auto"
-                      style={{ maxWidth: "120px" }}
+                      style={{ maxWidth: "360px" }}
                     />
                     <div className="pt-6 text-center">
                       <h5 className="text-xl font-bold">Jiseok CHOI</h5>
@@ -384,6 +421,8 @@ class joinindex extends Component {
                           className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                           placeholder="Full Name"
                           style={{ transition: "all .15s ease" }}
+                          name="name"
+                          onChange={this.handleChange}
                         />
                       </div>
 
@@ -399,6 +438,8 @@ class joinindex extends Component {
                           className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                           placeholder="example@test.com"
                           style={{ transition: "all .15s ease" }}
+                          name="email"
+                          onChange={this.handleChange}
                         />
                       </div>
 
@@ -414,10 +455,13 @@ class joinindex extends Component {
                           cols="80"
                           className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                           placeholder="Type a message"
+                          name="message"
+                          onChange={this.handleChange}
                         />
                       </div>
                       <div className="text-center mt-6">
                         <button
+                          onClick={this.sendmail}
                           className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                           type="button"
                           style={{ transition: "all .15s ease" }}

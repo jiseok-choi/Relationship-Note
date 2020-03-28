@@ -97,10 +97,10 @@ class FriendTable extends Component {
         age = new Date().getFullYear() - Number(contact.birth.split("-")[0]) + 1
       }
       let portrait
-      if (contact.portrait !== null || contact.portrait !== undefined) {
+      if (contact.portrait === null || contact.portrait === undefined) {
         portrait = "./images/peopleimg.jpg"
       } else {
-        portrait = contact.portrait
+        portrait = `https://rnotestorage.s3.ap-northeast-2.amazonaws.com/${contact.portrait}`
       }
       return (
         <div class="bg-white shadow overflow-hidden sm:rounded-md mx-10">

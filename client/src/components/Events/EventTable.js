@@ -117,7 +117,7 @@ class EventTable extends Component {
             </div>
           </div>
         </div>
-        <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+        <div class="bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
           <Pagination items={this.props.eventList} onChangePage={this.onChangePage} />
         </div>
       </>
