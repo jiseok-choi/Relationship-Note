@@ -1,51 +1,22 @@
 const express = require("express")
 const { isLoggedIn, isNotLoggedIn, isUpdateActivity } = require("./middlewares")
-const multer = require("multer")
 const path = require("path")
-const fs = require("fs")
 const { Event, Wedding, Party } = require("../models")
+const { deleteS3Obj, upload_s3 } = require("./S3")
 
 const router = express.Router()
 
-fs.readdir("uploads", error => {
-  if (error) {
-    console.error("uploads 폴더가 없어 uploads 폴더를 생성합니다.")
-    fs.mkdirSync("uploads")
-  }
-})
+let type = "event"
+let fileSize = 50 * 1024 * 1024
 
-const upload = multer({
-  //멀터를 사용하면 upload 객체를 받을 수 있다.
-  storage: multer.diskStorage({
-    //어디에 저장할지? 서버디스크에 이미지를 저장하겠다는 의미
-    destination(req, file, cb) {
-      //파일이 저장될 경로
-      cb(null, "uploads/") //cb(에러, 결과값)
-    },
-    filename(req, file, cb) {
-      //파일이름
-      const ext = path.extname(file.originalname) //확장자 가져오기
-      const basename = path.basename(file.originalname, ext)
-      cb(null, basename + new Date().valueOf() + ext) //basename 은 확장자 이외 이름
-    }
-  }),
-  limits: { fileSize: 5000 * 1024 * 1024 } //파일 사이즈 (500mb)
-})
-
-// router.post('/sendCreateWedding', isLoggedIn, upload.single([{ name: 'mainPicture' }, { name: 'subPicture' }]), async (req, res, next) => {
 router.post(
   "/sendCreateWedding",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }, { name: "Pictures" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }, { name: "Pictures" }]),
   async (req, res, next) => {
     try {
       console.log("결혼행사 생성")
-      // const { date, time, groom, birde, invite, groomFather, groomMother, birdeFather, birdeMother, lat, lng, post, weddingHall } = req.body.data;
-      // let form = new FormData();
-      // for(var key in req.body.data) {
-      //     console.log('key: ' + key + 'value: '+req.body.data[key])
-      // }
       const {
         date,
         time,
@@ -64,13 +35,19 @@ router.post(
 
       const userid = req.user.id
       // const MainPicture = await Picture.pop().filename;
-      const MainPicture = await req.files.Picture[0].filename
-      const Pictures = req.files.Pictures
-      let SubPicture = ""
-      console.log(req.files)
-      await Pictures.forEach(element => {
-        SubPicture = SubPicture + ";" + element.filename
-      })
+      // const MainPicture = await req.files.Picture[0].filename
+
+      let MainPicture = null
+      if (req.files.Picture !== undefined) MainPicture = await req.files.Picture[0].key
+
+      let Pictures = req.files.Pictures
+      let SubPicture = null
+      if (Pictures !== undefined) {
+        console.log(req.files)
+        await Pictures.forEach(element => {
+          SubPicture = SubPicture + ";" + element.key
+        })
+      }
 
       const newEvent = await Event.create({
         kinds: "wedding",
@@ -79,7 +56,7 @@ router.post(
         userid: userid
       })
 
-      const newWedding = await Wedding.create({
+      await Wedding.create({
         date,
         time,
         groom,
@@ -139,7 +116,7 @@ router.put(
   "/sendUpdateWedding",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }, { name: "Pictures" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }, { name: "Pictures" }]),
   async (req, res, next) => {
     try {
       const {
@@ -191,23 +168,19 @@ router.put(
           where: { fk_eventId: fk_eventId }
         }
       )
+
+      let deleteItems = []
+
       if (req.files.Picture !== undefined) {
-        const mainFile = req.files.Picture[0]
-        await fs.unlink(`uploads/${beforeWedding.mainPicture}`, e => {
-          console.log("메인사진삭제완료")
-        })
-        console.log(mainFile.filename)
-        await Wedding.update(
-          { mainPicture: mainFile.filename },
-          { where: { fk_eventId: fk_eventId } }
-        )
+        const mainFile = req.files.Picture[0].key
+        deleteItems.push({ Key: beforeWedding.mainPicture })
+        console.log(mainFile)
+        await Wedding.update({ mainPicture: mainFile }, { where: { fk_eventId: fk_eventId } })
       }
       if (req.files.Pictures !== undefined) {
         let subPicture = beforeWedding.subPicture.slice(1).split(";")
         await subPicture.map(contact => {
-          fs.unlink(`uploads/${contact}`, e => {
-            console.log("서브사진삭제완료")
-          })
+          deleteItems.push({ Key: contact })
         })
         let sub = ""
         await req.files.Pictures.forEach(element => {
@@ -215,7 +188,8 @@ router.put(
         })
         await Wedding.update({ subPicture: sub }, { where: { fk_eventId: fk_eventId } })
       }
-
+      //파일 삭제
+      await deleteS3Obj(deleteItems)
       return res.status(200).json(true)
     } catch (e) {
       console.error(e)
@@ -231,20 +205,18 @@ router.delete("/delete:id", isLoggedIn, isUpdateActivity, async (req, res, next)
     const id = req.params.id
     const event = await Event.findOne({ where: { id } })
     console.log("1번실행")
+    let deleteItems = []
     // 2. 정보확인
     if (event.kinds === "wedding") {
       console.log("2번실행")
 
       // 3. 사진삭제
       const wedding = await Wedding.findOne({ where: { fk_eventId: id } })
-      await fs.unlink(`uploads/${wedding.mainPicture}`, e => {
-        console.log("메인사진삭제완료")
-      })
+      //메인사진삭제담기
+      deleteItems.push({ Key: wedding.mainPicture })
       let subPicture = wedding.subPicture.slice(1).split(";")
       await subPicture.map(contact => {
-        fs.unlink(`uploads/${contact}`, e => {
-          console.log("서브사진삭제완료")
-        })
+        deleteItems.push({ Key: contact })
       })
       console.log("3번실행")
 
@@ -253,22 +225,19 @@ router.delete("/delete:id", isLoggedIn, isUpdateActivity, async (req, res, next)
         where: { id }
       })
       console.log("4번실행")
-
-      return res.status(200).json(true)
+      await deleteS3Obj(deleteItems)
+      res.status(200).json(true)
     }
     if (event.kinds === "party") {
       console.log("2번실행")
 
       // 3. 사진삭제
-      const Party = await Party.findOne({ where: { fk_eventId: id } })
-      await fs.unlink(`uploads/${Party.mainPicture}`, e => {
-        console.log("메인사진삭제완료")
-      })
-      let subPicture = Party.subPicture.slice(1).split(";")
+      const beforeParty = await Party.findOne({ where: { fk_eventId: id } })
+      //메인사진삭제담기
+      deleteItems.push({ Key: beforeParty.mainPicture })
+      let subPicture = beforeParty.subPicture.slice(1).split(";")
       await subPicture.map(contact => {
-        fs.unlink(`uploads/${contact}`, e => {
-          console.log("서브사진삭제완료")
-        })
+        deleteItems.push({ Key: contact })
       })
       console.log("3번실행")
 
@@ -277,8 +246,8 @@ router.delete("/delete:id", isLoggedIn, isUpdateActivity, async (req, res, next)
         where: { id }
       })
       console.log("4번실행")
-
-      return res.status(200).json(true)
+      await deleteS3Obj(deleteItems)
+      res.status(200).json(true)
     }
   } catch (e) {
     console.error(e)
@@ -290,20 +259,24 @@ router.post(
   "/sendCreateParty",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }, { name: "Pictures" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }, { name: "Pictures" }]),
   async (req, res, next) => {
     try {
       console.log("행사 생성")
       const { date, time, mainCharacter, title, invite, lat, lng, post, location } = req.body
 
       const userid = req.user.id
-      const MainPicture = await req.files.Picture[0].filename
-      const Pictures = req.files.Pictures
-      let SubPicture = ""
+      let MainPicture = null
+      if (req.files.Picture !== undefined) MainPicture = await req.files.Picture[0].key
 
-      await Pictures.forEach(element => {
-        SubPicture = SubPicture + ";" + element.filename
-      })
+      let Pictures = req.files.Pictures
+      let SubPicture = null
+      if (Pictures !== undefined) {
+        console.log(req.files)
+        await Pictures.forEach(element => {
+          SubPicture = SubPicture + ";" + element.key
+        })
+      }
 
       const newEvent = await Event.create({
         kinds: "party",
@@ -312,7 +285,7 @@ router.post(
         userid: userid
       })
 
-      const newParty = await Party.create({
+      await Party.create({
         date,
         time,
         mainCharacter,
@@ -340,7 +313,7 @@ router.put(
   "/sendUpdateParty",
   isLoggedIn,
   isUpdateActivity,
-  upload.fields([{ name: "Picture" }, { name: "Pictures" }]),
+  upload_s3(type, fileSize).fields([{ name: "Picture" }, { name: "Pictures" }]),
   async (req, res, next) => {
     try {
       const {
@@ -384,31 +357,29 @@ router.put(
           where: { fk_eventId: fk_eventId }
         }
       )
+
+      let deleteItems = []
+
       if (req.files.Picture !== undefined) {
-        const mainFile = req.files.Picture[0]
-        await fs.unlink(`uploads/${beforeParty.mainPicture}`, e => {
-          console.log("메인사진삭제완료")
-        })
-        console.log(mainFile.filename)
-        await Party.update(
-          { mainPicture: mainFile.filename },
-          { where: { fk_eventId: fk_eventId } }
-        )
+        const mainFile = req.files.Picture[0].key
+        deleteItems.push({ Key: beforeParty.mainPicture })
+        console.log(mainFile)
+        await Party.update({ mainPicture: mainFile }, { where: { fk_eventId: fk_eventId } })
       }
       if (req.files.Pictures !== undefined) {
         let subPicture = beforeParty.subPicture.slice(1).split(";")
         await subPicture.map(contact => {
-          fs.unlink(`uploads/${contact}`, e => {
-            console.log("서브사진삭제완료")
-          })
+          deleteItems.push({ Key: contact })
         })
         let sub = ""
         await req.files.Pictures.forEach(element => {
-          sub = sub + ";" + element.filename
+          sub = sub + ";" + element.key
         })
         await Party.update({ subPicture: sub }, { where: { fk_eventId: fk_eventId } })
       }
 
+      //파일 삭제
+      await deleteS3Obj(deleteItems)
       return res.status(200).json(true)
     } catch (e) {
       console.error(e)

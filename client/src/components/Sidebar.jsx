@@ -4,7 +4,9 @@ import { NavLink } from "react-router-dom"
 class Sidebar extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      propname: ["Home", "Friend", "Calendar", "Event", "Money"]
+    }
   }
 
   render() {
@@ -32,8 +34,8 @@ class Sidebar extends Component {
                     <NavLink to={prop.path}>
                       <div class="grid grid-cols-5">
                         <img
-                          src={`./images/sidebar_${prop.name}.svg`}
-                          class="h-8 w-8 ml-2 border-white"
+                          src={`../images/sidebar_${this.state.propname[key]}.png`}
+                          class="h-8 w-8 ml-2"
                         />
                         <p class="text-xl">{prop.name}</p>
                       </div>

@@ -1,56 +1,38 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from "react"
+import { Route, Switch } from "react-router-dom"
 // import { Home, Login } from '../pages';
-import NewsTable from '../components/News/NewsTable';
-import Sidebar from "../components/Sidebar";
-import menu from '../components/Menu';
-import image from "../assets/img/sidebar-3.jpg";
+import NewsTable from "../components/News/NewsTable"
+import Sidebar from "../components/Sidebar"
+import menu from "../components/Menu"
+import image from "../assets/img/sidebar-3.jpg"
 
 class App extends Component {
-
   state = {
     image: image,
     logined: false,
-    userid : '',
+    userid: ""
   }
 
   getSidebars = menu => {
     return menu.map((prop, key) => {
       if (prop.layout) {
-        return (
-          <Sidebar {...this.props} 
-          menu={menu} 
-          image={this.state.image}
-          key={key}
-        />
-        );
+        return <Sidebar {...this.props} menu={menu} image={this.state.image} key={key} />
       } else {
-        return;
+        return
       }
-    });
-  };
-
+    })
+  }
 
   getRoutes = menu => {
     return menu.map((prop, key) => {
       if (true) {
-        return (
-          <Route
-            path={prop.path}
-            render={props => (
-              <prop.component
-                {...props}
-              />
-            )}
-            key={key}
-          />
-        );
+        return <Route path={prop.path} render={props => <prop.component {...props} />} key={key} />
       } else {
-        return null;
+        return null
       }
-    });
-  };
-  
+    })
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -64,8 +46,8 @@ class App extends Component {
           </Switch>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

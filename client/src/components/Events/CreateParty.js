@@ -3,6 +3,8 @@ import { Button, Modal, Form, Row, Col, Alert } from "react-bootstrap"
 import axios from "axios"
 import MapWithASearchBox from "./MapWithASearchBox"
 import * as moment from "moment"
+import dotenv from "dotenv"
+dotenv.config()
 
 class CreateParty extends Component {
   constructor(props) {

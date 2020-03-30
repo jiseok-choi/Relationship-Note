@@ -1,12 +1,13 @@
 import React, { Component } from "react"
 // import ReviseNews from './ReviseNews';
 import LookEvent from "./LookEvent"
-import { Col, Row } from "react-bootstrap"
+import { Col, Row, Button } from "react-bootstrap"
 import Visit from "./Visit"
 import UpdateWedding from "../../components/Events/UpdateWedding"
 import UpdateParty from "../../components/Events/UpdateParty"
 import DeleteEvent from "./DeleteEvent"
 import Pagination from "../Pagination/Pagination"
+import { CopyToClipboard } from "react-copy-to-clipboard"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -41,16 +42,20 @@ class EventTable extends Component {
     })
   }
 
+  copysuccess() {
+    alert("복사되었습니다 초청장을 보내보세요")
+  }
+
   setTable = eventList => {
     return eventList.map((contact, i) => {
       let url = ""
       let update
       if (contact.kinds === "wedding") {
-        url = `http://${process.env.REACT_APP_IP}:3000/weddinginvitation/${contact.id}`
+        url = `http://${process.env.REACT_APP_IP}/weddinginvitation/${contact.id}`
         update = <UpdateWedding eventInfo={contact} getEvents={this.props.getEvents} />
       }
       if (contact.kinds === "party") {
-        url = `http://${process.env.REACT_APP_IP}:3000/partyinvitation/${contact.id}`
+        url = `http://${process.env.REACT_APP_IP}/partyinvitation/${contact.id}`
         update = <UpdateParty eventInfo={contact} getEvents={this.props.getEvents} />
       }
       return (
@@ -69,8 +74,14 @@ class EventTable extends Component {
             <p class="text-gray-900 whitespace-no-wrap">{contact.date}</p>
           </td>
           <td class="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-            <a class="text-blue-500 hover:text-blue-800" href={url}>
-              {url}
+            <a class="text-blue-500 hover:text-blue-800">
+              {/* href={url} */}
+              {/* {url} */}
+              <CopyToClipboard text={url} onCopy={() => this.setState({ copied: true })}>
+                <Button onClick={this.copysuccess} variant="primary" type="submit">
+                  주소복사
+                </Button>
+              </CopyToClipboard>
             </a>
           </td>
           <td class="px-5 py-3 border-b border-gray-200 bg-white text-sm">
@@ -114,11 +125,11 @@ class EventTable extends Component {
               {/* <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
             <Pagination items={exampleItems} onChangePage={onChangePage} />
           </div> */}
+              <div class="bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
+                <Pagination items={this.props.eventList} onChangePage={this.onChangePage} />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-          <Pagination items={this.props.eventList} onChangePage={this.onChangePage} />
         </div>
       </>
     )

@@ -156,7 +156,7 @@ class UpdateWedding extends Component {
   getWedding = () => {
     const id = this.props.eventInfo.id
     axios
-      .post(`http://${process.env.REACT_APP_IP}:8000/event/getInvitation/wedding`, {
+      .post(`http://localhost:8000/event/getInvitation/wedding`, {
         id: id
       })
       .then(res => {
