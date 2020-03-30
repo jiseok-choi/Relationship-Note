@@ -70,9 +70,11 @@ class PartyInvitation extends Component {
           location
         })
         changeSubPicture.forEach(element => {
-          this.images.push({
-            src: `https://rnotestorage.s3.ap-northeast-2.amazonaws.com/` + element
-          })
+          if (element.length > 4) {
+            this.images.push({
+              src: `https://rnotestorage.s3.ap-northeast-2.amazonaws.com/` + element
+            })
+          }
         })
         this.setState({ subPicture: this.images })
         console.log(this.state.subPicture)
