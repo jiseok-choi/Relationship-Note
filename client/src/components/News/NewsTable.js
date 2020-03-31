@@ -35,7 +35,7 @@ class NewsTable extends Component {
   getNews = () => {
     axios.defaults.withCredentials = true
     axios
-      .post(`http://localhost:8000/news/getNewsList`, {
+      .post(`http://54.180.149.57:8000/news/getNewsList`, {
         data: {
           friendid: this.props.match.params.friendid
         },

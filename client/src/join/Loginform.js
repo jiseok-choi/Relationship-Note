@@ -23,7 +23,7 @@ class Loginform extends Component {
     axios.defaults.withCredentials = true
 
     axios
-      .post(`http://localhost:8000/auth/login`, {
+      .post(`http://54.180.149.57:8000/auth/login`, {
         userid: this.state.userid,
         password: this.state.password
       })
@@ -58,6 +58,7 @@ class Loginform extends Component {
               <Form.Control
                 name="password"
                 placeholder="패스워드"
+                type="password"
                 onChange={this.handleChange.bind(this)}
               />
             </Col>

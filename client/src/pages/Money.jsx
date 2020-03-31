@@ -29,7 +29,7 @@ class Money extends Component {
   getEvents = () => {
     axios.defaults.withCredentials = true
     axios
-      .get(`http://localhost:8000/money/events`, {
+      .get(`http://54.180.149.57:8000/money/events`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
@@ -55,7 +55,7 @@ class Money extends Component {
   getVisits = () => {
     axios.defaults.withCredentials = true
     axios
-      .get(`http://localhost:8000/money/visits/${this.state.selectEvent.id}`, {
+      .get(`http://54.180.149.57:8000/money/visits/${this.state.selectEvent.id}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
@@ -76,7 +76,7 @@ class Money extends Component {
   getEvent = () => {
     axios.defaults.withCredentials = true
     axios
-      .get(`http://localhost:8000/money/eventInfo/${this.state.selectEvent.id}`, {
+      .get(`http://54.180.149.57:8000/money/eventInfo/${this.state.selectEvent.id}`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

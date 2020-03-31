@@ -23,7 +23,7 @@ class Visit extends Component {
 
   getVisitList = () => {
     axios
-      .post(`http://localhost:8000/visit/getVisitList`, {
+      .post(`http://54.180.149.57:8000/visit/getVisitList`, {
         data: {
           id: this.props.eventInfo.id
         }

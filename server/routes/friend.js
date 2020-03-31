@@ -18,7 +18,10 @@ router.post("/friendList/:page/:countPerPage", isLoggedIn, async (req, res, next
     let totalPage
     // totalPage = Math.ceil(count/countPerPage)
 
-    const friendList = await Friend.findAll({ where: { userid: req.user.id } })
+    const friendList = await Friend.findAll({
+      where: { userid: req.user.id },
+      order: [["createdAt", "DESC"]]
+    })
     return res.status(201).json(friendList)
   } catch (e) {
     console.error(e)

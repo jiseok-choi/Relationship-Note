@@ -37,7 +37,7 @@ class MySchedule extends Component {
     event.preventDefault()
 
     axios
-      .post(`http://localhost:8000/schedule/sendNewSchedule`, {
+      .post(`http://54.180.149.57:8000/schedule/sendNewSchedule`, {
         data: {
           kinds: "유저일정",
           friendid: null,

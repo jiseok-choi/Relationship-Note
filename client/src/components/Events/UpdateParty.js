@@ -115,7 +115,7 @@ class UpdateParty extends Component {
     }
 
     axios
-      .put(`http://localhost:8000/event/sendUpdateParty`, form, config)
+      .put(`http://54.180.149.57:8000/event/sendUpdateParty`, form, config)
       .then(res => {
         alert("url로 청접장을 보내보세요")
         //   return this.props.close
@@ -132,7 +132,7 @@ class UpdateParty extends Component {
   getParty = () => {
     const id = this.props.eventInfo.id
     axios
-      .post(`http://localhost:8000/event/getInvitation/party`, {
+      .post(`http://54.180.149.57:8000/event/getInvitation/party`, {
         id: id
       })
       .then(res => {

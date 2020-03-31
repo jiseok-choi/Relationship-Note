@@ -30,7 +30,7 @@ class joinindex extends Component {
     }
 
     axios
-      .post(`http://localhost:8000/auth/mail`, {
+      .post(`http://54.180.149.57:8000/auth/mail`, {
         name: this.state.name,
         email: this.state.email,
         message: this.state.message

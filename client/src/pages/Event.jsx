@@ -21,7 +21,7 @@ class Event extends Component {
   getEvents = () => {
     axios.defaults.withCredentials = true
     axios
-      .get(`http://localhost:8000/event/getEvents`, {
+      .get(`http://54.180.149.57:8000/event/getEvents`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

@@ -38,7 +38,7 @@ class PartyInvitation extends Component {
   getInvitation = () => {
     axios
       // .get(`http://${process.env.IP}/visit/getVisit`, {
-      .post(`http://localhost:8000/event/getInvitation/party`, {
+      .post(`http://54.180.149.57:8000/event/getInvitation/party`, {
         id: this.props.match.params.id
       })
       .then(res => {

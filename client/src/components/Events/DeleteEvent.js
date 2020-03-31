@@ -30,7 +30,7 @@ class DeleteEvent extends Component {
   }
 
   deleteEvent = () => {
-    axios.delete(`http://localhost:8000/event/delete${this.props.eventInfo.id}`).then(res => {
+    axios.delete(`http://54.180.149.57:8000/event/delete${this.props.eventInfo.id}`).then(res => {
       if (res.data === true) {
         this.setState({
           lgShow: false

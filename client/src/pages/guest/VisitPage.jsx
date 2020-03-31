@@ -37,7 +37,7 @@ class VisitPage extends Component {
   getVisit = () => {
     axios
       // .get(`http://${process.env.IP}/visit/getVisit`, {
-      .get(`http://localhost:8000/visit/getVisit`, {
+      .get(`http://54.180.149.57:8000/visit/getVisit`, {
         params: {
           id: this.props.match.params.id
         }
@@ -66,7 +66,7 @@ class VisitPage extends Component {
     e.preventDefault()
 
     axios
-      .post(`http://localhost:8000/visit/newVisit`, {
+      .post(`http://54.180.149.57:8000/visit/newVisit`, {
         data: {
           name: this.state.name,
           contents: this.state.contents,

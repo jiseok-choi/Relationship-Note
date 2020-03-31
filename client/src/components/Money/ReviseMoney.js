@@ -31,7 +31,7 @@ class ReviseMoney extends Component {
     event.preventDefault()
 
     axios
-      .put(`http://localhost:8000/money/reviseMoney`, {
+      .put(`http://54.180.149.57:8000/money/reviseMoney`, {
         visitid: this.state.visitid,
         name: this.state.name,
         celebration: this.state.celebration

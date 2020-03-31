@@ -34,7 +34,7 @@ class Signup extends Component {
 
     console.log(this.state.password)
     axios
-      .post(`http://localhost:8000/auth/signup`, {
+      .post(`http://54.180.149.57:8000/auth/signup`, {
         data: {
           email: this.state.email,
           userid: this.state.userid,
